@@ -47,7 +47,9 @@ const catalogModules = import.meta.glob<{ default: ModelCatalogEntry }>(
   '../lib/model-catalog/*.json',
   { eager: true },
 );
-const runtimeGenerationEnabled = import.meta.env.MODE !== 'cloudflare';
+const browserGenerationEnabled = import.meta.env.MODE === 'cloudflare';
+const runtimeApiPath = (path: string) =>
+  `${import.meta.env.BASE_URL}api/${path.replace(/^\//u, '')}`;
 const staticAssetPath = (assetPath: string) =>
   `${import.meta.env.BASE_URL}${assetPath.replace(/^\//u, '')}`;
 const staticPlaces = Object.values(catalogModules)
@@ -96,16 +98,22 @@ export default function App() {
     places.find((candidate) => candidate.id === selectedId) ?? places[0];
 
   useEffect(() => {
-    if (!runtimeGenerationEnabled) return undefined;
     let active = true;
-    fetch('/api/models')
+    const models = browserGenerationEnabled
+      ? import('@/lib/browser-models').then(({ listBrowserModels }) =>
+          listBrowserModels().then((runtimeModels) => ({ models: runtimeModels })),
+        )
+      : fetch(runtimeApiPath('models'))
       .then(async (response) => {
         if (!response.ok) throw new Error('Runtime model catalog is unavailable');
         return response.json();
-      })
-      .then((result: { models?: ModelCatalogEntry[] }) => {
+      });
+    models
+      .then((result) => {
         if (active && Array.isArray(result.models)) {
-          setPlaces((current) => mergedPlaces(current, result.models ?? []));
+          setPlaces((current) =>
+            mergedPlaces(current, result.models as ModelCatalogEntry[]),
+          );
         }
       })
       .catch(() => {
@@ -121,17 +129,27 @@ export default function App() {
     setGenerating(true);
     setGenerationError('');
     try {
-      const response = await fetch('/api/models', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address, neighborDistance }),
-      });
-      const result = (await response.json()) as {
+      let result: {
         model?: ModelCatalogEntry;
         error?: string;
         detail?: string;
       };
-      if (!response.ok || !result.model) {
+      let successful = true;
+      if (browserGenerationEnabled) {
+        const { generateBrowserModel } = await import('@/lib/browser-models');
+        result = (await generateBrowserModel({ address, neighborDistance })) as unknown as {
+          model: ModelCatalogEntry;
+        };
+      } else {
+        const response = await fetch(runtimeApiPath('models'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address, neighborDistance }),
+        });
+        successful = response.ok;
+        result = (await response.json()) as typeof result;
+      }
+      if (!successful || !result.model) {
         throw new Error(result.detail || result.error || 'Model generation failed');
       }
       setPlaces((current) => mergedPlaces(current, [result.model!]));
@@ -155,16 +173,32 @@ export default function App() {
     setDeletingModelId(modelToDelete.id);
     setModelActionError('');
     try {
-      const response = await fetch(`/api/models/${modelToDelete.id}`, {
-        method: 'DELETE',
-      });
-      const result = (await response.json()) as {
+      let result: {
         deletedId?: string;
         error?: string;
         detail?: string;
       };
-      if (!response.ok || result.deletedId !== modelToDelete.id) {
+      let successful = true;
+      if (browserGenerationEnabled) {
+        const { deleteBrowserModel } = await import('@/lib/browser-models');
+        result = await deleteBrowserModel(modelToDelete.id);
+      } else {
+        const response = await fetch(
+          runtimeApiPath(`models/${modelToDelete.id}`),
+          { method: 'DELETE' },
+        );
+        successful = response.ok;
+        result = (await response.json()) as typeof result;
+      }
+      if (!successful || result.deletedId !== modelToDelete.id) {
         throw new Error(result.detail || result.error || 'Model deletion failed');
+      }
+      for (const path of [
+        modelToDelete.modelPath,
+        modelToDelete.sourceMeshPath,
+        modelToDelete.metadataPath,
+      ]) {
+        if (path.startsWith('blob:')) URL.revokeObjectURL(path);
       }
       const remaining = mergedPlaces(
         staticPlaces,
@@ -237,23 +271,21 @@ export default function App() {
               </select>
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-cyan-100/60" />
             </label>
-            {runtimeGenerationEnabled && (
-              <button
-                type="button"
-                onClick={() => {
-                  setGenerationError('');
-                  setGeneratorOpen(true);
-                }}
-                className="flex h-10 shrink-0 items-center gap-1.5 rounded-lg border border-cyan-200/20 bg-cyan-200/8 px-3 font-sans text-[10px] uppercase tracking-[0.1em] text-cyan-100 transition-colors hover:bg-cyan-200/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40"
-              >
-                <Plus className="size-3.5" /> Add address
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => {
+                setGenerationError('');
+                setGeneratorOpen(true);
+              }}
+              className="flex h-10 shrink-0 items-center gap-1.5 rounded-lg border border-cyan-200/20 bg-cyan-200/8 px-3 font-sans text-[10px] uppercase tracking-[0.1em] text-cyan-100 transition-colors hover:bg-cyan-200/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40"
+            >
+              <Plus className="size-3.5" /> Add address
+            </button>
           </div>
         </div>
       </header>
 
-      {runtimeGenerationEnabled && generatorOpen && (
+      {generatorOpen && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4 backdrop-blur-sm">
           <dialog
             open
@@ -277,7 +309,7 @@ export default function App() {
               Add a Munich address
             </h2>
             <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-              The local server extracts the addressed LoD2 building, adds nearby
+              {browserGenerationEnabled ? 'Your browser' : 'The local service'} extracts the addressed LoD2 building, adds nearby
               features, and generates a cached GLB without Blender.
             </p>
 
@@ -323,7 +355,8 @@ export default function App() {
 
               <p className="text-[10px] leading-4 text-muted-foreground">
                 Address lookup is sent to the configured Esri geocoder. Generated
-                files remain in the local ignored runtime cache.
+                files are cached {browserGenerationEnabled ? 'in this browser' : 'locally'}
+                {' '}and can be deleted again.
               </p>
               <div className="flex justify-end gap-2 pt-1">
                 <button
@@ -353,14 +386,14 @@ export default function App() {
         </div>
       )}
 
-      {runtimeGenerationEnabled && deleteCandidate && (
+      {deleteCandidate && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4 backdrop-blur-sm">
           <dialog
             open
             aria-labelledby="delete-model-title"
             className="panel relative m-0 w-full max-w-md px-6 py-6 text-foreground shadow-2xl"
           >
-            <p className="eyebrow text-rose-200">Delete local model</p>
+            <p className="eyebrow text-rose-200">Delete generated model</p>
             <h2
               id="delete-model-title"
               className="mt-2 text-2xl font-medium tracking-[-0.035em]"
@@ -369,7 +402,7 @@ export default function App() {
             </h2>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
               This permanently removes the generated GLB, metadata and source
-              mesh from the local runtime cache. Permanent website models are
+              mesh from the generated-model cache. Permanent website models are
               unaffected.
             </p>
             <div className="mt-6 flex justify-end gap-2">
@@ -560,7 +593,7 @@ export default function App() {
               >
                 Open ArcGIS source <ExternalLink className="size-3.5" />
               </a>
-              {runtimeGenerationEnabled && place.runtime && (
+              {place.runtime && (
                 <button
                   type="button"
                   disabled={deletingModelId === place.id}
@@ -571,8 +604,8 @@ export default function App() {
                   )}
                 >
                   {deletingModelId === place.id
-                    ? 'Deleting local model'
-                    : 'Delete local model'}
+                    ? 'Deleting generated model'
+                    : 'Delete generated model'}
                   {deletingModelId === place.id ? (
                     <LoaderCircle className="size-3.5 animate-spin" />
                   ) : (

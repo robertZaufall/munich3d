@@ -24,8 +24,8 @@ export function createCatalogEntry({
     throw new Error(`Model bundle "${id}" has inconsistent feature counts`);
   }
 
-  const matchedAddress = metadata.geocode?.matchedAddress;
-  const location = metadata.geocode?.location;
+  const matchedAddress = metadata.geocode?.matchedAddress ?? metadata.request?.address;
+  const location = metadata.geocode?.location ?? metadata.selection?.locationWgs84;
   const bounds = primary.boundsEpsg3857;
   const scale =
     metadata.objTransformation?.horizontalScaleFromWebMercatorToLocalMetres;
@@ -53,11 +53,12 @@ export function createCatalogEntry({
   const sourceUrl = itemId
     ? `https://hub.arcgis.com/maps/${itemId}/explore?location=${location.latitude.toFixed(6)}%2C${location.longitude.toFixed(6)}%2C19`
     : metadata.source?.sceneServiceUrl;
+  const neighborDistance = Number(metadata.request?.neighborDistanceMetres ?? 35);
 
   return {
     id,
     runtime,
-    switchLabel: address,
+    switchLabel: runtime ? `${address} · ${neighborDistance} m` : address,
     address,
     district,
     modelPath,
@@ -74,7 +75,7 @@ export function createCatalogEntry({
     roof: Number.isFinite(roof) ? metres(roof, 3) : '—',
     buildingCount,
     neighborCount,
-    neighborDistance: Number(metadata.request?.neighborDistanceMetres ?? 35),
+    neighborDistance,
     neighborSelectionMode:
       metadata.selection?.neighborSelectionMode ?? 'closest_geometry_from_primary',
     primaryTriangleCount: Number(primary.triangleCount ?? 0),

@@ -1,9 +1,5 @@
 #!/usr/bin/env node
 
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import path from 'node:path';
-import process from 'node:process';
-
 const ARRAY_BUFFER = 34962;
 const ELEMENT_ARRAY_BUFFER = 34963;
 const FLOAT = 5126;
@@ -31,19 +27,31 @@ function finiteNumber(value, label) {
 }
 
 function floatBuffer(values) {
-  const buffer = Buffer.allocUnsafe(values.length * 4);
-  values.forEach((value, index) => buffer.writeFloatLE(value, index * 4));
+  const buffer = new Uint8Array(values.length * 4);
+  const view = new DataView(buffer.buffer);
+  values.forEach((value, index) => view.setFloat32(index * 4, value, true));
   return buffer;
 }
 
 function indexBuffer(values, componentType) {
   const bytes = componentType === UNSIGNED_SHORT ? 2 : 4;
-  const buffer = Buffer.allocUnsafe(values.length * bytes);
+  const buffer = new Uint8Array(values.length * bytes);
+  const view = new DataView(buffer.buffer);
   values.forEach((value, index) => {
-    if (componentType === UNSIGNED_SHORT) buffer.writeUInt16LE(value, index * bytes);
-    else buffer.writeUInt32LE(value, index * bytes);
+    if (componentType === UNSIGNED_SHORT) view.setUint16(index * bytes, value, true);
+    else view.setUint32(index * bytes, value, true);
   });
   return buffer;
+}
+
+function concatenate(parts, length) {
+  const result = new Uint8Array(length);
+  let offset = 0;
+  for (const part of parts) {
+    result.set(part, offset);
+    offset += part.byteLength;
+  }
+  return result;
 }
 
 function normalizedNormal(normal, horizontalScale) {
@@ -67,7 +75,7 @@ function alignFour(value) {
   return (value + 3) & ~3;
 }
 
-function buildGlb(source, metadata) {
+export function buildGlb(source, metadata) {
   if (!Array.isArray(source.buildings) || source.buildings.length === 0) {
     fail('Source mesh contains no buildings');
   }
@@ -105,7 +113,7 @@ function buildGlb(source, metadata) {
   function addBufferView(buffer, target) {
     const alignedOffset = alignFour(binaryLength);
     if (alignedOffset > binaryLength) {
-      binaryParts.push(Buffer.alloc(alignedOffset - binaryLength));
+      binaryParts.push(new Uint8Array(alignedOffset - binaryLength));
       binaryLength = alignedOffset;
     }
     const index = bufferViews.length;
@@ -197,7 +205,7 @@ function buildGlb(source, metadata) {
     const positionView = addBufferView(floatBuffer(positions), ARRAY_BUFFER);
     const normalView = addBufferView(floatBuffer(normals), ARRAY_BUFFER);
     const textureView = addBufferView(floatBuffer(textureCoordinates), ARRAY_BUFFER);
-    const colorView = addBufferView(Buffer.from(colors), ARRAY_BUFFER);
+    const colorView = addBufferView(Uint8Array.from(colors), ARRAY_BUFFER);
     const indicesView = addBufferView(
       indexBuffer(indices, indexComponentType),
       ELEMENT_ARRAY_BUFFER,
@@ -287,10 +295,10 @@ function buildGlb(source, metadata) {
 
   const paddedBinaryLength = alignFour(binaryLength);
   if (paddedBinaryLength > binaryLength) {
-    binaryParts.push(Buffer.alloc(paddedBinaryLength - binaryLength));
+    binaryParts.push(new Uint8Array(paddedBinaryLength - binaryLength));
     binaryLength = paddedBinaryLength;
   }
-  const binary = Buffer.concat(binaryParts, binaryLength);
+  const binary = concatenate(binaryParts, binaryLength);
   const gltf = {
     asset: {
       version: '2.0',
@@ -338,26 +346,33 @@ function buildGlb(source, metadata) {
     buffers: [{ byteLength: binary.length }],
   };
 
-  const json = Buffer.from(JSON.stringify(gltf), 'utf8');
+  const json = new TextEncoder().encode(JSON.stringify(gltf));
   const paddedJsonLength = alignFour(json.length);
-  const paddedJson = Buffer.alloc(paddedJsonLength, 0x20);
-  json.copy(paddedJson);
+  const paddedJson = new Uint8Array(paddedJsonLength).fill(0x20);
+  paddedJson.set(json);
   const totalLength = 12 + 8 + paddedJson.length + 8 + binary.length;
-  const output = Buffer.allocUnsafe(totalLength);
-  output.write('glTF', 0, 4, 'ascii');
-  output.writeUInt32LE(2, 4);
-  output.writeUInt32LE(totalLength, 8);
-  output.writeUInt32LE(paddedJson.length, 12);
-  output.writeUInt32LE(JSON_CHUNK, 16);
-  paddedJson.copy(output, 20);
+  const output = new Uint8Array(totalLength);
+  const outputView = new DataView(output.buffer);
+  output.set([0x67, 0x6c, 0x54, 0x46], 0);
+  outputView.setUint32(4, 2, true);
+  outputView.setUint32(8, totalLength, true);
+  outputView.setUint32(12, paddedJson.length, true);
+  outputView.setUint32(16, JSON_CHUNK, true);
+  output.set(paddedJson, 20);
   const binaryHeader = 20 + paddedJson.length;
-  output.writeUInt32LE(binary.length, binaryHeader);
-  output.writeUInt32LE(BIN_CHUNK, binaryHeader + 4);
-  binary.copy(output, binaryHeader + 8);
+  outputView.setUint32(binaryHeader, binary.length, true);
+  outputView.setUint32(binaryHeader + 4, BIN_CHUNK, true);
+  output.set(binary, binaryHeader + 8);
   return { output, buildingCount: nodes.length, triangleCount: source.buildings.reduce((total, building) => total + building.triangles.length, 0) };
 }
 
 async function main() {
+  const nodeFsPromises = 'node:fs/promises';
+  const nodePath = 'node:path';
+  const [{ readFile, writeFile, mkdir }, { default: path }] = await Promise.all([
+    import(/* @vite-ignore */ nodeFsPromises),
+    import(/* @vite-ignore */ nodePath),
+  ]);
   const arguments_ = process.argv.slice(2);
   if (arguments_.includes('--help') || arguments_.includes('-h')) {
     console.log(usage());
@@ -390,4 +405,12 @@ async function main() {
   );
 }
 
-await main();
+if (
+  typeof process !== 'undefined' &&
+  process.argv?.[1]?.replaceAll('\\', '/').endsWith('/export_model_to_glb.mjs')
+) {
+  main().catch((error) => {
+    console.error(`Error: ${error.message}`);
+    process.exitCode = 1;
+  });
+}

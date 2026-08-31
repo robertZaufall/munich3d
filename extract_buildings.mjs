@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
-
 const DEFAULT_ITEM_ID = "afce63c0ee9a4a33b2c4ebd29a8e71ef";
 const DEFAULT_NEIGHBOR_DISTANCE_METRES = 35;
 const DEFAULT_TARGET_SEARCH_DISTANCE_METRES = 25;
 const GEOCODER_URL =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates";
 const EARTH_RADIUS = 6378137;
+const textDecoder = new TextDecoder();
+
+function dataView(bytes) {
+  return new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+}
 
 function usage() {
   return `Usage:
@@ -111,7 +113,7 @@ function webMercator({ longitude, latitude }) {
 async function fetchChecked(url, type = "json") {
   const response = await fetch(url, { headers: { "User-Agent": "munich3d-extractor/1.0" } });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
-  if (type === "buffer") return Buffer.from(await response.arrayBuffer());
+  if (type === "buffer") return new Uint8Array(await response.arrayBuffer());
   const result = await response.json();
   if (result.error) {
     throw new Error(`${result.error.message ?? "ArcGIS error"}: ${url}`);
@@ -171,8 +173,9 @@ async function findCandidateLeaves(layerUrl, point, radius, nodeCache) {
 }
 
 function parseGeometry(buffer, center) {
-  const vertexCount = buffer.readUInt32LE(0);
-  const featureCount = buffer.readUInt32LE(4);
+  const view = dataView(buffer);
+  const vertexCount = view.getUint32(0, true);
+  const featureCount = view.getUint32(4, true);
   const positionOffset = 8;
   const normalOffset = positionOffset + vertexCount * 12;
   const uvOffset = normalOffset + vertexCount * 12;
@@ -186,33 +189,33 @@ function parseGeometry(buffer, center) {
 
   const vertex = (index) => ({
     position: [
-      center[0] + buffer.readFloatLE(positionOffset + index * 12),
-      center[1] + buffer.readFloatLE(positionOffset + index * 12 + 4),
-      center[2] + buffer.readFloatLE(positionOffset + index * 12 + 8),
+      center[0] + view.getFloat32(positionOffset + index * 12, true),
+      center[1] + view.getFloat32(positionOffset + index * 12 + 4, true),
+      center[2] + view.getFloat32(positionOffset + index * 12 + 8, true),
     ],
     normal: [
-      buffer.readFloatLE(normalOffset + index * 12),
-      buffer.readFloatLE(normalOffset + index * 12 + 4),
-      buffer.readFloatLE(normalOffset + index * 12 + 8),
+      view.getFloat32(normalOffset + index * 12, true),
+      view.getFloat32(normalOffset + index * 12 + 4, true),
+      view.getFloat32(normalOffset + index * 12 + 8, true),
     ],
     uv: [
-      buffer.readFloatLE(uvOffset + index * 8),
-      buffer.readFloatLE(uvOffset + index * 8 + 4),
+      view.getFloat32(uvOffset + index * 8, true),
+      view.getFloat32(uvOffset + index * 8 + 4, true),
     ],
     color: [...buffer.subarray(colorOffset + index * 4, colorOffset + index * 4 + 4)],
   });
 
   const features = [];
   for (let row = 0; row < featureCount; row += 1) {
-    const startFace = buffer.readUInt32LE(faceRangeOffset + row * 8);
-    const endFace = buffer.readUInt32LE(faceRangeOffset + row * 8 + 4);
+    const startFace = view.getUint32(faceRangeOffset + row * 8, true);
+    const endFace = view.getUint32(faceRangeOffset + row * 8 + 4, true);
     const vertices = [];
     for (let face = startFace; face <= endFace; face += 1) {
       vertices.push(vertex(face * 3), vertex(face * 3 + 1), vertex(face * 3 + 2));
     }
     features.push({
       row,
-      featureId: buffer.readBigUInt64LE(featureIdOffset + row * 8).toString(),
+      featureId: view.getBigUint64(featureIdOffset + row * 8, true).toString(),
       faceRange: [startFace, endFace],
       vertices,
     });
@@ -406,19 +409,20 @@ function align(value, alignment) {
 }
 
 function parseAttribute(buffer, storage, row) {
-  const count = buffer.readUInt32LE(0);
+  const view = dataView(buffer);
+  const count = view.getUint32(0, true);
   if (row >= count) throw new Error(`Attribute row ${row} is outside count ${count}`);
   const valueType = storage.attributeValues.valueType;
   if (valueType === "String") {
     let offset = 8 + count * 4;
-    for (let index = 0; index < row; index += 1) offset += buffer.readUInt32LE(8 + index * 4);
-    const length = buffer.readUInt32LE(8 + row * 4);
-    return buffer.subarray(offset, offset + length).toString("utf8").replace(/\0+$/u, "");
+    for (let index = 0; index < row; index += 1) offset += view.getUint32(8 + index * 4, true);
+    const length = view.getUint32(8 + row * 4, true);
+    return textDecoder.decode(buffer.subarray(offset, offset + length)).replace(/\0+$/u, "");
   }
-  if (valueType === "Oid32" || valueType === "UInt32") return buffer.readUInt32LE(4 + row * 4);
-  if (valueType === "Int32") return buffer.readInt32LE(4 + row * 4);
-  if (valueType === "Float64") return buffer.readDoubleLE(align(4, 8) + row * 8);
-  if (valueType === "Float32") return buffer.readFloatLE(4 + row * 4);
+  if (valueType === "Oid32" || valueType === "UInt32") return view.getUint32(4 + row * 4, true);
+  if (valueType === "Int32") return view.getInt32(4 + row * 4, true);
+  if (valueType === "Float64") return view.getFloat64(align(4, 8) + row * 8, true);
+  if (valueType === "Float32") return view.getFloat32(4 + row * 4, true);
   throw new Error(`Unsupported I3S attribute type: ${valueType}`);
 }
 
@@ -527,11 +531,18 @@ function buildingMetadataRecord(building) {
   };
 }
 
-async function main() {
-  const options = parseArgs(process.argv.slice(2));
-  if (options.help) {
-    console.log(usage());
-    return;
+export async function extractBuildings(input = {}) {
+  const options = {
+    address: input.address ?? null,
+    coordinates: input.coordinates ?? null,
+    neighborDistance:
+      input.neighborDistance ?? DEFAULT_NEIGHBOR_DISTANCE_METRES,
+    targetSearchDistance:
+      input.targetSearchDistance ?? DEFAULT_TARGET_SEARCH_DISTANCE_METRES,
+    itemId: input.itemId ?? DEFAULT_ITEM_ID,
+  };
+  if (!options.address && !options.coordinates) {
+    throw new Error("Provide an address or coordinates");
   }
 
   const geocode = options.coordinates
@@ -635,11 +646,7 @@ async function main() {
 
   const groundHeight = Number.parseFloat(selected[0].attributes.HoeheGrund);
   const slug = slugify(geocode?.matchedAddress ?? address);
-  const outputDirectory = path.resolve(
-    options.output ?? path.join(process.cwd(), ".work", slug),
-  );
   const prefix = slug;
-  await mkdir(outputDirectory, { recursive: true });
 
   const sourceMesh = {
     format: "ArcGIS I3S 1.8 decoded triangle meshes",
@@ -689,13 +696,51 @@ async function main() {
     },
     buildings: selected.map(buildingMetadataRecord),
   };
-  const table = selected
+  return {
+    address,
+    displayAddress: geocode?.matchedAddress ?? address,
+    prefix,
+    sourceMesh,
+    metadata,
+    selected,
+    obj: input.includeObj === false
+      ? null
+      : createObj(
+          selected,
+          mapPoint,
+          horizontalScale,
+          groundHeight,
+          address,
+          options.neighborDistance,
+        ),
+  };
+}
+
+async function main() {
+  const nodeFsPromises = "node:fs/promises";
+  const nodePath = "node:path";
+  const [{ mkdir, writeFile }, { default: path }] = await Promise.all([
+    import(/* @vite-ignore */ nodeFsPromises),
+    import(/* @vite-ignore */ nodePath),
+  ]);
+  const options = parseArgs(process.argv.slice(2));
+  if (options.help) {
+    console.log(usage());
+    return;
+  }
+
+  const result = await extractBuildings(options);
+  const outputDirectory = path.resolve(
+    options.output ?? path.join(process.cwd(), ".work", result.prefix),
+  );
+  await mkdir(outputDirectory, { recursive: true });
+  const table = result.selected
     .map(
       (building) =>
         `| ${building.role} | ${building.attributes.OBJECTID} | ${building.attributes.gml_id || ""} | ${building.distanceMetres.toFixed(3)} | ${building.maximumDistanceFromPrimaryMetres.toFixed(3)} | ${building.entry.feature.vertices.length / 3} |`,
     )
     .join("\n");
-  const readme = `# ${geocode?.matchedAddress ?? address} — LoD2 building export
+  const readme = `# ${result.displayAddress} — LoD2 building export
 
 The export contains the addressed building and neighbors no farther than
 ${options.neighborDistance} metres away. Every selected neighbor's complete horizontal geometry
@@ -707,14 +752,14 @@ ${table}
 
 ## Files
 
-- \`${prefix}.obj\`: combined local-metre OBJ with one named object per building.
-- \`${prefix}.source-mesh.json\`: source-exact decoded I3S geometry.
-- \`${prefix}.metadata.json\`: request, geocode, selection, attributes, distances, and attribution.
+- \`${result.prefix}.obj\`: combined local-metre OBJ with one named object per building.
+- \`${result.prefix}.source-mesh.json\`: source-exact decoded I3S geometry.
+- \`${result.prefix}.metadata.json\`: request, geocode, selection, attributes, distances, and attribution.
 
 ## Reproduce
 
 \`\`\`sh
-node extract_buildings.mjs --address ${JSON.stringify(address)} --neighbor-distance ${options.neighborDistance} --output ${JSON.stringify(outputDirectory)}
+node extract_buildings.mjs --address ${JSON.stringify(result.address)} --neighbor-distance ${options.neighborDistance} --output ${JSON.stringify(outputDirectory)}
 \`\`\`
 
 License: CC BY 4.0. Attribution: **Bayerische Vermessungsverwaltung – www.geodaten.bayern.de**.
@@ -722,26 +767,26 @@ License: CC BY 4.0. Attribution: **Bayerische Vermessungsverwaltung – www.geod
 
   await Promise.all([
     writeFile(
-      path.join(outputDirectory, `${prefix}.obj`),
-      createObj(selected, mapPoint, horizontalScale, groundHeight, address, options.neighborDistance),
+      path.join(outputDirectory, `${result.prefix}.obj`),
+      result.obj,
     ),
     writeFile(
-      path.join(outputDirectory, `${prefix}.source-mesh.json`),
-      `${JSON.stringify(sourceMesh, null, 2)}\n`,
+      path.join(outputDirectory, `${result.prefix}.source-mesh.json`),
+      `${JSON.stringify(result.sourceMesh, null, 2)}\n`,
     ),
     writeFile(
-      path.join(outputDirectory, `${prefix}.metadata.json`),
-      `${JSON.stringify(metadata, null, 2)}\n`,
+      path.join(outputDirectory, `${result.prefix}.metadata.json`),
+      `${JSON.stringify(result.metadata, null, 2)}\n`,
     ),
     writeFile(path.join(outputDirectory, "README.md"), readme),
   ]);
 
-  console.log(`Address: ${geocode?.matchedAddress ?? address}`);
+  console.log(`Address: ${result.displayAddress}`);
   console.log(
-    `Primary: ${selected[0].attributes.gml_id} (OBJECTID ${selected[0].attributes.OBJECTID})`,
+    `Primary: ${result.selected[0].attributes.gml_id} (OBJECTID ${result.selected[0].attributes.OBJECTID})`,
   );
-  console.log(`Neighbors fully within ${options.neighborDistance} m of primary: ${selected.length - 1}`);
-  for (const building of selected.slice(1)) {
+  console.log(`Neighbors fully within ${options.neighborDistance} m of primary: ${result.selected.length - 1}`);
+  for (const building of result.selected.slice(1)) {
     console.log(
       `  ${building.distanceMetres.toFixed(3)} m  ${building.attributes.gml_id} (OBJECTID ${building.attributes.OBJECTID})`,
     );
@@ -749,7 +794,12 @@ License: CC BY 4.0. Attribution: **Bayerische Vermessungsverwaltung – www.geod
   console.log(`Output: ${outputDirectory}`);
 }
 
-main().catch((error) => {
-  console.error(`Error: ${error.message}`);
-  process.exitCode = 1;
-});
+if (
+  typeof process !== "undefined" &&
+  process.argv?.[1]?.replaceAll("\\", "/").endsWith("/extract_buildings.mjs")
+) {
+  main().catch((error) => {
+    console.error(`Error: ${error.message}`);
+    process.exitCode = 1;
+  });
+}

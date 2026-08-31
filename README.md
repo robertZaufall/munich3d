@@ -3,7 +3,7 @@
 This project extracts addressed buildings from Munich’s public ArcGIS LoD2
 scene, includes neighboring building features inside a configurable distance,
 converts the results to GLB, and displays the available addresses in an
-interactive local Three.js website.
+interactive Three.js website that runs locally or on Cloudflare.
 
 ![München LoD2 explorer showing the Neues Rathaus model](docs/website.jpg)
 
@@ -24,19 +24,20 @@ sample predates this strict rule and therefore reports the legacy
 ## Repository layout
 
 ```text
-extract_buildings.mjs       Runtime-required geocoding, I3S selection and export
-export_model_to_glb.mjs     Runtime-required source-mesh JSON to GLB generation
+extract_buildings.mjs       CLI and importable geocoding/I3S extraction core
+export_model_to_glb.mjs     CLI and importable source-mesh-to-GLB generator
 website/                    Local Vite/React/Three.js viewer
 website/server.mjs          Loopback web server and on-demand generation API
+website/lib/browser-models.ts  Browser extraction and IndexedDB model cache
 website/public/model/       GLBs and downloadable data used by the viewer
 website/lib/model-catalog/  One generated catalog fragment per model bundle
 website/scripts/            Automatic website catalog-fragment generation
 AGENTS.md                    Project workflow and correctness rules
 ```
 
-The two root `.mjs` files are application source, not generated leftovers:
-`website/server.mjs` launches them in sequence for every uncached on-demand
-address.
+The two root `.mjs` files are application source, not generated leftovers. The
+local server launches their CLI entry points; the hosted website imports their
+browser-safe in-memory extraction and GLB functions directly.
 
 ## Requirements
 
@@ -134,21 +135,25 @@ model footprint instead of using one fixed size for every address.
 ![On-demand Munich address and neighbor-distance form](docs/add-address.jpg)
 
 Select **Add address**, enter a Munich address and choose the neighbor distance.
-The loopback-only local server then:
+The local server or hosted browser pipeline then:
 
 1. validates the request without accepting a filesystem path;
 2. extracts the matching LoD2 geometry from ArcGIS;
-3. generates the GLB directly with Node.js;
-4. stores the GLB, source-mesh JSON and metadata JSON in
-   `website/.runtime/models/` and discards reproducible OBJ/README intermediates;
+3. generates the GLB directly with the shared JavaScript pipeline;
+4. stores the GLB, source-mesh JSON and metadata JSON in the local ignored cache
+   or that browser's IndexedDB without retaining reproducible OBJ/README
+   intermediates;
 5. selects the result and keeps it available after a page reload.
 
-Requests with the same address and distance reuse their cached result. Runtime
-models are discovered through `/api/models`, served through same-origin API
-URLs and ignored by Git. The address is sent to the configured Esri geocoder;
-the generated files remain local. Select a generated model and use **Delete
-local model** to remove its cached GLB and source data; permanent models in
-`website/public/model/` do not expose that action.
+Requests with the same address and distance reuse their cached result. Local
+runtime models are discovered through `/api/models`; hosted runtime models are
+loaded from IndexedDB. The address is sent to the configured Esri geocoder.
+The hosted site stores the generated bundle only in that browser; it does not
+send the address or model to a Munich3D server and cannot expose one visitor's
+requests to another. ArcGIS and the Esri geocoder still receive the source-data
+requests. Select a generated model and use **Delete generated model** to remove
+its cached GLB and source data; permanent models in `website/public/model/` do
+not expose that action.
 
 ![Confirmation before deleting a generated local model](docs/delete-model.jpg)
 
@@ -180,22 +185,26 @@ npm start
 
 Run the type-aware linter with `npm run lint`.
 
-### Cloudflare-hosted showcase
+### Cloudflare deployment
 
-`npm run build:cloudflare` creates a subpath-safe static build for
+`npm run build:cloudflare` creates a subpath-safe build for
 `https://glaubi.net/munich3d/`. `npm run deploy:cloudflare` publishes it through
 the narrowly scoped `glaubi.net/munich3d` and `glaubi.net/munich3d/*` Worker
 routes. The Worker has no public `workers.dev` hostname.
 
-This hosted build contains the checked-in permanent models and viewer only. It
-omits the **Add address** and runtime deletion controls because Cloudflare
-Workers cannot execute the repository's child-process/filesystem extraction
-pipeline. The ordinary local build retains those controls and continues to use
-the two root `.mjs` scripts through `website/server.mjs`.
+Cloudflare serves the static application. When **Add address** is used, the
+browser starts the shared extractor in a Web Worker on demand, downloads and decodes the
+ArcGIS I3S geometry, creates the GLB directly, and stores the bundle in
+IndexedDB. There is no Blender step, server compute, child process, container,
+OBJ file or temporary export directory in the deployed path. Generated models
+remain available after reload and can be deleted from the UI.
+
+`workers_dev` remains disabled and only the two configured `/munich3d` routes
+are published.
 
 ### Local generation API
 
-The loopback server exposes these same-origin routes for the website:
+The loopback server exposes these same-origin routes at `/api/*`:
 
 - `GET /api/health`: report server and GLB-pipeline health.
 - `GET /api/models`: list valid cached runtime models.
@@ -207,8 +216,9 @@ The loopback server exposes these same-origin routes for the website:
 
 Generation requests are limited to 16 KiB; addresses must contain 3–300
 characters without C0 control characters, and neighbor distances must be
-between 0 and 250 metres. The server binds to `127.0.0.1` and is not intended
-to be exposed publicly.
+between 0 and 250 metres. The Node server binds to `127.0.0.1` and is not
+published by the Cloudflare build. The browser implementation applies the same
+address and distance limits before calling the shared pipeline.
 
 ### Website model assets
 
@@ -270,8 +280,11 @@ instead; it requires no copying or catalog command.
   recorded selection mode.
 - GLB node roles contain exactly one primary and the expected neighbors.
 - `npm run build` succeeds after website changes.
-- `/api/health` reports `direct-node-glb`, and an uncached `/api/models` request
-  completes extraction and returns a loadable GLB bundle.
+- `/api/health` reports the active direct-GLB pipeline, and an uncached
+  `/api/models` request completes extraction and returns a loadable GLB bundle.
+- The Cloudflare build exposes **Add address**, persists the generated model in
+  IndexedDB, restores it in the same browser after reload, and deletes it when
+  requested without calling a Munich3D backend.
 - All current address choices update the model and associated information
   without reloading the page.
 
