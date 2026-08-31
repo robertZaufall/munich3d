@@ -11,6 +11,8 @@
     "dev": "node server.mjs",
     "prebuild": "npm run models:catalog",
     "build": "tsc --noEmit && vite build",
+    "build:cloudflare": "npm run models:catalog && tsc --noEmit && vite build --mode cloudflare --base=/munich3d/ --outDir dist/cloudflare/munich3d",
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy",
     "prestart": "npm run build",
     "start": "node server.mjs --production",
     "prelint": "npm run models:catalog",
@@ -37,7 +39,8 @@
     "oxlint-tsgolint": "7.0.2001",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
-    "vite": "^8.2.2"
+    "vite": "^8.2.2",
+    "wrangler": "4.127.1"
   },
   "type": "module"
 }

@@ -47,8 +47,16 @@ const catalogModules = import.meta.glob<{ default: ModelCatalogEntry }>(
   '../lib/model-catalog/*.json',
   { eager: true },
 );
+const runtimeGenerationEnabled = import.meta.env.MODE !== 'cloudflare';
+const staticAssetPath = (assetPath: string) =>
+  `${import.meta.env.BASE_URL}${assetPath.replace(/^\//u, '')}`;
 const staticPlaces = Object.values(catalogModules)
-  .map((module) => module.default)
+  .map((module) => ({
+    ...module.default,
+    modelPath: staticAssetPath(module.default.modelPath),
+    sourceMeshPath: staticAssetPath(module.default.sourceMeshPath),
+    metadataPath: staticAssetPath(module.default.metadataPath),
+  }))
   .sort((left, right) =>
     left.address.localeCompare(right.address, 'de', { sensitivity: 'base' }),
   );
@@ -88,6 +96,7 @@ export default function App() {
     places.find((candidate) => candidate.id === selectedId) ?? places[0];
 
   useEffect(() => {
+    if (!runtimeGenerationEnabled) return undefined;
     let active = true;
     fetch('/api/models')
       .then(async (response) => {
@@ -228,21 +237,23 @@ export default function App() {
               </select>
               <ChevronDown className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-cyan-100/60" />
             </label>
-            <button
-              type="button"
-              onClick={() => {
-                setGenerationError('');
-                setGeneratorOpen(true);
-              }}
-              className="flex h-10 shrink-0 items-center gap-1.5 rounded-lg border border-cyan-200/20 bg-cyan-200/8 px-3 font-sans text-[10px] uppercase tracking-[0.1em] text-cyan-100 transition-colors hover:bg-cyan-200/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40"
-            >
-              <Plus className="size-3.5" /> Add address
-            </button>
+            {runtimeGenerationEnabled && (
+              <button
+                type="button"
+                onClick={() => {
+                  setGenerationError('');
+                  setGeneratorOpen(true);
+                }}
+                className="flex h-10 shrink-0 items-center gap-1.5 rounded-lg border border-cyan-200/20 bg-cyan-200/8 px-3 font-sans text-[10px] uppercase tracking-[0.1em] text-cyan-100 transition-colors hover:bg-cyan-200/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40"
+              >
+                <Plus className="size-3.5" /> Add address
+              </button>
+            )}
           </div>
         </div>
       </header>
 
-      {generatorOpen && (
+      {runtimeGenerationEnabled && generatorOpen && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4 backdrop-blur-sm">
           <dialog
             open
@@ -342,7 +353,7 @@ export default function App() {
         </div>
       )}
 
-      {deleteCandidate && (
+      {runtimeGenerationEnabled && deleteCandidate && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4 backdrop-blur-sm">
           <dialog
             open
@@ -549,7 +560,7 @@ export default function App() {
               >
                 Open ArcGIS source <ExternalLink className="size-3.5" />
               </a>
-              {place.runtime && (
+              {runtimeGenerationEnabled && place.runtime && (
                 <button
                   type="button"
                   disabled={deletingModelId === place.id}

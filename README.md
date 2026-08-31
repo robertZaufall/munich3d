@@ -180,6 +180,19 @@ npm start
 
 Run the type-aware linter with `npm run lint`.
 
+### Cloudflare-hosted showcase
+
+`npm run build:cloudflare` creates a subpath-safe static build for
+`https://glaubi.net/munich3d/`. `npm run deploy:cloudflare` publishes it through
+the narrowly scoped `glaubi.net/munich3d` and `glaubi.net/munich3d/*` Worker
+routes. The Worker has no public `workers.dev` hostname.
+
+This hosted build contains the checked-in permanent models and viewer only. It
+omits the **Add address** and runtime deletion controls because Cloudflare
+Workers cannot execute the repository's child-process/filesystem extraction
+pipeline. The ordinary local build retains those controls and continues to use
+the two root `.mjs` scripts through `website/server.mjs`.
+
 ### Local generation API
 
 The loopback server exposes these same-origin routes for the website:

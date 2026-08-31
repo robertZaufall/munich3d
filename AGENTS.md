@@ -87,6 +87,12 @@ rename or rewrite them for documentation anonymization.
   extraction. Use argument arrays without a shell when spawning scripts.
 - Keep runtime-generated address bundles under `website/.runtime/`; do not copy
   them into tracked model or catalog paths automatically.
+- The Cloudflare build is a static showcase at `/munich3d/`. It must use the
+  subpath asset base, omit runtime generation/deletion controls, set
+  `workers_dev: false`, and route only `/munich3d` plus `/munich3d/*`.
+- Do not imply that the root pipeline scripts run inside Cloudflare Workers.
+  They remain required by the local server but are absent from the static
+  Worker asset bundle.
 - Do not deploy or publish the website unless explicitly requested.
 
 ## Commands
@@ -116,6 +122,7 @@ cd website
 npm install
 npm run dev
 npm run build
+npm run build:cloudflare
 ```
 
 ## Validation

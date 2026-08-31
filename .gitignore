@@ -1,6 +1,7 @@
 .DS_Store
 
 .work/
+.playwright-cli/
 
 # Only the anonymized Rathaus bundle and its catalog fragment are public.
 # Locally generated/address-bearing bundles remain usable but cannot be staged

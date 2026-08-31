@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "glaubi-munich3d",
+  "compatibility_date": "2026-08-28",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "glaubi.net/munich3d",
+      "zone_name": "glaubi.net"
+    },
+    {
+      "pattern": "glaubi.net/munich3d/*",
+      "zone_name": "glaubi.net"
+    }
+  ],
+  "assets": {
+    "directory": "./dist/cloudflare",
+    "html_handling": "auto-trailing-slash"
+  }
+}
