@@ -1,0 +1,14 @@
+.DS_Store
+
+.work/
+
+# Only the anonymized Rathaus bundle and its catalog fragment are public.
+# Locally generated/address-bearing bundles remain usable but cannot be staged
+# accidentally.
+website/public/model/*
+!website/public/model/muenchner-rathaus-35m.glb
+!website/public/model/muenchner-rathaus-35m.metadata.json
+!website/public/model/muenchner-rathaus-35m.source-mesh.json
+
+website/lib/model-catalog/*
+!website/lib/model-catalog/muenchner-rathaus-35m.json
