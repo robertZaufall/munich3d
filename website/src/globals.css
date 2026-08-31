@@ -84,6 +84,10 @@
   .data-chip {
     @apply flex h-6 items-center gap-1.5 rounded-md border border-white/9 bg-[#071014]/70 px-2 font-sans text-[9px] uppercase tracking-[0.11em] text-white/55 backdrop-blur-md;
   }
+  .model-select option {
+    background-color: #fff;
+    color: #111827;
+  }
   .viewer-control {
     @apply size-9 border-white/10 bg-[#081216]/75 text-white/65 shadow-lg backdrop-blur-md hover:bg-cyan-200 hover:text-[#061014] aria-pressed:bg-cyan-200 aria-pressed:text-[#061014];
   }

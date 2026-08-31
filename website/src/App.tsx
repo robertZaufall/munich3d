@@ -261,7 +261,7 @@ export default function App() {
                 value={place.id}
                 onChange={(event) => setSelectedId(event.target.value)}
                 aria-label="Choose building model"
-                className="h-10 w-full appearance-none rounded-lg border border-white/9 bg-white/[0.035] px-3 pr-9 font-sans text-[11px] text-stone-100 outline-none transition-colors hover:bg-white/[0.06] focus:border-cyan-200/40"
+                className="model-select h-10 w-full appearance-none rounded-lg border border-white/9 bg-white/[0.035] px-3 pr-9 font-sans text-[11px] text-stone-100 outline-none transition-colors hover:bg-white/[0.06] focus:border-cyan-200/40"
               >
                 {places.map((candidate) => (
                   <option key={candidate.id} value={candidate.id}>
