@@ -1,6 +1,33 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M22 19.2727C22 20.779 20.779 22 19.2727 22H14.7273C13.221 22 12 20.779 12 19.2727V12H19.2727C20.779 12 22 13.221 22 14.7273V19.2727Z" fill="#68C4FF"/>
-<path d="M20 2C21.1046 2 22 2.89543 22 4V7C22 8.10457 21.1046 9 20 9H17C15.8954 9 15 8.10457 15 7V4C15 2.89543 15.8954 2 17 2H20Z" fill="#0C79D8"/>
-<path d="M7 15C8.10457 15 9 15.8954 9 17V20C9 21.1046 8.10457 22 7 22H4C2.89543 22 2 21.1046 2 20V17C2 15.8954 2.89543 15 4 15H7Z" fill="#0C79D8"/>
-<path d="M12 12H4.72727C3.22104 12 2 10.779 2 9.27273V4.72727C2 3.22104 3.22104 2 4.72727 2H9.27273C10.779 2 12 3.22104 12 4.72727V12Z" fill="#2E9EFF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Isometric 3D house">
+  <defs>
+    <linearGradient id="bg" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#142A30"/>
+      <stop offset="1" stop-color="#061014"/>
+    </linearGradient>
+    <linearGradient id="left" x1="10" y1="26" x2="34" y2="55" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B9C9C8"/>
+      <stop offset="1" stop-color="#879B9C"/>
+    </linearGradient>
+    <linearGradient id="right" x1="34" y1="36" x2="55" y2="51" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8CA5A7"/>
+      <stop offset="1" stop-color="#647C80"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <path d="M7 46.5 30.5 60 58 44.2 34.5 31Z" fill="#02090C" opacity=".55"/>
+
+  <path d="m10 24.5 23.5 13.6v18L10 42.5Z" fill="url(#left)"/>
+  <path d="m33.5 38.1 21-12.1v18L33.5 56.1Z" fill="url(#right)"/>
+  <path d="M10 24.5 31 12.4 54.5 26 33.5 38.1Z" fill="#D9E6E3"/>
+  <path d="M10 24.5 31 12.4 54.5 26 33.5 38.1 10 24.5Z" fill="none" stroke="#A5F3FC" stroke-width="1.5" stroke-linejoin="round"/>
+
+  <path d="m18 35.2 6.5 3.7v7.5L18 42.7Z" fill="#15333A"/>
+  <path d="m27 40.4 3.8 2.2v11.4L27 51.8Z" fill="#203E43"/>
+  <path d="m39 41.1 6.5-3.8v6.7L39 47.8Z" fill="#A5F3FC" opacity=".7"/>
+  <path d="m47.5 36.2 4-2.3v6.7l-4 2.3Z" fill="#A5F3FC" opacity=".7"/>
+
+  <path d="m37.5 17.1 6 3.5v5.1l-6-3.5Z" fill="#82989A"/>
+  <path d="m37.5 17.1 3.8-2.2 6 3.5-3.8 2.2Z" fill="#F0F8F5"/>
+  <path d="m43.5 20.6 3.8-2.2v5.1l-3.8 2.2Z" fill="#60797C"/>
 </svg>
