@@ -248,7 +248,25 @@ and distance validation. Local extraction uses argument arrays without a shell.
 The Cloudflare configuration serves only `glaubi.net/munich3d` and
 `glaubi.net/munich3d/*`, with `workers_dev: false`. Its asset base is `/munich3d/`.
 Hosted generation needs no server compute, Blender, child process or OBJ export.
-Do not deploy unless explicitly requested, and review permanent asset scope first.
+### Automatic deployment
+
+[Deploy Munich3D](.github/workflows/deploy.yml) runs on every push to `master`,
+with a manual **Run workflow** option in GitHub Actions. It installs locked
+packages, runs pipeline/reconstruction tests, checks that only the complete
+Rathaus 100 m bundle is present, builds the Cloudflare site and deploys it.
+A final check compares live HTML, entry assets and sample metadata with the build.
+Failed tests or unexpected address assets block deployment. Runs are serialized.
+
+The workflow uses the `CLOUDFLARE_ACCOUNT_ID` repository variable and the
+`CLOUDFLARE_API_TOKEN` Actions secret. The token needs Workers Scripts Edit,
+Workers Routes Edit for `glaubi.net`, and the account/zone read access used by
+Wrangler; scope it to the deployment account and zone. Keep the token out of Git.
+See [Cloudflare's GitHub Actions guide](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/).
+
+The CI checkout contains only committed assets. Local `npm run deploy:cloudflare`
+also checks the public address boundary and fails when private folders are
+present; deploy from a clean public checkout instead of deleting private data.
+Pushing to `master` publishes automatically once the Actions secret is configured.
 
 ## Validation
 

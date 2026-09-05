@@ -16,7 +16,8 @@
     "prestart": "npm run build",
     "start": "node server.mjs --production",
     "prelint": "npm run models:catalog",
-    "lint": "oxlint"
+    "lint": "oxlint",
+    "predeploy:cloudflare": "node scripts/check-public-assets.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

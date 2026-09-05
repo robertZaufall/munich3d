@@ -1,0 +1,56 @@
+name: Deploy Munich3D
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: munich3d-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - name: Install locked dependencies
+        run: npm ci --prefix website
+      - name: Check source and public asset boundary
+        run: |
+          node --check extract_buildings.mjs
+          node --check import_bayernatlas.mjs
+          node --check export_model_to_glb.mjs
+          node --test tests/bayernatlas.test.mjs website/scripts/address-bundles.test.mjs website/scripts/check-public-assets.test.mjs
+          node website/scripts/check-public-assets.mjs
+          node website/scripts/test-area-reconstruction.mjs
+          node website/scripts/test-area-camera.mjs
+      - name: Build public website
+        run: |
+          npm run build:cloudflare --prefix website
+          node website/scripts/check-public-assets.mjs --built
+      - name: Check deployment credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo 'Set the CLOUDFLARE_ACCOUNT_ID repository variable.'; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo 'Set the CLOUDFLARE_API_TOKEN repository secret.'; exit 1; }
+      - name: Deploy to glaubi.net/munich3d
+        working-directory: website
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx --no-install wrangler deploy
+      - name: Verify live deployment
+        run: node website/scripts/verify-live-deployment.mjs

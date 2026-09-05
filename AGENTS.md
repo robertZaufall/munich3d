@@ -52,7 +52,10 @@ setup, extraction commands, asset layout and runtime architecture.
 - The root `extract_buildings.mjs`, `import_bayernatlas.mjs` and
   `export_model_to_glb.mjs` are runtime source, not cleanup candidates.
 - Keep dependencies, builds, browser-test output and caches out of Git. Preserve
-  unrelated worktree edits. Do not deploy or publish unless explicitly requested.
+  unrelated worktree edits. Pushes to `master` trigger the authorized GitHub Actions
+  production deployment. Do not publish through other paths unless requested.
+- Preserve the public deployment guard and live-file verification in
+  `.github/workflows/deploy.yml`; never bypass them to include private assets.
 
 ## Explorer and reconstruction
 
