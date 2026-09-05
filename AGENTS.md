@@ -98,6 +98,10 @@ setup, extraction commands, asset layout and runtime architecture.
 - Hosted generation runs in a browser Web Worker with IndexedDB persistence for
   GLB, source-mesh, metadata and catalog data. No server compute, Blender, child
   processes, containers, OBJ output or temporary export directories.
+- ZIP sharing includes the original bundle and the complete optional area snapshot,
+  including primary, connected and neighbor façade profiles. Imports stay in
+  IndexedDB on both localhost and the hosted site; never write them to permanent
+  folders or upload them. Validate archives before atomic persistence.
 - Never upload browser-generated addresses or create a public generated catalog.
 - Cloudflare assets use `/munich3d/`; retain `workers_dev: false` and routes only
   for `/munich3d` and `/munich3d/*`.
@@ -117,4 +121,5 @@ and `git diff --check`, not extraction or builds.
 | Reconstruction/camera | `node website/scripts/test-area-reconstruction.mjs` and `node website/scripts/test-area-camera.mjs`, passing the changed model ID when applicable; build and real-browser verification. |
 | Selector/viewer | All available addresses in a real browser, clean console; model, metadata, source link and downloads change together. Verify fitting, connected-part visibility, Facade camera stability, depth, wireframe and compass. |
 | Local generation server | Health, cached/uncached generation, runtime GLB download, deletion/fallback and permanent-model deletion protection. |
+| ZIP sharing | `node --test website/scripts/address-archive.test.mjs`; browser export/import, façade view, reload, re-export and deletion. |
 | Browser generation | Cloudflare build; browser generation, IndexedDB reload and deletion. Repeat on the deployed site only after explicitly authorized deployment. |

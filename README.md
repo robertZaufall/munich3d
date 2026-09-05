@@ -88,6 +88,25 @@ pipeline and stores results in that browser's IndexedDB. Browser-generated
 models are not uploaded or added to a public catalog. Address searches use the
 configured Esri geocoder.
 
+### Share an address as a ZIP
+
+Use **Export ZIP** in the address column to download the selected area's original
+GLB, source mesh and metadata, plus its complete façade and surface snapshot when
+available. Neighbours and their authored façade profiles are included even when
+Building mode is selected. Filenames include the address, area size and local
+export timestamp. The archive preserves reconstruction reference notes;
+external reference photos themselves are not bundled.
+
+Send the ZIP to your friend. They can open [Munich3D](https://glaubi.net/munich3d/)
+and choose **Import ZIP** in the address column. Import also works on localhost.
+The address is saved only in that browser's IndexedDB, survives reload and can be
+re-exported or removed with the runtime-model delete control. No address data is
+uploaded or added to the public catalog. Clearing browser storage removes imports.
+
+Archives use the versioned `munich3d-address` format with SHA-256 file checksums.
+Import validates the source bundle before saving; limits are 100 MB compressed
+and 256 MB unpacked. ZIP processing runs in a worker.
+
 ## Files and privacy
 
 ```text

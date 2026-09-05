@@ -17,6 +17,7 @@ type StoredModel = {
   glb: Blob;
   sourceMesh: Blob;
   metadata: Blob;
+  area?: Blob;
 };
 
 function requestResult<T>(request: IDBRequest<T>) {
@@ -68,6 +69,8 @@ async function writeModel(model: StoredModel) {
 function hydrate(model: StoredModel): CatalogEntry {
   return {
     ...model.catalog,
+    storage: 'browser',
+    areaSurfacePath: model.area ? URL.createObjectURL(model.area) : undefined,
     modelPath: URL.createObjectURL(model.glb),
     sourceMeshPath: URL.createObjectURL(model.sourceMesh),
     metadataPath: URL.createObjectURL(model.metadata),
@@ -178,4 +181,16 @@ export async function deleteBrowserModel(id: string) {
   await completed;
   db.close();
   return { deletedId: id };
+}
+
+export async function saveImportedModel(result: { id: string; catalog: CatalogEntry; files: Record<string, Uint8Array<ArrayBuffer>> }) {
+  const blob = (name: string, type = 'application/json') => new Blob([result.files[name]], { type });
+  const stored: StoredModel = {
+    id: result.id, catalog: result.catalog,
+    glb: blob('model.glb', 'model/gltf-binary'),
+    metadata: blob('metadata.json'), sourceMesh: blob('source-mesh.json'),
+    area: result.files['area.json'] ? blob('area.json') : undefined,
+  };
+  await writeModel(stored);
+  return hydrate(stored);
 }

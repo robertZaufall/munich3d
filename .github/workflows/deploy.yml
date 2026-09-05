@@ -33,7 +33,7 @@ jobs:
           node --check extract_buildings.mjs
           node --check import_bayernatlas.mjs
           node --check export_model_to_glb.mjs
-          node --test tests/bayernatlas.test.mjs website/scripts/address-bundles.test.mjs website/scripts/check-public-assets.test.mjs
+          node --test tests/bayernatlas.test.mjs website/scripts/address-bundles.test.mjs website/scripts/check-public-assets.test.mjs website/scripts/address-archive.test.mjs
           node website/scripts/check-public-assets.mjs
           node website/scripts/test-area-reconstruction.mjs
           node website/scripts/test-area-camera.mjs

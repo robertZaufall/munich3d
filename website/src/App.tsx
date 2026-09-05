@@ -1,7 +1,8 @@
-import { useEffect, useState, type SyntheticEvent } from 'react';
+import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import {
   Building2,
   Download,
+  Upload,
   ExternalLink,
   Layers3,
   LoaderCircle,
@@ -19,6 +20,9 @@ import { cn } from '@/lib/utils';
 export type ModelCatalogEntry = {
   id: string;
   runtime: boolean;
+  storage?: 'browser';
+  imported?: boolean;
+  archiveModelId?: string;
   switchLabel: string;
   address: string;
   district: string;
@@ -89,6 +93,9 @@ function mergedPlaces(
 }
 
 export default function App() {
+  const importInput = useRef<HTMLInputElement>(null);
+  const [sharing, setSharing] = useState('');
+  const [shareMessage, setShareMessage] = useState('');
   const [places, setPlaces] = useState(staticPlaces);
   const [runtimeCatalogLoaded, setRuntimeCatalogLoaded] = useState(false);
   const [selectedId, setSelectedId] = useState(
@@ -134,15 +141,14 @@ export default function App() {
 
   useEffect(() => {
     let active = true;
-    const models = browserGenerationEnabled
-      ? import('@/lib/browser-models').then(({ listBrowserModels }) =>
-          listBrowserModels().then((runtimeModels) => ({ models: runtimeModels })),
-        )
-      : fetch(runtimeApiPath('models'))
-      .then(async (response) => {
-        if (!response.ok) throw new Error('Runtime model catalog is unavailable');
-        return response.json();
-      });
+    const browserModels = import('@/lib/browser-models').then(({ listBrowserModels }) => listBrowserModels());
+    const serverModels = browserGenerationEnabled ? Promise.resolve([]) : fetch(runtimeApiPath('models')).then(async response => {
+      if (!response.ok) throw new Error('Runtime model catalog is unavailable');
+      return (await response.json()).models;
+    });
+    const models = Promise.allSettled([serverModels, browserModels]).then(results => ({
+      models: results.flatMap(result => result.status === 'fulfilled' && Array.isArray(result.value) ? result.value : []),
+    }));
     models
       .then((result) => {
         if (active && Array.isArray(result.models)) {
@@ -203,6 +209,35 @@ export default function App() {
     }
   };
 
+  const shareAddress = async (file?: File) => {
+    setSharing(file ? 'Importing…' : 'Exporting…');
+    setShareMessage('');
+    try {
+      const { exportAddress, importAddress } = await import('@/lib/address-sharing');
+      if (file) {
+        const imported = await importAddress(file);
+        for (const old of places.filter(model => model.storage === 'browser' && model.gmlId === imported.gmlId && model.neighborDistance === imported.neighborDistance)) {
+          for (const path of [old.modelPath, old.metadataPath, old.sourceMeshPath, old.areaSurfacePath]) {
+            if (path?.startsWith('blob:')) URL.revokeObjectURL(path);
+          }
+        }
+        setPlaces(current => mergedPlaces(current, [imported]));
+        setSelectedId(imported.id);
+        setShowNeighbors(true);
+        setShowReconstruction(Boolean(imported.areaSurfacePath));
+        setShareMessage('Imported and saved in this browser.');
+      } else {
+        await exportAddress(place);
+        setShareMessage('ZIP ready to share.');
+      }
+    } catch (error) {
+      setShareMessage(error instanceof Error ? error.message : 'Address sharing failed');
+    } finally {
+      setSharing('');
+      if (importInput.current) importInput.current.value = '';
+    }
+  };
+
   const deleteSelectedModel = async (modelToDelete: ModelCatalogEntry) => {
     if (!modelToDelete.runtime) return;
     setDeleteCandidate(null);
@@ -215,7 +250,7 @@ export default function App() {
         detail?: string;
       };
       let successful = true;
-      if (browserGenerationEnabled) {
+      if (modelToDelete.storage === 'browser' || browserGenerationEnabled) {
         const { deleteBrowserModel } = await import('@/lib/browser-models');
         result = await deleteBrowserModel(modelToDelete.id);
       } else {
@@ -233,6 +268,7 @@ export default function App() {
         modelToDelete.modelPath,
         modelToDelete.sourceMeshPath,
         modelToDelete.metadataPath,
+        modelToDelete.areaSurfacePath ?? '',
       ]) {
         if (path.startsWith('blob:')) URL.revokeObjectURL(path);
       }
@@ -422,7 +458,7 @@ export default function App() {
             aria-labelledby="delete-model-title"
             className="panel relative m-0 w-full max-w-md px-6 py-6 text-foreground shadow-2xl"
           >
-            <p className="eyebrow text-rose-200">Delete generated model</p>
+            <p className="eyebrow text-rose-200">{deleteCandidate.imported ? 'Delete imported model' : place.imported ? 'Delete imported model' : 'Delete generated model'}</p>
             <h2
               id="delete-model-title"
               className="mt-2 text-2xl font-medium tracking-[-0.035em]"
@@ -430,9 +466,8 @@ export default function App() {
               Remove {deleteCandidate.address}?
             </h2>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              This permanently removes the generated GLB, metadata and source
-              mesh from the generated-model cache. Permanent website models are
-              unaffected.
+              This removes the model, source data and any imported façade details
+              from the local cache. Permanent website models are unaffected.
             </p>
             <div className="mt-6 flex justify-end gap-2">
               <button
@@ -520,6 +555,14 @@ export default function App() {
             <p className="mt-3 max-w-sm text-xs leading-4 text-muted-foreground">
               {description}
             </p>
+
+            <div className="mt-4 grid grid-cols-2 gap-2" aria-label="Share address">
+              <button type="button" disabled={Boolean(sharing)} onClick={() => void shareAddress()} className={cn(buttonVariants({ variant: 'outline' }), 'h-9 gap-2 px-2 text-xs')}><Download className="size-3.5" />Export ZIP</button>
+              <button type="button" disabled={Boolean(sharing)} onClick={() => importInput.current?.click()} className={cn(buttonVariants({ variant: 'outline' }), 'h-9 gap-2 px-2 text-xs')}><Upload className="size-3.5" />Import ZIP</button>
+              <input ref={importInput} type="file" accept=".zip,application/zip" aria-label="Import address ZIP" className="hidden" onChange={event => { const file = event.target.files?.[0]; if (file) void shareAddress(file); }} />
+            </div>
+            <p className="mt-2 text-[11px] leading-4 text-muted-foreground">Includes the selected area{place.areaSurfacePath ? ', façades and surfaces' : ''}. Imports stay in this browser.</p>
+            {(sharing || shareMessage) && <p role="status" className="mt-2 text-xs text-cyan-100">{sharing || shareMessage}</p>}
 
       {areaVariants.length > 1 && <nav aria-label="Available area sizes" className="mt-4 flex flex-wrap items-center gap-2">
         <span className="w-full text-xs text-muted-foreground">Available area sizes</span>
@@ -616,7 +659,7 @@ export default function App() {
                 >
                   {deletingModelId === place.id
                     ? 'Deleting generated model'
-                    : 'Delete generated model'}
+                    : place.imported ? 'Delete imported model' : 'Delete generated model'}
                   {deletingModelId === place.id ? (
                     <LoaderCircle className="size-3.5 animate-spin" />
                   ) : (

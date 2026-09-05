@@ -9,7 +9,14 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
 
 export default defineConfig({
   css: { postcss: { plugins: [tailwindcss()] } },
-  plugins: [react(), addressAssets()],
+  plugins: [
+    // Shared CLI modules retain their executable shebang on disk. Strip it before
+    // Vite prepends browser imports, which would otherwise make it invalid JS.
+    { name: 'browser-cli-shebang', enforce: 'pre', transform(code, id) {
+      if (id.endsWith('.mjs') && code.startsWith('#!')) return code.replace(/^#![^\n]*\n/u, '\n');
+    } },
+    react(), addressAssets(),
+  ],
   resolve: {
     alias: { '@': fileURLToPath(new URL('.', import.meta.url)) },
   },
