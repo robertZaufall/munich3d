@@ -27,7 +27,18 @@ await fs.writeFile(
   }).outputText,
 );
 try {
-  const { fitAreaCamera } = await import(temp.href);
+  const { fitAreaCamera, fitGroundPlate } = await import(temp.href);
+  // A sparse footprint must not inherit the empty bounding-box corners or
+  // the camera's perspective offset. Height must not enlarge its ground.
+  const footprint = [new THREE.Vector3(-20, 0, 0), new THREE.Vector3(20, 0, 0),
+    new THREE.Vector3(0, 100, -10), new THREE.Vector3(0, 0, 10)];
+  const plate = fitGroundPlate(footprint);
+  assert.deepEqual(plate.center.toArray(), [0, 0, 0]);
+  assert.ok(Math.abs(plate.radius - 20.8) < 1e-9);
+  const shifted = fitGroundPlate(footprint.map(p => p.clone().add(new THREE.Vector3(70, 200, -30))));
+  assert.deepEqual(shifted.center.toArray(), [70, 0, -30]);
+  assert.equal(shifted.radius, plate.radius);
+  assert.ok(fitGroundPlate([new THREE.Vector3(-1, 0, 0), new THREE.Vector3(1, 0, 0)]).radius < 2);
   const bytes = await fs.readFile(path.join(bundle.modelDirectory, `${modelId}.glb`));
   const { scene } = await new GLTFLoader().parseAsync(
     bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.length),

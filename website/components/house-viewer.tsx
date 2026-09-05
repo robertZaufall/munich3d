@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import { Button } from '@/components/ui/button';
 import type { ReconstructionStats } from '@/lib/area-reconstruction';
-import { fitAreaCamera } from '@/lib/fit-area-camera';
+import { fitAreaCamera, fitGroundPlate } from '@/lib/fit-area-camera';
 
 const compassPoints = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
@@ -307,11 +307,16 @@ export function HouseViewer({
 
           const sphere = visibleBox.getBoundingSphere(new THREE.Sphere());
           const target = visibleBox.getCenter(new THREE.Vector3());
-          const footprint = visibleBox.getSize(new THREE.Vector3());
-          const groundRadius = Math.max(
-            10,
-            Math.hypot(footprint.x, footprint.z) * 0.625,
-          );
+          const points: THREE.Vector3[] = [];
+          for (const child of model.children) {
+            if (!child.visible || !(child instanceof THREE.Mesh)) continue;
+            const positions = child.geometry.getAttribute('position');
+            for (let i = 0; i < positions.count; i++) {
+              points.push(new THREE.Vector3().fromBufferAttribute(positions, i).applyMatrix4(child.matrixWorld));
+            }
+          }
+          const groundFit = fitGroundPlate(points);
+          const groundRadius = groundFit.radius;
           const direction = reconstructArea
             ? new THREE.Vector3(0.3, 0.95, 1.3).normalize()
             : new THREE.Vector3(1.08, 0.78, 1.14).normalize();
@@ -326,14 +331,6 @@ export function HouseViewer({
             (sphere.radius / Math.sin(fitHalfFov)) * 1.12,
           );
           if (reconstructArea) {
-            const points: THREE.Vector3[] = [];
-            for (const child of model.children) {
-              if (!child.visible || !(child instanceof THREE.Mesh)) continue;
-              const positions = child.geometry.getAttribute('position');
-              for (let i = 0; i < positions.count; i++) {
-                points.push(new THREE.Vector3().fromBufferAttribute(positions, i).applyMatrix4(child.matrixWorld));
-              }
-            }
             if (reconstruction && reconstructionVisibleRef.current && showNeighborsRef.current) {
               const areaBox = new THREE.Box3().setFromObject(reconstruction.environment);
               for (const x of [areaBox.min.x, areaBox.max.x]) for (const y of [areaBox.min.y, areaBox.max.y]) for (const z of [areaBox.min.z, areaBox.max.z]) {
@@ -346,9 +343,9 @@ export function HouseViewer({
           }
           const home = target.clone().addScaledVector(direction, distance);
 
-          ground.position.set(target.x, -0.04, target.z);
+          ground.position.set(groundFit.center.x, -0.04, groundFit.center.z);
           ground.scale.setScalar(groundRadius);
-          grid.position.set(target.x, 0.015, target.z);
+          grid.position.set(groundFit.center.x, 0.015, groundFit.center.z);
           grid.scale.setScalar(groundRadius * Math.SQRT1_2);
           mount.dataset.groundRadiusMetres = groundRadius.toFixed(2);
           sceneFog.density = Math.min(0.0115, 0.55 / distance);

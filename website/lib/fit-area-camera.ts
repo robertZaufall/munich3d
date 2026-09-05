@@ -1,5 +1,18 @@
 import * as THREE from 'three';
 
+/** Keep the circular ground tied to horizontal geometry, not camera framing. */
+export function fitGroundPlate(points: THREE.Vector3[]) {
+  if (!points.length) throw new Error('Cannot fit ground to an empty model');
+  const center = new THREE.Box3().setFromPoints(points).getCenter(new THREE.Vector3());
+  center.y = 0;
+  let footprintRadius = 0;
+  for (const point of points) {
+    footprintRadius = Math.max(footprintRadius, Math.hypot(point.x - center.x, point.z - center.z));
+  }
+  const margin = THREE.MathUtils.clamp(footprintRadius * 0.04, 0.5, 3);
+  return { center, radius: footprintRadius + margin };
+}
+
 /** Fit the projected geometry, including perspective foreshortening. */
 export function fitAreaCamera(
   points: THREE.Vector3[],
