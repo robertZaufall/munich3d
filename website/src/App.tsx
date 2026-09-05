@@ -562,7 +562,7 @@ export default function App() {
 
           <details open className="panel shrink-0 px-4 py-3">
             <summary className="cursor-pointer text-sm text-cyan-100">Downloads & source data</summary>
-            <div className="grid gap-2">
+            <div className="mt-3 grid gap-2">
               <a
                 href={place.modelPath}
                 download
