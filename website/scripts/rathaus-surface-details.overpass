@@ -1,0 +1,8 @@
+[out:json][timeout:40];
+(
+  relation(48.1358,11.5729,48.1396,11.5781)[highway];
+  relation(48.1358,11.5729,48.1396,11.5781)["area:highway"];
+  nwr(48.1363,11.5734,48.1393,11.5776)[historic];
+  node(48.1363,11.5734,48.1393,11.5776)[amenity=bench];
+);
+out geom;

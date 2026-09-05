@@ -1,170 +1,116 @@
-# AGENTS.md
+# Agent instructions
 
-## Scope
+These rules apply to the entire repository. See [README.md](README.md) for
+setup, extraction commands, asset layout and runtime architecture.
 
-These instructions apply to the entire `munich3d` repository.
+## Source correctness
 
-## Project purpose
+- Preserve decoded source vertices, triangle topology and roof forms. Never
+  invent, smooth, reshape or replace source geometry. Illustrative reconstruction
+  belongs in separate geometry; LoD2 comparison and downloads retain the source.
+- Always retain the addressed building. New extractions use
+  `complete_geometry_within_primary_distance`: every decoded horizontal vertex
+  of a neighbor must be within the requested distance of primary geometry.
+  The extraction default is 35 m; the shipped Rathaus sample is 100 m.
+- Preserve legacy `closest_geometry_from_primary` bundles and their recorded
+  rule until deliberately regenerated. Do not label them strict-distance bundles
+  or require maximum-distance fields they do not contain.
+- Export one GLB node per source feature, preserving `role`, `gml_id`,
+  `OBJECTID` and `distance_from_primary_m` extras. New strict bundles also carry
+  `maximum_distance_from_primary_m`. Keep primary and neighbor source roles distinct.
+- Derive dimensions, elevations, storeys, IDs, counts and distances from metadata.
+  Missing values remain unavailable; do not estimate them visually.
+- The statewide BayernAtlas fallback is shared by Node and the browser. Preserve
+  tile refinement, source topology, GML IDs and legacy glTF node/Y-up/RTC
+  transforms. Label its WGS84 ellipsoidal heights; do not invent OBJECTID or storeys.
+- Preserve **Bayerische Vermessungsverwaltung – www.geodaten.bayern.de**
+  attribution under CC BY 4.0, OSM attribution under ODbL separately, and the
+  separate **Robert Zaufall** website copyright notice.
 
-This project extracts source-matched LoD2 building geometry from the Munich
-ArcGIS I3S scene, includes neighbors according to a recorded, configurable
-distance rule, generates GLBs directly from the decoded source meshes, and
-presents selected addresses in a local Three.js website. New extractions use
-the farthest decoded neighbor vertex as their cutoff test.
+## Bundles, privacy and cleanup
 
-The website discovers every complete bundle in `website/public/model/` and
-generates one `website/lib/model-catalog/<model>.json` fragment per bundle.
-The app discovers the locally available fragments at build time; do not
-maintain a separate model list.
+- Keep permanent assets together under `website/addresses/<address>/`:
+  `model/` for bundles, `area/` for snapshots/profiles, `catalog/` for generated
+  chooser metadata. Multiple distance variants share an address folder.
+- Every model stem must have `.glb`, `.metadata.json` and `.source-mesh.json`.
+  Preserve original bundle names and metadata; do not anonymize them in place.
+  Catalog generation must fail for incomplete bundles or duplicate model IDs.
+- Extract into `.work/` or a temporary directory, export GLB directly from the
+  source-mesh and metadata JSON, then retain only those three permanent files.
+  OBJ and extraction README files are reproducible intermediates.
+- Discover models and associated area snapshots from per-address catalogs and
+  matching `modelId` values. Never maintain a parallel model list or hard-code
+  private address records in `website/src/App.tsx`.
+- Only the Rathaus 100 m sample is intended for Git. Keep other address folders,
+  including their catalogs and reference profiles, ignored. Do not restore 35 m.
+- Git ignore rules do not filter build assets: builds include locally present
+  permanent models and snapshots. Check asset scope before any authorized
+  publication; never publish private addresses implicitly.
+- Preserve private folders, photo references, `.work/` investigations, runtime
+  models and local state during cleanup. Remove only identified reproducible
+  output. Keep dependencies needed by a running server.
+- The root `extract_buildings.mjs`, `import_bayernatlas.mjs` and
+  `export_model_to_glb.mjs` are runtime source, not cleanup candidates.
+- Keep dependencies, builds, browser-test output and caches out of Git. Preserve
+  unrelated worktree edits. Do not deploy or publish unless explicitly requested.
 
-On-demand models use the same root pipeline code in both runtimes. The local
-`website/server.mjs` launches the CLI entry points and caches below the
-Git-ignored `website/.runtime/models/` directory. The Cloudflare build imports
-the browser-safe in-memory extraction and GLB functions in a Web Worker and caches generated
-artifacts in that browser's IndexedDB. The root files are runtime source and
-must not be removed as cleanup. Runtime bundles retain only the GLB,
-source-mesh JSON and metadata JSON; discard the extractor's reproducible OBJ
-and README. Runtime models may be deleted through the API or browser UI, but
-permanent bundles in `website/public/model/` must never be exposed through that
-delete path.
+## Explorer and reconstruction
 
-Only the Rathaus bundle and catalog fragment are intended for Git. The root
-`.gitignore` allowlists them; other address-bearing fragments are ignored with
-their dedicated model bundles so a shared catalog cannot disclose private
-model names or metadata.
+- Maintain one unified explorer. Default to Rathaus 100 m and original LoD2.
+- Keep compact, direct controls in one bottom row: rotation icon; Building /
+  Neighbourhood; LoD2 / Depth / Facade; independent Solid / Wireframe. Show only
+  applicable controls. No dropdowns, Entrance or Streets buttons.
+- Keep details open by default and available area-width choices in the right
+  column. Retain the dark scene and avoid default document scrollbars.
+- Loading a model fits visible geometry. Building / Neighbourhood refits the
+  camera and ground/grid. Selecting Facade preserves the current camera.
+- Building mode retains the primary and explicitly grouped `connectedFacades`
+  parts of the same complex without rewriting source roles. Independent
+  neighbors, including `neighborFacades`, hide in Building mode.
+- Wireframe works with both source and reconstruction. Depth uses camera-relative
+  grayscale and hides decorative ground/grid; leaving it restores normal materials.
+  Preserve X=east, Y=up, Z=south and the orbit-linked compass.
+- Match photo profiles to exact source GML IDs. Preserve reference notes and
+  confidence limits; do not describe procedural detail as surveyed. Reserve
+  Gothic detailing for Rathaus; use generic or reference-based profiles elsewhere.
+- Use bounded OSM snapshots for mapped surface boundaries and locations. Document
+  inferred widths, ground interpolation and unrecorded detail as approximations.
+  Preserve valid facade profiles when regenerating snapshots.
 
-Dedicated model files keep their original source names and metadata. Do not
-rename or rewrite them for documentation anonymization.
+## Runtime boundaries
 
-## Canonical pipeline
+- Use the same root extraction/export pipeline in both runtimes. Local
+  `website/server.mjs` launches CLI entry points and binds to loopback only;
+  the supported development URL is `http://localhost:3000/`.
+- Validate addresses, coordinates, distance and request size before extraction.
+  Keep browser/local address and distance validation consistent, including the
+  local API's 16 KiB body limit. Spawn argument arrays without a shell; never
+  accept a client-supplied output path.
+- Local generated bundles stay under `website/.runtime/models/`. Retain GLB,
+  source-mesh and metadata, discarding reproducible OBJ/README output. Never
+  promote runtime bundles to permanent assets automatically.
+- Deletion must affect only runtime models, remove their cache/chooser entry and
+  choose a valid fallback. Permanent address bundles must not enter that path.
+- Hosted generation runs in a browser Web Worker with IndexedDB persistence for
+  GLB, source-mesh, metadata and catalog data. No server compute, Blender, child
+  processes, containers, OBJ output or temporary export directories.
+- Never upload browser-generated addresses or create a public generated catalog.
+- Cloudflare assets use `/munich3d/`; retain `workers_dev: false` and routes only
+  for `/munich3d` and `/munich3d/*`.
 
-1. Run `extract_buildings.mjs` with an address and neighbor distance in a
-   temporary or `.work/` directory.
-2. Generate the GLB directly from the source-mesh and metadata JSON with
-   `export_model_to_glb.mjs`.
-3. Keep only the GLB, metadata JSON, and source-mesh JSON as the permanent
-   bundle in `website/public/model/`. Give all three files the same stable stem;
-   the OBJ and per-extraction README are reproducible intermediates.
-4. Run `npm run models:catalog` in `website/`, or let `npm run dev` / `npm run
-   build` run it automatically.
-5. Verify there is one generated catalog fragment per complete model bundle.
-6. Build the website and verify the selector changes the model, facts, IDs,
-   counts, source URL, and downloads together.
+## Validation by change
 
-## Important correctness rules
+Run relevant checks below; documentation-only changes need link/command review
+and `git diff --check`, not extraction or builds.
 
-- Never invent, smooth, reshape, or replace source geometry. In particular,
-  preserve the source roof form exactly.
-- The default neighbor cutoff is 35 metres from the addressed building. For a
-  new extraction, include a neighbor only when its farthest decoded horizontal
-  vertex is within that distance of the primary geometry; the addressed
-  building itself is always retained.
-- Existing legacy bundles may record `closest_geometry_from_primary` and lack
-  maximum-distance fields. Preserve and describe their recorded rule until the
-  bundle is deliberately regenerated; never present them as strict-distance
-  bundles.
-- Keep the addressed building distinct from neighbors. GLBs must contain one
-  node per feature with `role`, `gml_id`, `OBJECTID`, and
-  `distance_from_primary_m` extras. New strict-distance bundles also include
-  `maximum_distance_from_primary_m`.
-- Populate dimensions, elevations, storeys, IDs, feature counts, and distances
-  from generated metadata. Do not estimate them visually.
-- Keep the website chooser metadata-driven. Do not add hard-coded address
-  records to `website/src/App.tsx`.
-- Every stem in `website/public/model/` must have a GLB, metadata JSON and
-  source-mesh JSON. Catalog generation must fail for incomplete bundles.
-- Preserve the decoded source-mesh JSON and extraction metadata alongside each
-  permanent GLB.
-- Preserve CC BY 4.0 attribution to **Bayerische Vermessungsverwaltung –
-  www.geodaten.bayern.de** in generated data and the website.
-- Preserve the website copyright notice for **Robert Zaufall** separately from
-  the source-data attribution.
-
-## Website scope
-
-- The supported development URL is `http://localhost:3000/`.
-- Keep the generation server bound to loopback. Never accept a client-supplied
-  output path.
-- Validate address, coordinate, distance and request-size limits before running
-  extraction. Use argument arrays without a shell when spawning scripts.
-- Keep runtime-generated address bundles under `website/.runtime/`; do not copy
-  them into tracked model or catalog paths automatically.
-- The Cloudflare build at `/munich3d/` must use the subpath asset base, set
-  `workers_dev: false`, and route only `/munich3d` plus `/munich3d/*`.
-- Keep the hosted pipeline in the browser: no Blender, server compute, child
-  process, container, OBJ output or temporary export directory. Persist the
-  generated GLB, source-mesh JSON, metadata JSON and catalog data only in
-  IndexedDB.
-- Never create a public generated-address catalog. Browser-generated models
-  remain local to that browser and must not be uploaded by the static build.
-- Keep the browser and local API validation consistent for address and neighbor
-  distance. The local API additionally retains its 16 KiB body limit.
-- Do not deploy or publish the website unless explicitly requested.
-
-## Commands
-
-Extract an address:
-
-```sh
-node extract_buildings.mjs \
-  --address "Münchner Rathaus, Marienplatz 8, 80331 München, Germany" \
-  --neighbor-distance 35 \
-  --output .work/muenchner-rathaus-35m
-```
-
-Generate a GLB:
-
-```sh
-node export_model_to_glb.mjs \
-  INPUT.source-mesh.json \
-  INPUT.metadata.json \
-  OUTPUT.glb
-```
-
-Run and build the website:
-
-```sh
-cd website
-npm install
-npm run dev
-npm run build
-npm run build:cloudflare
-```
-
-## Validation
-
-- Run `node --check extract_buildings.mjs` and
-  `node --check export_model_to_glb.mjs` after pipeline changes.
-- Test a second address as well as the checked-in sample after
-  spatial-selection or distance changes.
-- For bundles using `complete_geometry_within_primary_distance`, confirm every
-  selected neighbor has `maximumDistanceFromPrimaryMetres <=
-  neighborDistanceMetres`. Do not apply that assertion to legacy bundles that
-  record `closest_geometry_from_primary`.
-- Confirm metadata building count, source-mesh building count, and GLB role
-  count agree.
-- Run `npm run build` after website changes.
-- Verify `/api/health`, cached and uncached `/api/models` responses, and runtime
-  GLB downloads after generation-server changes.
-- Verify the Cloudflare build's browser generation, IndexedDB reload and
-  deletion paths on the deployed site.
-- Verify deleting a runtime model removes its cache directory and chooser entry,
-  selects a valid fallback, and cannot delete a permanent model bundle.
-- For selector changes, verify all addresses in a real browser and require a
-  clean console.
-- Verify model loading automatically fits the visible geometry. Turning off the
-  neighbor-house switch must hide every neighbor node, retain the primary node,
-  refit the camera to the primary building, and resize/recenter the ground plate
-  and grid to that visible footprint.
-- Verify depth-map mode renders visible geometry in camera-relative grayscale,
-  hides the decorative ground and grid, and restores the regular materials when
-  disabled.
-- Verify the compass's north pointer and heading update with camera orbit and
-  retain the source coordinate convention after model changes.
-
-## Repository hygiene
-
-- Keep `node_modules`, `dist`, browser-test output, and other reproducible
-  caches out of version control. `node_modules` may exist locally after
-  installation while the website is being run.
-- Keep private address bundles and their generated catalog fragments ignored.
+| Change | Required checks |
+| --- | --- |
+| Pipeline | `node --check` on changed root `.mjs` files; source-mesh, metadata and GLB counts/roles agree. |
+| Selection or distance | Test Rathaus and a second address. For strict bundles, every neighbor has `maximumDistanceFromPrimaryMetres <= neighborDistanceMetres`; preserve legacy rules. |
+| BayernAtlas decoder | `node --test tests/bayernatlas.test.mjs`. |
+| Bundle/catalog discovery | `node --test website/scripts/address-bundles.test.mjs`; one catalog per complete bundle. |
+| Website | `npm run build --prefix website`. |
+| Reconstruction/camera | `node website/scripts/test-area-reconstruction.mjs` and `node website/scripts/test-area-camera.mjs`, passing the changed model ID when applicable; build and real-browser verification. |
+| Selector/viewer | All available addresses in a real browser, clean console; model, metadata, source link and downloads change together. Verify fitting, connected-part visibility, Facade camera stability, depth, wireframe and compass. |
+| Local generation server | Health, cached/uncached generation, runtime GLB download, deletion/fallback and permanent-model deletion protection. |
+| Browser generation | Cloudflare build; browser generation, IndexedDB reload and deletion. Repeat on the deployed site only after explicitly authorized deployment. |

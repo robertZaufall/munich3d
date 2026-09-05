@@ -1,3 +1,4 @@
+import { addressAssets } from './scripts/address-assets.mjs';
 import tailwindcss from '@tailwindcss/postcss';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -8,7 +9,7 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
 
 export default defineConfig({
   css: { postcss: { plugins: [tailwindcss()] } },
-  plugins: [react()],
+  plugins: [react(), addressAssets()],
   resolve: {
     alias: { '@': fileURLToPath(new URL('.', import.meta.url)) },
   },

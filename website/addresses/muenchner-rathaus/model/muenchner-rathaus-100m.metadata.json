@@ -1,0 +1,3711 @@
+{
+  "request": {
+    "address": "Münchner Rathaus, Marienplatz 8, 80331 München, Germany",
+    "coordinatesOverride": null,
+    "neighborDistanceMetres": 100,
+    "targetSearchDistanceMetres": 25
+  },
+  "geocode": {
+    "input": "Münchner Rathaus, Marienplatz 8, 80331 München, Germany",
+    "matchedAddress": "Marienplatz 8, 80331, München, Altstadt-Lehel, Bayern",
+    "score": 96.74,
+    "attributes": {
+      "Match_addr": "Marienplatz 8, 80331, München, Altstadt-Lehel, Bayern",
+      "Addr_type": "PointAddress",
+      "City": "München",
+      "Postal": "80331"
+    },
+    "location": {
+      "latitude": 48.137845982862,
+      "longitude": 11.575319018017
+    }
+  },
+  "selection": {
+    "locationWgs84": {
+      "latitude": 48.137845982862,
+      "longitude": 11.575319018017
+    },
+    "locationWebMercator": [
+      1288558.6188553479,
+      6129818.209525255
+    ],
+    "mode": "point_intersects_building",
+    "addressPointDistanceToPrimaryMetres": 0,
+    "neighborSelectionMode": "complete_geometry_within_primary_distance",
+    "buildingCount": 89,
+    "neighborCount": 88
+  },
+  "source": {
+    "itemId": "afce63c0ee9a4a33b2c4ebd29a8e71ef",
+    "itemTitle": "3D-Gebäudemodell München",
+    "itemOwner": "esri_DE_content",
+    "itemModifiedEpochMs": 1754293698000,
+    "sceneServiceUrl": "https://tiles.arcgis.com/tiles/jUpNdisbWqRpMo35/arcgis/rest/services/3D_Gebäudemodell_Muenchen/SceneServer",
+    "layerName": "Building_surface_wm",
+    "layerVersion": "D189CB1B-3CBD-4DDA-9C5E-730E1A4DA3D3",
+    "serviceLastUpdateEpochMs": 1675256038000,
+    "attribution": "Bayerische Vermessungsverwaltung – www.geodaten.bayern.de",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "objTransformation": {
+    "coordinateAxes": "X=east, Y=north, Z=up",
+    "originEpsg3857": [
+      1288558.6188553479,
+      6129818.209525255
+    ],
+    "verticalOriginMetres": 515.77,
+    "horizontalScaleFromWebMercatorToLocalMetres": 0.6673407644931245
+  },
+  "buildings": [
+    {
+      "role": "primary",
+      "distanceFromPrimaryMetres": 0,
+      "maximumDistanceFromPrimaryMetres": 0,
+      "nodeId": "1476",
+      "featureRow": 39,
+      "featureId": "214528",
+      "triangleCount": 1448,
+      "vertexCount": 4344,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288535.351301598,
+          6129742.598196465,
+          515.7700001986037
+        ],
+        "maximum": [
+          1288670.5195106738,
+          6129894.242807823,
+          595.0899979860793
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214528,
+        "gml_id": "DEBY_LOD2_4957695",
+        "gml_name": "Neues Rathaus, Sitz d.Verwaltung-Landeshauptstadt München, Touristinfo",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_3012",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 79.32,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "595.090",
+        "HoeheGrund": "515.770",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "516.891"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 0,
+      "maximumDistanceFromPrimaryMetres": 46.75357750302881,
+      "nodeId": "1476",
+      "featureRow": 13,
+      "featureId": "211329",
+      "triangleCount": 599,
+      "vertexCount": 1797,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288612.215300011,
+          6129722.1748985825,
+          515.5399987490188
+        ],
+        "maximum": [
+          1288728.4680036777,
+          6129862.045999962,
+          546.5600011141311
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211329,
+        "gml_id": "DEBY_LOD2_4957703",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 31.02,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "5000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "546.560",
+        "HoeheGrund": "515.540",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "520.899"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 0,
+      "maximumDistanceFromPrimaryMetres": 7.740706454082883,
+      "nodeId": "1444",
+      "featureRow": 134,
+      "featureId": "211985",
+      "triangleCount": 138,
+      "vertexCount": 414,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288567.262124126,
+          6129804.04940711,
+          516.3200006308856
+        ],
+        "maximum": [
+          1288584.5646143605,
+          6129820.860999212,
+          555.1900005164447
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211985,
+        "gml_id": "DEBY_LOD2_4957696",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3600",
+        "citygml_measured_height": 38.87,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "555.190",
+        "HoeheGrund": "516.320",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "541.718"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 0,
+      "maximumDistanceFromPrimaryMetres": 9.556882250117235,
+      "nodeId": "1476",
+      "featureRow": 11,
+      "featureId": "213182",
+      "triangleCount": 82,
+      "vertexCount": 246,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288613.4855026477,
+          6129842.517404991,
+          516.4499985964309
+        ],
+        "maximum": [
+          1288636.8536972278,
+          6129860.310602623,
+          530.8200003893386
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213182,
+        "gml_id": "DEBY_LOD2_4957699",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 14.37,
+        "citygml_storeys_above_ground": "3",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "530.820",
+        "HoeheGrund": "516.450",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "517.230"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 0,
+      "maximumDistanceFromPrimaryMetres": 10.985646641397699,
+      "nodeId": "1476",
+      "featureRow": 12,
+      "featureId": "214261",
+      "triangleCount": 36,
+      "vertexCount": 108,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288582.0713943713,
+          6129844.485208946,
+          516.5700013430129
+        ],
+        "maximum": [
+          1288617.5832962268,
+          6129869.7048134385,
+          535.7929999620925
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214261,
+        "gml_id": "DEBY_LOD2_4957697",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 19.223,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "535.793",
+        "HoeheGrund": "516.570",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "526.574"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 0,
+      "maximumDistanceFromPrimaryMetres": 35.67837825928654,
+      "nodeId": "1476",
+      "featureRow": 38,
+      "featureId": "215269",
+      "triangleCount": 224,
+      "vertexCount": 672,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288625.4071945422,
+          6129757.901194054,
+          515.8500020296584
+        ],
+        "maximum": [
+          1288685.4068989032,
+          6129802.745401817,
+          544.6699988634597
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215269,
+        "gml_id": "DEBY_LOD2_4957701",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 28.824,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "544.670",
+        "HoeheGrund": "515.846",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "533.200"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 0,
+      "maximumDistanceFromPrimaryMetres": 16.163230939149724,
+      "nodeId": "1476",
+      "featureRow": 10,
+      "featureId": "216370",
+      "triangleCount": 386,
+      "vertexCount": 1158,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288578.4097885364,
+          6129819.481302696,
+          516.3199975283156
+        ],
+        "maximum": [
+          1288665.1308006519,
+          6129855.305109459,
+          567.1100022585402
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 216370,
+        "gml_id": "DEBY_LOD2_4957698",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3200",
+        "citygml_measured_height": 50.791,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "567.110",
+        "HoeheGrund": "516.319",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "534.173"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 0.00015409944036540974,
+      "maximumDistanceFromPrimaryMetres": 4.352411629814568,
+      "nodeId": "1476",
+      "featureRow": 37,
+      "featureId": "212717",
+      "triangleCount": 12,
+      "vertexCount": 36,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288621.665602135,
+          6129765.586397606,
+          515.9200017244826
+        ],
+        "maximum": [
+          1288631.642591881,
+          6129777.842699486,
+          521.8660008699904
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212717,
+        "gml_id": "DEBY_LOD2_4957700",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 5.946,
+        "citygml_storeys_above_ground": "1",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "521.866",
+        "HoeheGrund": "515.920",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "521.866"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 14.096682104143502,
+      "maximumDistanceFromPrimaryMetres": 39.96220240672686,
+      "nodeId": "1444",
+      "featureRow": 133,
+      "featureId": "211028",
+      "triangleCount": 98,
+      "vertexCount": 294,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288475.5255976368,
+          6129756.915801153,
+          516.0299997153583
+        ],
+        "maximum": [
+          1288514.9603052784,
+          6129784.27860938,
+          540.2300004782977
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211028,
+        "gml_id": "DEBY_LOD2_4956888",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 24.205,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "540.230",
+        "HoeheGrund": "516.025",
+        "Methode": "9999",
+        "NiedrigsteTraufeDesGebaeudes": "520.400"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 14.102439698334463,
+      "maximumDistanceFromPrimaryMetres": 64.47059235854074,
+      "nodeId": "1444",
+      "featureRow": 127,
+      "featureId": "211498",
+      "triangleCount": 162,
+      "vertexCount": 486,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288443.4119959523,
+          6129777.148406133,
+          516.0299997153583
+        ],
+        "maximum": [
+          1288517.88619334,
+          6129821.106803045,
+          541.710000020534
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211498,
+        "gml_id": "DEBY_LOD2_107805678",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 25.684,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "5000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.710",
+        "HoeheGrund": "516.026",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "525.700"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 14.210214002825508,
+      "maximumDistanceFromPrimaryMetres": 28.565054821968438,
+      "nodeId": "1476",
+      "featureRow": 44,
+      "featureId": "214369",
+      "triangleCount": 26,
+      "vertexCount": 78,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288507.337400841,
+          6129837.20051046,
+          516.294002273799
+        ],
+        "maximum": [
+          1288531.9595932239,
+          6129858.032602745,
+          542.3940007479201
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214369,
+        "gml_id": "DEBY_LOD2_4956899",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3200",
+        "citygml_measured_height": 26.1,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "542.394",
+        "HoeheGrund": "516.294",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "537.274"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 14.44771272822341,
+      "maximumDistanceFromPrimaryMetres": 49.434418607875465,
+      "nodeId": "1476",
+      "featureRow": 41,
+      "featureId": "211102",
+      "triangleCount": 156,
+      "vertexCount": 468,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288473.6158127063,
+          6129819.741510826,
+          516.21000264001
+        ],
+        "maximum": [
+          1288527.5007004016,
+          6129846.0931953965,
+          541.4400002748977
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211102,
+        "gml_id": "DEBY_LOD2_4956897",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 25.231,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.440",
+        "HoeheGrund": "516.209",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "531.660"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 15.046473529037113,
+      "maximumDistanceFromPrimaryMetres": 50.01678762841405,
+      "nodeId": "1444",
+      "featureRow": 132,
+      "featureId": "214773",
+      "triangleCount": 182,
+      "vertexCount": 546,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288470.82079417,
+          6129796.262404546,
+          516.0900010886493
+        ],
+        "maximum": [
+          1288523.120202129,
+          6129834.147498235,
+          541.7579984488788
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214773,
+        "gml_id": "DEBY_LOD2_4956894",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 25.666,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.758",
+        "HoeheGrund": "516.092",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "516.210"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 15.689673469225138,
+      "maximumDistanceFromPrimaryMetres": 43.43217628521838,
+      "nodeId": "1444",
+      "featureRow": 80,
+      "featureId": "213743",
+      "triangleCount": 138,
+      "vertexCount": 414,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288513.6878901173,
+          6129906.514109716,
+          516.610001546413
+        ],
+        "maximum": [
+          1288555.7468043019,
+          6129940.545297489,
+          541.9299993338885
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213743,
+        "gml_id": "DEBY_LOD2_4956909",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 25.322,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.930",
+        "HoeheGrund": "516.608",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "535.884"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 16.011209057240098,
+      "maximumDistanceFromPrimaryMetres": 30.538586069204527,
+      "nodeId": "1444",
+      "featureRow": 79,
+      "featureId": "214505",
+      "triangleCount": 70,
+      "vertexCount": 210,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288511.2118006398,
+          6129860.5667945,
+          516.4899987998309
+        ],
+        "maximum": [
+          1288537.5698939015,
+          6129885.448004827,
+          539.9849996390643
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214505,
+        "gml_id": "DEBY_LOD2_4956903",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3200",
+        "citygml_measured_height": 23.495,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "539.985",
+        "HoeheGrund": "516.490",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "535.520"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 20.1388860859576,
+      "maximumDistanceFromPrimaryMetres": 44.58064139833161,
+      "nodeId": "1479",
+      "featureRow": 140,
+      "featureId": "213912",
+      "triangleCount": 110,
+      "vertexCount": 330,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288474.2616965661,
+          6129732.243092344,
+          516.0000004722177
+        ],
+        "maximum": [
+          1288508.3136069665,
+          6129768.9856155375,
+          540.5009999229013
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213912,
+        "gml_id": "DEBY_LOD2_4956886",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3200",
+        "citygml_measured_height": 24.501,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "540.501",
+        "HoeheGrund": "516.000",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "537.016"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 28.213905537167513,
+      "maximumDistanceFromPrimaryMetres": 51.52724365543716,
+      "nodeId": "1444",
+      "featureRow": 81,
+      "featureId": "211059",
+      "triangleCount": 88,
+      "vertexCount": 264,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288474.4194880177,
+          6129843.296301946,
+          516.360001546413
+        ],
+        "maximum": [
+          1288511.8998957325,
+          6129867.950705633,
+          537.4309987845721
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211059,
+        "gml_id": "DEBY_LOD2_4956898",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 21.067,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "537.431",
+        "HoeheGrund": "516.364",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "528.059"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 30.417041080041226,
+      "maximumDistanceFromPrimaryMetres": 55.07619924654773,
+      "nodeId": "1444",
+      "featureRow": 78,
+      "featureId": "212468",
+      "triangleCount": 52,
+      "vertexCount": 156,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288478.3028956105,
+          6129873.006705388,
+          516.7000016990008
+        ],
+        "maximum": [
+          1288516.671700542,
+          6129897.576392278,
+          538.5719995322528
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212468,
+        "gml_id": "DEBY_LOD2_4956902",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 21.872,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.572",
+        "HoeheGrund": "516.700",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "530.925"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 30.70763475972865,
+      "maximumDistanceFromPrimaryMetres": 34.60936468125224,
+      "nodeId": "1476",
+      "featureRow": 40,
+      "featureId": "214997",
+      "triangleCount": 28,
+      "vertexCount": 84,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288666.0065101855,
+          6129752.542696434,
+          515.9300000460158
+        ],
+        "maximum": [
+          1288675.0416130298,
+          6129764.3899941025,
+          520.9900014193069
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214997,
+        "gml_id": "DEBY_LOD2_4957702",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 5.06,
+        "citygml_storeys_above_ground": "1",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "520.990",
+        "HoeheGrund": "515.930",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "519.728"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 31.465595629559022,
+      "maximumDistanceFromPrimaryMetres": 37.616523151191515,
+      "nodeId": "1476",
+      "featureRow": 42,
+      "featureId": "215026",
+      "triangleCount": 24,
+      "vertexCount": 72,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288492.8793930286,
+          6129837.182199913,
+          516.3189999849807
+        ],
+        "maximum": [
+          1288503.347105431,
+          6129846.36960836,
+          519.71000264001
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215026,
+        "gml_id": "DEBY_LOD2_4958212",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 3.391,
+        "citygml_storeys_above_ground": "1",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "519.710",
+        "HoeheGrund": "516.319",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "519.710"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 31.912767851803665,
+      "maximumDistanceFromPrimaryMetres": 47.699365744294305,
+      "nodeId": "1444",
+      "featureRow": 72,
+      "featureId": "214565",
+      "triangleCount": 58,
+      "vertexCount": 174,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288528.4480982472,
+          6129940.755899295,
+          516.4399995627704
+        ],
+        "maximum": [
+          1288559.2350855519,
+          6129956.7189046,
+          542.3499994101825
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214565,
+        "gml_id": "DEBY_LOD2_4956913",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 25.914,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "542.350",
+        "HoeheGrund": "516.436",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "536.672"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 37.81897242177212,
+      "maximumDistanceFromPrimaryMetres": 67.23576167964846,
+      "nodeId": "1444",
+      "featureRow": 69,
+      "featureId": "213502",
+      "triangleCount": 40,
+      "vertexCount": 120,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288475.1223993946,
+          6129915.511698827,
+          516.7900018515887
+        ],
+        "maximum": [
+          1288521.1498957325,
+          6129944.073900089,
+          538.3399991813006
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213502,
+        "gml_id": "DEBY_LOD2_4956908",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 21.549,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.340",
+        "HoeheGrund": "516.791",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "530.563"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 39.173957158239546,
+      "maximumDistanceFromPrimaryMetres": 51.09443101782426,
+      "nodeId": "1444",
+      "featureRow": 131,
+      "featureId": "212329",
+      "triangleCount": 24,
+      "vertexCount": 72,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288462.8350001026,
+          6129741.944899663,
+          516.1099977317157
+        ],
+        "maximum": [
+          1288478.9177027394,
+          6129762.7262106985,
+          536.8900003257098
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212329,
+        "gml_id": "DEBY_LOD2_4956885",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 20.78,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "536.890",
+        "HoeheGrund": "516.110",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "532.914"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 39.96324293215336,
+      "maximumDistanceFromPrimaryMetres": 44.74743687520158,
+      "nodeId": "1444",
+      "featureRow": 129,
+      "featureId": "216479",
+      "triangleCount": 24,
+      "vertexCount": 72,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288468.8877955128,
+          6129761.044814214,
+          516.610001546413
+        ],
+        "maximum": [
+          1288475.5241022755,
+          6129770.5390006155,
+          539.3649987998309
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 216479,
+        "gml_id": "DEBY_LOD2_4958210",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 22.755,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "539.365",
+        "HoeheGrund": "516.610",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "537.511"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 40.225988509659,
+      "maximumDistanceFromPrimaryMetres": 50.89501549380237,
+      "nodeId": "1444",
+      "featureRow": 130,
+      "featureId": "213335",
+      "triangleCount": 52,
+      "vertexCount": 156,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288459.157097881,
+          6129769.636901006,
+          516.589997273952
+        ],
+        "maximum": [
+          1288476.0848017384,
+          6129787.09741126,
+          521.8499994101825
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213335,
+        "gml_id": "DEBY_LOD2_107197571",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_1000",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 5.26,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "521.850",
+        "HoeheGrund": "516.590",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "521.850"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 41.069345532513736,
+      "maximumDistanceFromPrimaryMetres": 70.53057039844052,
+      "nodeId": "1444",
+      "featureRow": 53,
+      "featureId": "211681",
+      "triangleCount": 206,
+      "vertexCount": 618,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288522.0316858937,
+          6129955.16080676,
+          515.6799974265399
+        ],
+        "maximum": [
+          1288570.119912212,
+          6129995.085600957,
+          542.1799993338885
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211681,
+        "gml_id": "DEBY_LOD2_4956914",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 26.497,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "542.180",
+        "HoeheGrund": "515.683",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "536.280"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 42.12097471542737,
+      "maximumDistanceFromPrimaryMetres": 69.57897090254605,
+      "nodeId": "1444",
+      "featureRow": 67,
+      "featureId": "215854",
+      "triangleCount": 140,
+      "vertexCount": 420,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288497.687905376,
+          6129943.992502078,
+          516.610001546413
+        ],
+        "maximum": [
+          1288529.5220881153,
+          6129973.560898885,
+          538.319998723537
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215854,
+        "gml_id": "DEBY_LOD2_4956912",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 21.713,
+        "citygml_storeys_above_ground": "3",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "5000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.320",
+        "HoeheGrund": "516.607",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "516.730"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 42.64168689918757,
+      "maximumDistanceFromPrimaryMetres": 57.90740812428829,
+      "nodeId": "1444",
+      "featureRow": 128,
+      "featureId": "215003",
+      "triangleCount": 68,
+      "vertexCount": 204,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288451.124108379,
+          6129746.55721961,
+          516.1800012412372
+        ],
+        "maximum": [
+          1288471.4621973683,
+          6129773.26260291,
+          539.9860009970965
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215003,
+        "gml_id": "DEBY_LOD2_4956884",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 23.806,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "539.986",
+        "HoeheGrund": "516.180",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "536.563"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 42.662871574287344,
+      "maximumDistanceFromPrimaryMetres": 48.20043843156465,
+      "nodeId": "1476",
+      "featureRow": 43,
+      "featureId": "214666",
+      "triangleCount": 32,
+      "vertexCount": 96,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288477.6960129016,
+          6129842.195398766,
+          516.4540021212111
+        ],
+        "maximum": [
+          1288487.2732834094,
+          6129852.323908287,
+          520.416000107051
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214666,
+        "gml_id": "DEBY_LOD2_4958211",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 3.962,
+        "citygml_storeys_above_ground": "1",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "520.416",
+        "HoeheGrund": "516.454",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "520.416"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 43.29668107206306,
+      "maximumDistanceFromPrimaryMetres": 52.21968689596333,
+      "nodeId": "1444",
+      "featureRow": 71,
+      "featureId": "212947",
+      "triangleCount": 56,
+      "vertexCount": 168,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288524.1355982472,
+          6129953.335397825,
+          516.6099977317157
+        ],
+        "maximum": [
+          1288541.9003840138,
+          6129959.4701024145,
+          523.960000020534
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212947,
+        "gml_id": "DEBY_LOD2_4958214",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 7.35,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "523.960",
+        "HoeheGrund": "516.610",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "521.299"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 46.07437444119377,
+      "maximumDistanceFromPrimaryMetres": 52.26742993377727,
+      "nodeId": "1444",
+      "featureRow": 70,
+      "featureId": "211752",
+      "triangleCount": 40,
+      "vertexCount": 120,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288530.1938868214,
+          6129957.000299558,
+          516.5099992575946
+        ],
+        "maximum": [
+          1288539.9249964405,
+          6129962.96910201,
+          522.7000016990008
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211752,
+        "gml_id": "DEBY_LOD2_4958215",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 6.19,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "522.700",
+        "HoeheGrund": "516.510",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "520.889"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 47.79325922154403,
+      "maximumDistanceFromPrimaryMetres": 60.2797512190781,
+      "nodeId": "1444",
+      "featureRow": 124,
+      "featureId": "216632",
+      "triangleCount": 76,
+      "vertexCount": 228,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288445.0416041065,
+          6129768.603102788,
+          516.4800004782977
+        ],
+        "maximum": [
+          1288465.4305964161,
+          6129792.748107061,
+          540.1899995627704
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 216632,
+        "gml_id": "DEBY_LOD2_4956883",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 23.705,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "540.190",
+        "HoeheGrund": "516.485",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "521.430"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 48.1233641101474,
+      "maximumDistanceFromPrimaryMetres": 61.899740724682026,
+      "nodeId": "1444",
+      "featureRow": 120,
+      "featureId": "213937",
+      "triangleCount": 32,
+      "vertexCount": 96,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288455.6467981983,
+          6129834.147498235,
+          516.5399980368915
+        ],
+        "maximum": [
+          1288479.2468958546,
+          6129857.20010291,
+          537.7200002494159
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213937,
+        "gml_id": "DEBY_LOD2_4956896",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 21.175,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "537.720",
+        "HoeheGrund": "516.545",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "531.318"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 48.67360128267568,
+      "maximumDistanceFromPrimaryMetres": 75.16892470667536,
+      "nodeId": "1476",
+      "featureRow": 8,
+      "featureId": "212729",
+      "triangleCount": 139,
+      "vertexCount": 417,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288602.657499718,
+          6129630.53159948,
+          515.4600007326613
+        ],
+        "maximum": [
+          1288630.275694298,
+          6129669.873098808,
+          540.8599993975173
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212729,
+        "gml_id": "DEBY_LOD2_4957654",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 25.4,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "540.860",
+        "HoeheGrund": "515.460",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "523.815"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 48.761903272863705,
+      "maximumDistanceFromPrimaryMetres": 51.92105841385325,
+      "nodeId": "1479",
+      "featureRow": 138,
+      "featureId": "216660",
+      "triangleCount": 44,
+      "vertexCount": 132,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288480.1507041345,
+          6129713.373799131,
+          516.0300002051889
+        ],
+        "maximum": [
+          1288484.9462973962,
+          6129718.153187559,
+          520.093000884205
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 216660,
+        "gml_id": "DEBY_LOD2_4958244",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 4.063,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "520.093",
+        "HoeheGrund": "516.030",
+        "Methode": "3100",
+        "NiedrigsteTraufeDesGebaeudes": "520.093"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 49.43442138015635,
+      "maximumDistanceFromPrimaryMetres": 62.8349696254502,
+      "nodeId": "1444",
+      "featureRow": 136,
+      "featureId": "212240",
+      "triangleCount": 60,
+      "vertexCount": 180,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288450.2995081593,
+          6129814.683898076,
+          516.6400003257098
+        ],
+        "maximum": [
+          1288473.6158075978,
+          6129840.079405889,
+          538.4900007071795
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212240,
+        "gml_id": "DEBY_LOD2_4956892",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 21.853,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.490",
+        "HoeheGrund": "516.637",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "530.398"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 49.97433714740927,
+      "maximumDistanceFromPrimaryMetres": 63.326353634192,
+      "nodeId": "1444",
+      "featureRow": 73,
+      "featureId": "215188",
+      "triangleCount": 36,
+      "vertexCount": 108,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288520.4757929493,
+          6129958.946802244,
+          516.520001393825
+        ],
+        "maximum": [
+          1288531.0671930958,
+          6129977.265803441,
+          521.1999978843036
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215188,
+        "gml_id": "DEBY_LOD2_4958213",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 4.68,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "521.200",
+        "HoeheGrund": "516.520",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "521.200"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 50.74462409859167,
+      "maximumDistanceFromPrimaryMetres": 84.22730420763187,
+      "nodeId": "1479",
+      "featureRow": 131,
+      "featureId": "216395",
+      "triangleCount": 228,
+      "vertexCount": 684,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288531.0402076135,
+          6129623.510899351,
+          515.7769999457895
+        ],
+        "maximum": [
+          1288593.2688910852,
+          6129677.996098326,
+          543.110000128895
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 216395,
+        "gml_id": "DEBY_LOD2_4957694",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 27.333,
+        "citygml_storeys_above_ground": "8",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "543.110",
+        "HoeheGrund": "515.777",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "520.901"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 50.77921901848258,
+      "maximumDistanceFromPrimaryMetres": 80.49236766558845,
+      "nodeId": "1479",
+      "featureRow": 132,
+      "featureId": "212154",
+      "triangleCount": 76,
+      "vertexCount": 228,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288520.2326056848,
+          6129639.812992857,
+          515.8800005866586
+        ],
+        "maximum": [
+          1288557.8281104455,
+          6129682.88390045,
+          543.6000008536874
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212154,
+        "gml_id": "DEBY_LOD2_4957693",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 27.719,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "543.600",
+        "HoeheGrund": "515.881",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "520.610"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 51.070904961837584,
+      "maximumDistanceFromPrimaryMetres": 78.91718542402833,
+      "nodeId": "1479",
+      "featureRow": 137,
+      "featureId": "211128",
+      "triangleCount": 84,
+      "vertexCount": 252,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288509.838097323,
+          6129646.439198301,
+          515.940000052601
+        ],
+        "maximum": [
+          1288541.455902804,
+          6129687.372196958,
+          543.6620011283457
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211128,
+        "gml_id": "DEBY_LOD2_59851",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 27.722,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "543.662",
+        "HoeheGrund": "515.940",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "520.900"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 51.33726495089463,
+      "maximumDistanceFromPrimaryMetres": 71.42777396827266,
+      "nodeId": "1444",
+      "featureRow": 118,
+      "featureId": "214411",
+      "triangleCount": 60,
+      "vertexCount": 180,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288446.9417048146,
+          6129853.287695989,
+          516.6400003257098
+        ],
+        "maximum": [
+          1288478.4856043507,
+          6129877.144194707,
+          537.630000096828
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214411,
+        "gml_id": "DEBY_LOD2_4956900",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3200",
+        "citygml_measured_height": 20.99,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "537.630",
+        "HoeheGrund": "516.640",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "530.310"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 52.11885817562708,
+      "maximumDistanceFromPrimaryMetres": 77.7223166889949,
+      "nodeId": "1476",
+      "featureRow": 9,
+      "featureId": "214714",
+      "triangleCount": 150,
+      "vertexCount": 450,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288622.920805382,
+          6129628.223394829,
+          515.3099992067824
+        ],
+        "maximum": [
+          1288639.612287926,
+          6129666.678797203,
+          541.2700001986037
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214714,
+        "gml_id": "DEBY_LOD2_4957653",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 25.96,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.270",
+        "HoeheGrund": "515.310",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "524.930"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 52.193958684518975,
+      "maximumDistanceFromPrimaryMetres": 86.50318320124066,
+      "nodeId": "723",
+      "featureRow": 109,
+      "featureId": "211605",
+      "triangleCount": 128,
+      "vertexCount": 384,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288728.62500576,
+          6129785.353394018,
+          515.859997963478
+        ],
+        "maximum": [
+          1288785.810689964,
+          6129817.712906347,
+          539.5699984784621
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211605,
+        "gml_id": "DEBY_LOD2_8573829",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 23.71,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "539.570",
+        "HoeheGrund": "515.860",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "523.370"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 52.27279075401974,
+      "maximumDistanceFromPrimaryMetres": 81.8703125394479,
+      "nodeId": "1479",
+      "featureRow": 139,
+      "featureId": "212521",
+      "triangleCount": 182,
+      "vertexCount": 546,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288473.704704989,
+          6129651.083592222,
+          515.9500002814829
+        ],
+        "maximum": [
+          1288526.4627997766,
+          6129696.111500547,
+          543.3000006629526
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212521,
+        "gml_id": "DEBY_LOD2_4957691",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 27.35,
+        "citygml_storeys_above_ground": "7",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "543.300",
+        "HoeheGrund": "515.950",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "516.060"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 52.29498449371648,
+      "maximumDistanceFromPrimaryMetres": 73.47193271005912,
+      "nodeId": "723",
+      "featureRow": 92,
+      "featureId": "212338",
+      "triangleCount": 54,
+      "vertexCount": 162,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288738.133398094,
+          6129806.340805517,
+          515.9899990315932
+        ],
+        "maximum": [
+          1288770.9735012434,
+          6129828.824097143,
+          539.9800002332229
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212338,
+        "gml_id": "DEBY_LOD2_4957949",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 23.991,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "539.980",
+        "HoeheGrund": "515.989",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "520.790"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 52.31418566633831,
+      "maximumDistanceFromPrimaryMetres": 65.41971428838713,
+      "nodeId": "1444",
+      "featureRow": 157,
+      "featureId": "211872",
+      "triangleCount": 42,
+      "vertexCount": 126,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288438.639306133,
+          6129750.729704961,
+          516.2699975791278
+        ],
+        "maximum": [
+          1288457.01661021,
+          6129773.433104619,
+          539.130000096828
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211872,
+        "gml_id": "DEBY_LOD2_4956882",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 22.862,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "539.130",
+        "HoeheGrund": "516.268",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "535.668"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 52.79443275759446,
+      "maximumDistanceFromPrimaryMetres": 68.0754651017632,
+      "nodeId": "723",
+      "featureRow": 88,
+      "featureId": "215395",
+      "triangleCount": 40,
+      "vertexCount": 120,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288742.7479915998,
+          6129821.054001317,
+          516.0199997182388
+        ],
+        "maximum": [
+          1288767.778295555,
+          6129839.954895482,
+          536.2920005078811
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215395,
+        "gml_id": "DEBY_LOD2_4957948",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 20.276,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "536.292",
+        "HoeheGrund": "516.016",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "528.388"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 53.83554306470648,
+      "maximumDistanceFromPrimaryMetres": 95.64406924075631,
+      "nodeId": "1476",
+      "featureRow": 50,
+      "featureId": "211095",
+      "triangleCount": 144,
+      "vertexCount": 432,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288678.9004005664,
+          6129674.997296768,
+          514.99999974084
+        ],
+        "maximum": [
+          1288748.3135017627,
+          6129727.416197258,
+          541.879999855281
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211095,
+        "gml_id": "DEBY_LOD2_4957959",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 26.875,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.880",
+        "HoeheGrund": "515.005",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "532.212"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 54.01081611336361,
+      "maximumDistanceFromPrimaryMetres": 84.97480739794527,
+      "nodeId": "723",
+      "featureRow": 87,
+      "featureId": "214932",
+      "triangleCount": 92,
+      "vertexCount": 276,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288751.1331997297,
+          6129844.798508153,
+          516.1200000997085
+        ],
+        "maximum": [
+          1288797.6353969953,
+          6129867.039001928,
+          540.3000008817214
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214932,
+        "gml_id": "DEBY_LOD2_4957945",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 24.176,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "540.300",
+        "HoeheGrund": "516.124",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "529.515"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 54.19419681499683,
+      "maximumDistanceFromPrimaryMetres": 74.83172832691747,
+      "nodeId": "1476",
+      "featureRow": 51,
+      "featureId": "215476",
+      "triangleCount": 64,
+      "vertexCount": 192,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288715.118199485,
+          6129758.583994347,
+          515.6800000460158
+        ],
+        "maximum": [
+          1288749.0088905566,
+          6129795.529299217,
+          541.6499993593703
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215476,
+        "gml_id": "DEBY_LOD2_4957952",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 25.974,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.650",
+        "HoeheGrund": "515.676",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "533.140"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 54.36044809190229,
+      "maximumDistanceFromPrimaryMetres": 83.23367413037778,
+      "nodeId": "723",
+      "featureRow": 86,
+      "featureId": "215368",
+      "triangleCount": 72,
+      "vertexCount": 216,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288749.8765011213,
+          6129830.670608983,
+          516.0600006337661
+        ],
+        "maximum": [
+          1288793.6413936995,
+          6129854.81480454,
+          538.2000005002517
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215368,
+        "gml_id": "DEBY_LOD2_4957946",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 22.139,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.200",
+        "HoeheGrund": "516.061",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "530.793"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 54.45494712540811,
+      "maximumDistanceFromPrimaryMetres": 77.70684689077129,
+      "nodeId": "1444",
+      "featureRow": 119,
+      "featureId": "214890",
+      "triangleCount": 70,
+      "vertexCount": 210,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288444.6653071095,
+          6129878.916197881,
+          516.7599992575946
+        ],
+        "maximum": [
+          1288481.8915949513,
+          6129904.0852957815,
+          539.7419996085467
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214890,
+        "gml_id": "DEBY_LOD2_4956901",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3200",
+        "citygml_measured_height": 22.982,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "539.742",
+        "HoeheGrund": "516.760",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "532.030"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 54.78445810748003,
+      "maximumDistanceFromPrimaryMetres": 86.54119653258019,
+      "nodeId": "1476",
+      "featureRow": 47,
+      "featureId": "214766",
+      "triangleCount": 92,
+      "vertexCount": 276,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288694.2590030902,
+          6129706.776503044,
+          515.5300023348342
+        ],
+        "maximum": [
+          1288742.8845009082,
+          6129744.609896141,
+          542.0200001986037
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214766,
+        "gml_id": "DEBY_LOD2_4957957",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 26.49,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "542.020",
+        "HoeheGrund": "515.530",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "533.985"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 55.641787529510395,
+      "maximumDistanceFromPrimaryMetres": 80.46765969170653,
+      "nodeId": "1476",
+      "featureRow": 16,
+      "featureId": "215620",
+      "triangleCount": 131,
+      "vertexCount": 393,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288634.3144973987,
+          6129627.355596977,
+          514.9899995119582
+        ],
+        "maximum": [
+          1288655.5347999805,
+          6129663.912497002,
+          541.3120019228469
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215620,
+        "gml_id": "DEBY_LOD2_4957652",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 26.322,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.312",
+        "HoeheGrund": "514.990",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "534.280"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 55.86561295414954,
+      "maximumDistanceFromPrimaryMetres": 77.87902120446086,
+      "nodeId": "1476",
+      "featureRow": 49,
+      "featureId": "215657",
+      "triangleCount": 96,
+      "vertexCount": 288,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288702.4085973972,
+          6129731.186499077,
+          515.6300008089553
+        ],
+        "maximum": [
+          1288741.9309944385,
+          6129768.844698387,
+          540.209999778987
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215657,
+        "gml_id": "DEBY_LOD2_4957955",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 24.58,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "540.210",
+        "HoeheGrund": "515.630",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "529.703"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 56.93065672947177,
+      "maximumDistanceFromPrimaryMetres": 67.24792606407516,
+      "nodeId": "1444",
+      "featureRow": 125,
+      "featureId": "215406",
+      "triangleCount": 70,
+      "vertexCount": 210,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288435.7338953663,
+          6129781.779311284,
+          516.6699991050067
+        ],
+        "maximum": [
+          1288452.7065973927,
+          6129795.895003423,
+          524.6500024619403
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215406,
+        "gml_id": "DEBY_LOD2_4956889",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 7.98,
+        "citygml_storeys_above_ground": "2",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "524.650",
+        "HoeheGrund": "516.670",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "522.327"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 56.94342417371969,
+      "maximumDistanceFromPrimaryMetres": 86.46806676278182,
+      "nodeId": "723",
+      "featureRow": 94,
+      "featureId": "211687",
+      "triangleCount": 94,
+      "vertexCount": 282,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288755.7421017073,
+          6129855.336899267,
+          516.2399990315932
+        ],
+        "maximum": [
+          1288800.0694027327,
+          6129888.2019963125,
+          541.7290012593764
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211687,
+        "gml_id": "DEBY_LOD2_4957943",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 25.489,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.729",
+        "HoeheGrund": "516.240",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "532.648"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 58.20977681626297,
+      "maximumDistanceFromPrimaryMetres": 84.1693996335839,
+      "nodeId": "1444",
+      "featureRow": 68,
+      "featureId": "213737",
+      "triangleCount": 136,
+      "vertexCount": 408,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288479.486596172,
+          6129947.802698001,
+          517.0999994101825
+        ],
+        "maximum": [
+          1288500.3736963917,
+          6129987.924800023,
+          538.7799997153583
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213737,
+        "gml_id": "DEBY_LOD2_4956910",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3200",
+        "citygml_measured_height": 21.68,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.780",
+        "HoeheGrund": "517.100",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "532.513"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 58.91840861261849,
+      "maximumDistanceFromPrimaryMetres": 76.01763603923223,
+      "nodeId": "1444",
+      "featureRow": 126,
+      "featureId": "213649",
+      "triangleCount": 56,
+      "vertexCount": 168,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288421.8268976856,
+          6129755.579711065,
+          516.3599977317157
+        ],
+        "maximum": [
+          1288447.6516962696,
+          6129787.993407354,
+          543.5500001731219
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213649,
+        "gml_id": "DEBY_LOD2_4956881",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 27.19,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "543.550",
+        "HoeheGrund": "516.360",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "534.697"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 59.61060609897693,
+      "maximumDistanceFromPrimaryMetres": 76.43189610336576,
+      "nodeId": "1444",
+      "featureRow": 77,
+      "featureId": "211382",
+      "triangleCount": 52,
+      "vertexCount": 156,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288499.4327936817,
+          6129970.7988978475,
+          516.8799981894794
+        ],
+        "maximum": [
+          1288523.1221857716,
+          6129987.095599279,
+          521.110001546413
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211382,
+        "gml_id": "DEBY_LOD2_4956911",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 4.23,
+        "citygml_storeys_above_ground": "1",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "521.110",
+        "HoeheGrund": "516.880",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "521.110"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 61.67977629366659,
+      "maximumDistanceFromPrimaryMetres": 65.24751000867896,
+      "nodeId": "1444",
+      "featureRow": 51,
+      "featureId": "213974",
+      "triangleCount": 16,
+      "vertexCount": 48,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288549.6320887257,
+          6129985.853701696,
+          515.9549989524188
+        ],
+        "maximum": [
+          1288556.2327967335,
+          6129990.378501043,
+          521.4140024009051
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213974,
+        "gml_id": "DEBY_LOD2_4958216",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_2000",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 5.459,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "521.414",
+        "HoeheGrund": "515.955",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "518.972"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 63.71770080967999,
+      "maximumDistanceFromPrimaryMetres": 78.34430969742905,
+      "nodeId": "1444",
+      "featureRow": 52,
+      "featureId": "212531",
+      "triangleCount": 20,
+      "vertexCount": 60,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288534.9099970509,
+          6129987.6266013235,
+          515.8579988303485
+        ],
+        "maximum": [
+          1288549.94919688,
+          6130007.60169898,
+          538.4259996238055
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212531,
+        "gml_id": "DEBY_LOD2_59774",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 22.568,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.426",
+        "HoeheGrund": "515.858",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "532.579"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 64.02540969791872,
+      "maximumDistanceFromPrimaryMetres": 75.66122989197092,
+      "nodeId": "1444",
+      "featureRow": 54,
+      "featureId": "212639",
+      "triangleCount": 36,
+      "vertexCount": 108,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288548.4563837696,
+          6129989.526301488,
+          515.5699968161883
+        ],
+        "maximum": [
+          1288572.8560877491,
+          6130006.176303014,
+          542.3499994101825
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212639,
+        "gml_id": "DEBY_LOD2_4956915",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 26.778,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "542.350",
+        "HoeheGrund": "515.572",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "536.319"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 64.32777560828285,
+      "maximumDistanceFromPrimaryMetres": 81.09505970160643,
+      "nodeId": "1444",
+      "featureRow": 117,
+      "featureId": "215848",
+      "triangleCount": 82,
+      "vertexCount": 246,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288429.668603008,
+          6129847.580199346,
+          516.9299974265399
+        ],
+        "maximum": [
+          1288455.8677912403,
+          6129875.748702154,
+          537.3609990897479
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215848,
+        "gml_id": "DEBY_LOD2_4956895",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 20.43,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "537.361",
+        "HoeheGrund": "516.931",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "519.950"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 66.1914348143832,
+      "maximumDistanceFromPrimaryMetres": 87.74312280994738,
+      "nodeId": "1476",
+      "featureRow": 15,
+      "featureId": "211744",
+      "triangleCount": 108,
+      "vertexCount": 324,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288647.5746902698,
+          6129622.24429937,
+          514.7899987490188
+        ],
+        "maximum": [
+          1288672.4964012378,
+          6129652.942301231,
+          536.9000003130446
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211744,
+        "gml_id": "DEBY_LOD2_4957651",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 22.11,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "536.900",
+        "HoeheGrund": "514.790",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "529.682"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 66.97385743014848,
+      "maximumDistanceFromPrimaryMetres": 86.19178887267888,
+      "nodeId": "1444",
+      "featureRow": 50,
+      "featureId": "214509",
+      "triangleCount": 44,
+      "vertexCount": 132,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288509.0311060597,
+          6129988.972201452,
+          515.9899987998309
+        ],
+        "maximum": [
+          1288537.4562006642,
+          6130010.8018027395,
+          538.3900003257098
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214509,
+        "gml_id": "DEBY_LOD2_4956916",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 22.398,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.390",
+        "HoeheGrund": "515.992",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "532.526"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 67.3954997947786,
+      "maximumDistanceFromPrimaryMetres": 77.8264556873737,
+      "nodeId": "723",
+      "featureRow": 91,
+      "featureId": "214876",
+      "triangleCount": 28,
+      "vertexCount": 84,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288763.0960903547,
+          6129815.270401464,
+          516.0779983754653
+        ],
+        "maximum": [
+          1288780.9278011702,
+          6129831.976898656,
+          532.7360003869433
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214876,
+        "gml_id": "DEBY_LOD2_4957947",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 16.658,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "532.736",
+        "HoeheGrund": "516.078",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "527.791"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 68.29227338755211,
+      "maximumDistanceFromPrimaryMetres": 86.1512649185934,
+      "nodeId": "723",
+      "featureRow": 107,
+      "featureId": "214268",
+      "triangleCount": 32,
+      "vertexCount": 96,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288742.8131008528,
+          6129764.595993505,
+          515.8999969716567
+        ],
+        "maximum": [
+          1288772.4638882063,
+          6129787.534393773,
+          527.4100000615615
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214268,
+        "gml_id": "DEBY_LOD2_4957954",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 11.51,
+        "citygml_storeys_above_ground": "1",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "527.410",
+        "HoeheGrund": "515.900",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "524.865"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 69.75570588381014,
+      "maximumDistanceFromPrimaryMetres": 79.38749580252463,
+      "nodeId": "1444",
+      "featureRow": 138,
+      "featureId": "214584",
+      "triangleCount": 96,
+      "vertexCount": 288,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288418.2976008106,
+          6129787.993407354,
+          516.5799989524188
+        ],
+        "maximum": [
+          1288437.2547083546,
+          6129833.917197332,
+          532.6579999747577
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214584,
+        "gml_id": "DEBY_LOD2_4956879",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "9999",
+        "citygml_measured_height": 16.078,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "532.658",
+        "HoeheGrund": "516.580",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "531.158"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 69.80137286955367,
+      "maximumDistanceFromPrimaryMetres": 84.29600740900908,
+      "nodeId": "1444",
+      "featureRow": 160,
+      "featureId": "214516",
+      "triangleCount": 32,
+      "vertexCount": 96,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288409.1064005543,
+          6129762.220198736,
+          516.399998647243
+        ],
+        "maximum": [
+          1288432.0476008106,
+          6129792.816908941,
+          543.7419996085467
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214516,
+        "gml_id": "DEBY_LOD2_4956880",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 27.342,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "543.742",
+        "HoeheGrund": "516.400",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "534.835"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 69.92110404377009,
+      "maximumDistanceFromPrimaryMetres": 85.20635862954674,
+      "nodeId": "1476",
+      "featureRow": 48,
+      "featureId": "216357",
+      "triangleCount": 52,
+      "vertexCount": 156,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288737.7624992603,
+          6129752.155298668,
+          515.9700009615432
+        ],
+        "maximum": [
+          1288757.8870033496,
+          6129774.921694237,
+          536.4370000154983
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 216357,
+        "gml_id": "DEBY_LOD2_4957953",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 20.467,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "536.437",
+        "HoeheGrund": "515.970",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "536.437"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 71.27032690944121,
+      "maximumDistanceFromPrimaryMetres": 84.73902770728029,
+      "nodeId": "723",
+      "featureRow": 108,
+      "featureId": "211771",
+      "triangleCount": 56,
+      "vertexCount": 168,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288754.4969997786,
+          6129778.295700536,
+          516.1499988790054
+        ],
+        "maximum": [
+          1288775.667394676,
+          6129792.438400731,
+          524.2700006719131
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211771,
+        "gml_id": "DEBY_LOD2_8573830",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 8.12,
+        "citygml_storeys_above_ground": "2",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "524.270",
+        "HoeheGrund": "516.150",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "524.270"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 74.864709587001,
+      "maximumDistanceFromPrimaryMetres": 86.40069351607612,
+      "nodeId": "1476",
+      "featureRow": 46,
+      "featureId": "214961",
+      "triangleCount": 60,
+      "vertexCount": 180,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288727.8306020969,
+          6129724.50639959,
+          515.8000027925979
+        ],
+        "maximum": [
+          1288754.0422004932,
+          6129756.69219442,
+          536.7000005037795
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214961,
+        "gml_id": "DEBY_LOD2_4957956",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 20.9,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "536.700",
+        "HoeheGrund": "515.800",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "533.320"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 76.93533731388474,
+      "maximumDistanceFromPrimaryMetres": 90.92133684881988,
+      "nodeId": "1444",
+      "featureRow": 47,
+      "featureId": "214075",
+      "triangleCount": 28,
+      "vertexCount": 84,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288497.0259943653,
+          6129993.523699865,
+          516.0430002036395
+        ],
+        "maximum": [
+          1288512.3471003224,
+          6130012.441504583,
+          538.7869996848407
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214075,
+        "gml_id": "DEBY_LOD2_4956917",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 22.744,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.787",
+        "HoeheGrund": "516.043",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "532.070"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 77.84671409696061,
+      "maximumDistanceFromPrimaryMetres": 92.17271462477554,
+      "nodeId": "723",
+      "featureRow": 120,
+      "featureId": "215356",
+      "triangleCount": 64,
+      "vertexCount": 192,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288786.9721889875,
+          6129857.2187046865,
+          516.3199989552993
+        ],
+        "maximum": [
+          1288808.2833919905,
+          6129881.580994115,
+          534.5410002227325
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215356,
+        "gml_id": "DEBY_LOD2_4957944",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 18.221,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "534.541",
+        "HoeheGrund": "516.320",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "520.360"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 78.23364082000055,
+      "maximumDistanceFromPrimaryMetres": 88.63957499755922,
+      "nodeId": "1444",
+      "featureRow": 135,
+      "featureId": "214824",
+      "triangleCount": 48,
+      "vertexCount": 144,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288410.0508051564,
+          6129815.101409063,
+          516.649998647243
+        ],
+        "maximum": [
+          1288429.0329065968,
+          6129837.2036048025,
+          530.0179986777606
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214824,
+        "gml_id": "DEBY_LOD2_4956877",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 13.368,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "530.018",
+        "HoeheGrund": "516.650",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "530.018"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 78.43886158710582,
+      "maximumDistanceFromPrimaryMetres": 89.31047966948655,
+      "nodeId": "1444",
+      "featureRow": 147,
+      "featureId": "215237",
+      "triangleCount": 40,
+      "vertexCount": 120,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288405.5417032887,
+          6129798.124007329,
+          516.5999994101825
+        ],
+        "maximum": [
+          1288424.9179926564,
+          6129818.736090764,
+          521.1699991050067
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215237,
+        "gml_id": "DEBY_LOD2_4956876",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 4.57,
+        "citygml_storeys_above_ground": "1",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "521.170",
+        "HoeheGrund": "516.600",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "521.170"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 78.81050973625537,
+      "maximumDistanceFromPrimaryMetres": 89.71714598789664,
+      "nodeId": "1444",
+      "featureRow": 149,
+      "featureId": "211749",
+      "triangleCount": 24,
+      "vertexCount": 72,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288403.6161051441,
+          6129792.816908941,
+          516.5700006308856
+        ],
+        "maximum": [
+          1288420.2719965626,
+          6129804.158705816,
+          528.0280008139911
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211749,
+        "gml_id": "DEBY_LOD2_4956875",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 11.458,
+        "citygml_storeys_above_ground": "2",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "528.028",
+        "HoeheGrund": "516.570",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "525.389"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 79.38749665428932,
+      "maximumDistanceFromPrimaryMetres": 95.0055790323864,
+      "nodeId": "1479",
+      "featureRow": 55,
+      "featureId": "212602",
+      "triangleCount": 48,
+      "vertexCount": 144,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288392.9991967569,
+          6129767.354298399,
+          516.4000010444223
+        ],
+        "maximum": [
+          1288418.2976004968,
+          6129798.431202696,
+          541.2090010596811
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212602,
+        "gml_id": "DEBY_LOD2_4956874",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 24.809,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "541.209",
+        "HoeheGrund": "516.400",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "527.770"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 80.82212732153761,
+      "maximumDistanceFromPrimaryMetres": 93.7073798902179,
+      "nodeId": "1444",
+      "featureRow": 66,
+      "featureId": "215189",
+      "triangleCount": 46,
+      "vertexCount": 138,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288466.3124933888,
+          6129979.847895727,
+          515.2200021567645
+        ],
+        "maximum": [
+          1288483.8075037648,
+          6129994.718501195,
+          536.1999997916522
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 215189,
+        "gml_id": "DEBY_LOD2_4956839",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_1000",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 20.983,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "536.200",
+        "HoeheGrund": "515.217",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "531.499"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 80.93672615078845,
+      "maximumDistanceFromPrimaryMetres": 91.65346928244801,
+      "nodeId": "1444",
+      "featureRow": 116,
+      "featureId": "213624",
+      "triangleCount": 76,
+      "vertexCount": 228,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288411.98359782,
+          6129845.750998601,
+          516.9299974265399
+        ],
+        "maximum": [
+          1288434.4504023243,
+          6129879.644499883,
+          531.9399995627704
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213624,
+        "gml_id": "DEBY_LOD2_4956873",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 15.009,
+        "citygml_storeys_above_ground": "3",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "531.940",
+        "HoeheGrund": "516.931",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "523.938"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 81.04184879072986,
+      "maximumDistanceFromPrimaryMetres": 93.30871515903056,
+      "nodeId": "723",
+      "featureRow": 110,
+      "featureId": "211697",
+      "triangleCount": 48,
+      "vertexCount": 144,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288754.7637997053,
+          6129753.753097997,
+          515.9899971242446
+        ],
+        "maximum": [
+          1288773.4999905012,
+          6129767.776108251,
+          534.7730010505218
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211697,
+        "gml_id": "DEBY_LOD2_4957962",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 18.783,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "534.773",
+        "HoeheGrund": "515.990",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "532.915"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 81.28900752152683,
+      "maximumDistanceFromPrimaryMetres": 87.54103220802787,
+      "nodeId": "1444",
+      "featureRow": 137,
+      "featureId": "216076",
+      "triangleCount": 28,
+      "vertexCount": 84,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288415.7751017262,
+          6129835.157508001,
+          516.8499994101825
+        ],
+        "maximum": [
+          1288427.1039057423,
+          6129847.807295904,
+          531.4609994712176
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 216076,
+        "gml_id": "DEBY_LOD2_4956878",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 14.606,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "531.461",
+        "HoeheGrund": "516.855",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "526.870"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 81.32366352790176,
+      "maximumDistanceFromPrimaryMetres": 98.08474717487746,
+      "nodeId": "1444",
+      "featureRow": 75,
+      "featureId": "212093",
+      "triangleCount": 78,
+      "vertexCount": 234,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288480.5568018605,
+          6129993.860800847,
+          515.9100007834735
+        ],
+        "maximum": [
+          1288500.172799175,
+          6130014.622901067,
+          526.9500016990008
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 212093,
+        "gml_id": "DEBY_LOD2_4956918",
+        "gml_name": "",
+        "citygml_creationDate": "2015-09-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "3100",
+        "citygml_measured_height": 11.04,
+        "citygml_storeys_above_ground": "2",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "526.950",
+        "HoeheGrund": "515.910",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "522.307"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 82.84301652050819,
+      "maximumDistanceFromPrimaryMetres": 91.3581534034805,
+      "nodeId": "1476",
+      "featureRow": 45,
+      "featureId": "211010",
+      "triangleCount": 28,
+      "vertexCount": 84,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288738.1259025806,
+          6129721.412100273,
+          515.8300015718947
+        ],
+        "maximum": [
+          1288760.9130043262,
+          6129752.04639669,
+          542.0200001986037
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211010,
+        "gml_id": "DEBY_LOD2_4957960",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 26.19,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "542.020",
+        "HoeheGrund": "515.830",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "542.020"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 83.97313305966814,
+      "maximumDistanceFromPrimaryMetres": 99.18754454539902,
+      "nodeId": "723",
+      "featureRow": 105,
+      "featureId": "211928",
+      "triangleCount": 36,
+      "vertexCount": 108,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288733.201101341,
+          6129697.321167455,
+          515.4899971242446
+        ],
+        "maximum": [
+          1288759.1845913313,
+          6129721.413788305,
+          542.0099994893569
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211928,
+        "gml_id": "DEBY_LOD2_4957958",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "2100",
+        "citygml_measured_height": 26.52,
+        "citygml_storeys_above_ground": "4",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "542.010",
+        "HoeheGrund": "515.490",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "534.187"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 86.91641261144338,
+      "maximumDistanceFromPrimaryMetres": 94.01914245077887,
+      "nodeId": "1444",
+      "featureRow": 74,
+      "featureId": "211242",
+      "triangleCount": 40,
+      "vertexCount": 120,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288479.2889948536,
+          6129995.428599462,
+          516.2300004782977
+        ],
+        "maximum": [
+          1288485.8530054737,
+          6130005.5971022695,
+          519.0399980368915
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 211242,
+        "gml_id": "DEBY_LOD2_104575888",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "51009_1610",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 2.81,
+        "citygml_storeys_above_ground": "",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "519.040",
+        "HoeheGrund": "516.230",
+        "Methode": "2000",
+        "NiedrigsteTraufeDesGebaeudes": "519.040"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 88.34848750148815,
+      "maximumDistanceFromPrimaryMetres": 99.0375151101363,
+      "nodeId": "1444",
+      "featureRow": 150,
+      "featureId": "213868",
+      "triangleCount": 44,
+      "vertexCount": 132,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288394.1834040333,
+          6129812.994612798,
+          516.6400003257098
+        ],
+        "maximum": [
+          1288411.4019022633,
+          6129828.421103582,
+          538.1950006308856
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 213868,
+        "gml_id": "DEBY_LOD2_4956870",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 21.555,
+        "citygml_storeys_above_ground": "6",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.195",
+        "HoeheGrund": "516.640",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "538.195"
+      }
+    },
+    {
+      "role": "neighbor",
+      "distanceFromPrimaryMetres": 89.08599508466932,
+      "maximumDistanceFromPrimaryMetres": 92.07321249743727,
+      "nodeId": "1444",
+      "featureRow": 148,
+      "featureId": "214592",
+      "triangleCount": 24,
+      "vertexCount": 72,
+      "boundsEpsg3857": {
+        "minimum": [
+          1288402.2309046437,
+          6129806.247313604,
+          516.6199998679461
+        ],
+        "maximum": [
+          1288408.2728968312,
+          6129814.355712041,
+          538.2300004782977
+        ]
+      },
+      "attributes": {
+        "OBJECTID": 214592,
+        "gml_id": "DEBY_LOD2_4956871",
+        "gml_name": "",
+        "citygml_creationDate": "2021-03-24",
+        "citygml_function": "31001_9998",
+        "citygml_roof_type": "1000",
+        "citygml_measured_height": 21.61,
+        "citygml_storeys_above_ground": "5",
+        "DatenquelleBodenhoehe": "1100",
+        "DatenquelleDachhoehe": "1000",
+        "DatenquelleLage": "1000",
+        "Gemeindeschluessel": "09162000",
+        "Grundrissaktualitaet": "2020-09-01",
+        "HoeheDach": "538.230",
+        "HoeheGrund": "516.620",
+        "Methode": "1000",
+        "NiedrigsteTraufeDesGebaeudes": "538.230"
+      }
+    }
+  ]
+}

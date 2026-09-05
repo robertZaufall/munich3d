@@ -91,7 +91,7 @@ function parseArgs(argv) {
   return options;
 }
 
-function slugify(value) {
+export function slugify(value) {
   const slug = value
     .replaceAll("ß", "ss")
     .normalize("NFKD")
@@ -365,11 +365,11 @@ function trianglesPointDistance(triangles, point) {
   return Math.sqrt(minimum);
 }
 
-function featurePointDistance(feature, point) {
+export function featurePointDistance(feature, point) {
   return trianglesPointDistance(featureTriangles2d(feature), point);
 }
 
-function featureMaximumVertexDistanceFromFeature(primary, neighbor) {
+export function featureMaximumVertexDistanceFromFeature(primary, neighbor) {
   const primaryTriangles = featureTriangles2d(primary);
   return Math.max(
     ...neighbor.vertices.map(({ position }) =>
@@ -378,7 +378,7 @@ function featureMaximumVertexDistanceFromFeature(primary, neighbor) {
   );
 }
 
-function bounds(vertices) {
+export function bounds(vertices) {
   const minimum = [Infinity, Infinity, Infinity];
   const maximum = [-Infinity, -Infinity, -Infinity];
   for (const { position } of vertices) {
@@ -390,7 +390,7 @@ function bounds(vertices) {
   return { minimum, maximum };
 }
 
-function featureDistance(left, right) {
+export function featureDistance(left, right) {
   let minimum = Infinity;
   const leftTriangles = featureTriangles2d(left);
   const rightTriangles = featureTriangles2d(right);
@@ -454,7 +454,7 @@ function objectName(role, attributes, featureId) {
   return `${role}_${label}`.replace(/[^A-Za-z0-9_.-]+/gu, "_");
 }
 
-function createObj(buildings, origin, horizontalScale, groundHeight, address, neighborDistance) {
+export function createObj(buildings, origin, horizontalScale, groundHeight, address, neighborDistance) {
   const lines = [
     `# ${address}`,
     `# Addressed building plus neighbors whose complete geometry stays within ${neighborDistance} m of the primary`,
@@ -491,7 +491,7 @@ function createObj(buildings, origin, horizontalScale, groundHeight, address, ne
   return `${lines.join("\n")}\n`;
 }
 
-function buildingGeometryRecord(building) {
+export function buildingGeometryRecord(building) {
   const { node, geometry, feature } = building.entry;
   return {
     role: building.role,
@@ -515,7 +515,7 @@ function buildingGeometryRecord(building) {
   };
 }
 
-function buildingMetadataRecord(building) {
+export function buildingMetadataRecord(building) {
   const { node, feature } = building.entry;
   return {
     role: building.role,
@@ -555,6 +555,13 @@ export async function extractBuildings(input = {}) {
   const itemUrl = `https://www.arcgis.com/sharing/rest/content/items/${options.itemId}?f=json`;
   const item = await fetchChecked(itemUrl);
   if (!item.url) throw new Error(`ArcGIS item ${options.itemId} has no service URL`);
+  const extent = item.extent;
+  if (options.itemId === DEFAULT_ITEM_ID && extent?.length === 2 &&
+      (location.longitude < extent[0][0] || location.longitude > extent[1][0] ||
+       location.latitude < extent[0][1] || location.latitude > extent[1][1])) {
+    const { extractBayernatlas } = await import('./import_bayernatlas.mjs');
+    return extractBayernatlas({ ...options, includeObj: input.includeObj }, geocode, location);
+  }
   const sceneUrl = item.url.replace(/\/$/u, "");
   const layerUrl = `${sceneUrl}/layers/0`;
   const [service, layer] = await Promise.all([
@@ -638,7 +645,7 @@ export async function extractBuildings(input = {}) {
       );
       if (String(building.attributes.OBJECTID) !== building.entry.feature.featureId) {
         throw new Error(
-          `Geometry feature ID ${building.entry.feature.featureId} != OBJECTID ${building.attributes.OBJECTID}`,
+          `Geometry feature ID ${building.entry.feature.featureId} != OBJECTID ${building.attributes.OBJECTID ?? '—'}`,
         );
       }
     }),
@@ -737,7 +744,7 @@ async function main() {
   const table = result.selected
     .map(
       (building) =>
-        `| ${building.role} | ${building.attributes.OBJECTID} | ${building.attributes.gml_id || ""} | ${building.distanceMetres.toFixed(3)} | ${building.maximumDistanceFromPrimaryMetres.toFixed(3)} | ${building.entry.feature.vertices.length / 3} |`,
+        `| ${building.role} | ${building.attributes.OBJECTID ?? '—'} | ${building.attributes.gml_id || ""} | ${building.distanceMetres.toFixed(3)} | ${building.maximumDistanceFromPrimaryMetres.toFixed(3)} | ${building.entry.feature.vertices.length / 3} |`,
     )
     .join("\n");
   const readme = `# ${result.displayAddress} — LoD2 building export
@@ -753,7 +760,7 @@ ${table}
 ## Files
 
 - \`${result.prefix}.obj\`: combined local-metre OBJ with one named object per building.
-- \`${result.prefix}.source-mesh.json\`: source-exact decoded I3S geometry.
+- \`${result.prefix}.source-mesh.json\`: decoded source geometry, with its source format recorded in the JSON.
 - \`${result.prefix}.metadata.json\`: request, geocode, selection, attributes, distances, and attribution.
 
 ## Reproduce
@@ -783,12 +790,12 @@ License: CC BY 4.0. Attribution: **Bayerische Vermessungsverwaltung – www.geod
 
   console.log(`Address: ${result.displayAddress}`);
   console.log(
-    `Primary: ${result.selected[0].attributes.gml_id} (OBJECTID ${result.selected[0].attributes.OBJECTID})`,
+    `Primary: ${result.selected[0].attributes.gml_id} (OBJECTID ${result.selected[0].attributes.OBJECTID ?? '—'})`,
   );
   console.log(`Neighbors fully within ${options.neighborDistance} m of primary: ${result.selected.length - 1}`);
   for (const building of result.selected.slice(1)) {
     console.log(
-      `  ${building.distanceMetres.toFixed(3)} m  ${building.attributes.gml_id} (OBJECTID ${building.attributes.OBJECTID})`,
+      `  ${building.distanceMetres.toFixed(3)} m  ${building.attributes.gml_id} (OBJECTID ${building.attributes.OBJECTID ?? '—'})`,
     );
   }
   console.log(`Output: ${outputDirectory}`);

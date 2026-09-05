@@ -1,15 +1,13 @@
 .DS_Store
-
 .work/
 .playwright-cli/
 
-# Only the anonymized Rathaus bundle and its catalog fragment are public.
-# Locally generated/address-bearing bundles remain usable but cannot be staged
-# accidentally.
-website/public/model/*
-!website/public/model/muenchner-rathaus-35m.glb
-!website/public/model/muenchner-rathaus-35m.metadata.json
-!website/public/model/muenchner-rathaus-35m.source-mesh.json
+# One ignore boundary per address, including every radius, facade and catalog.
+# All local addresses are private by default; only the Rathaus sample is public.
+website/addresses/*
+!website/addresses/muenchner-rathaus/
 
-website/lib/model-catalog/*
-!website/lib/model-catalog/muenchner-rathaus-35m.json
+# Do not accidentally stage files left by tools using the previous flat layout.
+website/public/model/
+website/public/area/
+website/lib/model-catalog/

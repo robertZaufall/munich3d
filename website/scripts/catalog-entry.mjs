@@ -52,25 +52,26 @@ export function createCatalogEntry({
   const itemId = metadata.source?.itemId;
   const sourceUrl = itemId
     ? `https://hub.arcgis.com/maps/${itemId}/explore?location=${location.latitude.toFixed(6)}%2C${location.longitude.toFixed(6)}%2C19`
-    : metadata.source?.sceneServiceUrl;
+    : metadata.source?.viewerUrl ?? metadata.source?.sceneServiceUrl;
   const neighborDistance = Number(metadata.request?.neighborDistanceMetres ?? 35);
 
   return {
     id,
     runtime,
-    switchLabel: runtime ? `${address} · ${neighborDistance} m` : address,
+    switchLabel: `${address} · ${neighborDistance} m`,
     address,
     district,
     modelPath,
     sourceMeshPath,
     metadataPath,
     sourceUrl,
-    objectId: String(primary.attributes?.OBJECTID ?? primary.featureId),
+    objectId: String(primary.attributes?.OBJECTID ?? '—'),
     gmlId: primary.attributes?.gml_id ?? '',
     width: metres(width),
     depth: metres(depth),
     height: metres(height),
     storeys: String(primary.attributes?.citygml_storeys_above_ground ?? '—'),
+    verticalDatum: metadata.source?.verticalDatum ?? null,
     ground: Number.isFinite(ground) ? metres(ground, 3) : '—',
     roof: Number.isFinite(roof) ? metres(roof, 3) : '—',
     buildingCount,

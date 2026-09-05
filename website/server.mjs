@@ -29,7 +29,7 @@ const host = '127.0.0.1';
 const port = Number(process.env.PORT ?? 3000);
 const runningJobs = new Map();
 const neighborSelectionMode = 'complete_geometry_within_primary_distance';
-const modelPipelineVersion = 3;
+const modelPipelineVersion = 4;
 
 if (!Number.isInteger(port) || port < 1 || port > 65535) {
   throw new Error('PORT must be an integer between 1 and 65535');

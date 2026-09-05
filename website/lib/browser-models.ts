@@ -1,6 +1,6 @@
 const databaseName = 'munich3d-runtime-models';
 const storeName = 'models';
-const modelPipelineVersion = 3;
+const modelPipelineVersion = 4;
 
 type CatalogEntry = {
   id: string;

@@ -278,7 +278,7 @@ export function buildGlb(source, metadata) {
           : {}),
         gml_id: metadataBuilding.attributes?.gml_id ?? '',
         OBJECTID:
-          metadataBuilding.attributes?.OBJECTID ?? metadataBuilding.featureId,
+          metadataBuilding.attributes?.OBJECTID ?? null,
       },
     });
   }
