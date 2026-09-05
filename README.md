@@ -36,7 +36,9 @@ Other commands, from `website/`:
 
 Location buttons switch the model, dimensions, attributes, counts, source link
 and downloads together. Models automatically fit the visible geometry; orbit,
-pan and zoom are available in the scene.
+pan and zoom are available in the scene. **Add address** creates a model; the
+**upload icon** immediately beside it imports a ZIP into the site-wide chooser.
+The upload icon has an **Import ZIP** accessible label and a hover tooltip.
 
 The bottom row groups direct controls:
 
@@ -61,9 +63,11 @@ selects it. Add `&view=reconstruction` to select Facade on initial load.
 
 ### Screenshots
 
-Captured from the current homepage at 1600 × 1000 with only the public Rathaus
-100 m bundle available. Private address names and assets are excluded. Click an
-image to inspect it at full size; facade details are illustrative.
+Refreshed on **5 September 2026** from the live homepage at **1600 × 1000**,
+using a fresh browser session with only the public Rathaus 100 m sample. Rotation
+was paused for consistent captures. Private addresses and imported private data
+are excluded. Click an image to inspect it at full size; facade details are
+illustrative.
 
 | Reconstructed neighbourhood | Building facade |
 | --- | --- |
@@ -94,7 +98,8 @@ Use **Export ZIP** in the address column to download the selected area's origina
 GLB, source mesh and metadata, plus its complete façade and surface snapshot when
 available. Neighbours and their authored façade profiles are included even when
 Building mode is selected. Filenames include the address, area size and local
-export timestamp. The archive preserves reconstruction reference notes;
+export timestamp, for example `Neues-Rathaus-100m-2026-09-05_22-30-00.zip`.
+The archive preserves reconstruction reference notes;
 external reference photos themselves are not bundled.
 
 Send the ZIP to your friend. They can open [Munich3D](https://glaubi.net/munich3d/)
@@ -102,8 +107,10 @@ and choose the global **upload icon** (Import ZIP) beside **Add address**. It ad
 imported location to the address chooser and selects it, regardless of which
 address was previously selected. Import also works on localhost.
 The address is saved only in that browser's IndexedDB, survives reload and can be
-re-exported or removed with the runtime-model delete control. No address data is
+re-exported or removed with **Delete imported model**. No address data is
 uploaded or added to the public catalog. Clearing browser storage removes imports.
+
+![Successful import of the public Rathaus ZIP, with the global upload icon and address-level Export ZIP control](docs/address-import.jpg)
 
 Archives use the versioned `munich3d-address` format with SHA-256 file checksums.
 Import validates the source bundle before saving; limits are 100 MB compressed
@@ -122,6 +129,8 @@ website/
   components/house-viewer.tsx Model loading, camera and interaction
   lib/area-reconstruction.ts Illustrative geometry and surface rendering
   lib/browser-models.ts      Browser generation and IndexedDB cache
+  lib/address-sharing.ts     ZIP downloads, imports and worker orchestration
+  lib/address-archive.mjs    Shared versioned ZIP codec and validation
   scripts/                   Catalog, surface preparation and validation tools
   addresses/<address>/
     model/                   <model>.glb, .metadata.json, .source-mesh.json
@@ -301,6 +310,7 @@ node --check import_bayernatlas.mjs
 node --check export_model_to_glb.mjs
 node --test tests/bayernatlas.test.mjs
 node --test website/scripts/address-bundles.test.mjs
+node --test website/scripts/address-archive.test.mjs
 node website/scripts/test-area-reconstruction.mjs
 node website/scripts/test-area-camera.mjs
 npm run build --prefix website
@@ -317,6 +327,22 @@ building visibility, Facade camera stability, depth/wireframe, compass and a cle
 console. Runtime changes additionally require cached/uncached generation,
 downloads, deletion and reload persistence. See [AGENTS.md](AGENTS.md) for the
 change-specific validation matrix.
+
+### Refresh documentation screenshots
+
+Use a fresh, isolated browser session on the deployed site or a preview built
+from a public-only checkout. Do not use the normal local development catalog:
+Git-ignored private addresses may still appear there. Verify that the chooser
+contains only **Neues Rathaus**, and use only its ZIP for the import example.
+Do not clear the user's browser storage to prepare documentation.
+
+Set the viewport to 1600 × 1000, wait for the model to finish loading, pause
+rotation, and use Reset view after choosing Building or Neighbourhood. Wait for
+button transitions and the scene to settle before each capture. Refresh the six
+explorer/form images above and `docs/address-import.jpg`; retain the current
+controls, source attribution and copyright. Review every capture for private
+content and correct active modes before copying it into `docs/`. Keep ZIPs and
+intermediate browser output under ignored `website/output/playwright/`.
 
 ## Attribution
 
