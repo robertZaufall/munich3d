@@ -98,7 +98,7 @@ setup, extraction commands, asset layout and runtime architecture.
 - Hosted generation runs in a browser Web Worker with IndexedDB persistence for
   GLB, source-mesh, metadata and catalog data. No server compute, Blender, child
   processes, containers, OBJ output or temporary export directories.
-- Keep Import ZIP beside the global Add address control; importing adds/selects
+- Keep the icon-only Import ZIP button beside the global Add address control; importing adds/selects
   an address in the site chooser. Keep Export ZIP in the selected address column.
 - ZIP sharing includes the original bundle and the complete optional area snapshot,
   including primary, connected and neighbor façade profiles. Imports stay in

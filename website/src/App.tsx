@@ -338,6 +338,7 @@ export default function App() {
                 return <button key={locationKey(location)} type="button" aria-pressed={selected} onClick={() => selectLocation(location)} className={cn('min-h-12 rounded-lg border px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200', selected ? 'border-cyan-200 bg-cyan-200 text-[#061014]' : 'border-white/15 bg-white/5 text-stone-100 hover:bg-white/10')}>{location.address}</button>;
               })}
             </nav>
+            <div role="group" aria-label="Add or import an address" className="flex shrink-0 items-center gap-2">
             <button
               type="button"
               onClick={() => {
@@ -352,12 +353,14 @@ export default function App() {
               type="button"
               disabled={Boolean(sharing)}
               onClick={() => importInput.current?.click()}
+              aria-label="Import ZIP"
               title="Add an address and its data from a ZIP to this browser"
-              className="flex h-12 shrink-0 items-center gap-1.5 rounded-lg border border-cyan-200/20 bg-cyan-200/8 px-3 font-sans text-[10px] uppercase tracking-[0.1em] text-cyan-100 transition-colors hover:bg-cyan-200/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40 disabled:opacity-50"
+              className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-cyan-200/20 bg-cyan-200/8 text-cyan-100 transition-colors hover:bg-cyan-200/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40 disabled:opacity-50"
             >
-              <Upload className="size-3.5" /> Import ZIP
+              <Upload className="size-4" aria-hidden="true" />
             </button>
-              <input ref={importInput} type="file" accept=".zip,application/zip" aria-label="Import address ZIP" className="hidden" onChange={event => { const file = event.target.files?.[0]; if (file) void shareAddress(file); }} />
+            </div>
+            <input ref={importInput} type="file" accept=".zip,application/zip" aria-label="Import address ZIP" className="hidden" onChange={event => { const file = event.target.files?.[0]; if (file) void shareAddress(file); }} />
           </div>
         </div>
         {shareOperation === 'import' && (sharing || shareMessage) && <p role="status" className="mx-auto mt-2 max-w-[1680px] text-xs text-cyan-100 sm:text-right">{sharing || shareMessage}</p>}
