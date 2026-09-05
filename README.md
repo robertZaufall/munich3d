@@ -40,7 +40,9 @@ pan and zoom are available in the scene.
 
 The bottom row groups direct controls:
 
-- **Rotation icon**: pause or resume automatic rotation.
+- **Rotation icon / Reset view**: rotation starts automatically; pause or resume
+  it with the icon. Reset view restores the camera framing for the current
+  Building / Neighbourhood scope without changing display mode or playback.
 - **Building / Neighbourhood**: change visibility and fit the camera. Clicking
   the selected scope returns to its home framing. Explicitly grouped connected
   parts remain with the main building; independent neighbors hide in Building mode.

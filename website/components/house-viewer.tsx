@@ -66,7 +66,7 @@ export function HouseViewer({
   const homePositionRef = useRef(new THREE.Vector3(37, 29, 43));
   const homeTargetRef = useRef(new THREE.Vector3(0, 8, 0));
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [autoRotate, setAutoRotate] = useState(!reconstructArea);
+  const [autoRotate, setAutoRotate] = useState(true);
   const [wireframe, setWireframe] = useState(false);
   const [depthMap, setDepthMap] = useState(false);
 
@@ -591,10 +591,11 @@ export function HouseViewer({
 
       {controlsTarget && status === 'ready' && createPortal(
         <nav aria-label="View controls" className="flex min-w-0 flex-nowrap items-center gap-2 overflow-x-auto rounded-xl border border-white/10 bg-[#101c21] p-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div role="group" aria-label="Rotation" className={controlGroup}>
+          <div role="group" aria-label="Camera" className={controlGroup}>
             <Button className="size-8 shrink-0 p-0" variant={autoRotate ? 'default' : 'outline'} aria-label={autoRotate ? 'Pause rotation' : 'Rotate view'} title={autoRotate ? 'Pause rotation' : 'Rotate view'} aria-pressed={autoRotate} onClick={() => setAutoRotate(v => !v)}>
               {autoRotate ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
             </Button>
+            <Button className={compactButton} variant="outline" onClick={resetView}>Reset view</Button>
           </div>
           <div role="group" aria-label="Visible area" className={controlGroup}>
             {control('Building', () => { if (showNeighbors) onNeighborsChange?.(false); else resetView(); }, !showNeighbors)}
