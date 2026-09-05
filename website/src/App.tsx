@@ -96,6 +96,7 @@ export default function App() {
   const importInput = useRef<HTMLInputElement>(null);
   const [sharing, setSharing] = useState('');
   const [shareMessage, setShareMessage] = useState('');
+  const [shareOperation, setShareOperation] = useState<'import' | 'export'>('export');
   const [places, setPlaces] = useState(staticPlaces);
   const [runtimeCatalogLoaded, setRuntimeCatalogLoaded] = useState(false);
   const [selectedId, setSelectedId] = useState(
@@ -210,6 +211,7 @@ export default function App() {
   };
 
   const shareAddress = async (file?: File) => {
+    setShareOperation(file ? 'import' : 'export');
     setSharing(file ? 'Importing…' : 'Exporting…');
     setShareMessage('');
     try {
@@ -225,7 +227,7 @@ export default function App() {
         setSelectedId(imported.id);
         setShowNeighbors(true);
         setShowReconstruction(Boolean(imported.areaSurfacePath));
-        setShareMessage('Imported and saved in this browser.');
+        setShareMessage(`${imported.address} added to your addresses and saved in this browser.`);
       } else {
         await exportAddress(place);
         setShareMessage('ZIP ready to share.');
@@ -346,8 +348,19 @@ export default function App() {
             >
               <Plus className="size-3.5" /> Add address
             </button>
+            <button
+              type="button"
+              disabled={Boolean(sharing)}
+              onClick={() => importInput.current?.click()}
+              title="Add an address and its data from a ZIP to this browser"
+              className="flex h-12 shrink-0 items-center gap-1.5 rounded-lg border border-cyan-200/20 bg-cyan-200/8 px-3 font-sans text-[10px] uppercase tracking-[0.1em] text-cyan-100 transition-colors hover:bg-cyan-200/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40 disabled:opacity-50"
+            >
+              <Upload className="size-3.5" /> Import ZIP
+            </button>
+              <input ref={importInput} type="file" accept=".zip,application/zip" aria-label="Import address ZIP" className="hidden" onChange={event => { const file = event.target.files?.[0]; if (file) void shareAddress(file); }} />
           </div>
         </div>
+        {shareOperation === 'import' && (sharing || shareMessage) && <p role="status" className="mx-auto mt-2 max-w-[1680px] text-xs text-cyan-100 sm:text-right">{sharing || shareMessage}</p>}
       </header>
 
       {generatorOpen && (
@@ -556,13 +569,11 @@ export default function App() {
               {description}
             </p>
 
-            <div className="mt-4 grid grid-cols-2 gap-2" aria-label="Share address">
+            <div className="mt-4 grid gap-2" aria-label="Export selected address">
               <button type="button" disabled={Boolean(sharing)} onClick={() => void shareAddress()} className={cn(buttonVariants({ variant: 'outline' }), 'h-9 gap-2 px-2 text-xs')}><Download className="size-3.5" />Export ZIP</button>
-              <button type="button" disabled={Boolean(sharing)} onClick={() => importInput.current?.click()} className={cn(buttonVariants({ variant: 'outline' }), 'h-9 gap-2 px-2 text-xs')}><Upload className="size-3.5" />Import ZIP</button>
-              <input ref={importInput} type="file" accept=".zip,application/zip" aria-label="Import address ZIP" className="hidden" onChange={event => { const file = event.target.files?.[0]; if (file) void shareAddress(file); }} />
             </div>
-            <p className="mt-2 text-[11px] leading-4 text-muted-foreground">Includes the selected area{place.areaSurfacePath ? ', façades and surfaces' : ''}. Imports stay in this browser.</p>
-            {(sharing || shareMessage) && <p role="status" className="mt-2 text-xs text-cyan-100">{sharing || shareMessage}</p>}
+            <p className="mt-2 text-[11px] leading-4 text-muted-foreground">Includes the selected area{place.areaSurfacePath ? ', façades and surfaces' : ''}.</p>
+            {shareOperation === 'export' && (sharing || shareMessage) && <p role="status" className="mt-2 text-xs text-cyan-100">{sharing || shareMessage}</p>}
 
       {areaVariants.length > 1 && <nav aria-label="Available area sizes" className="mt-4 flex flex-wrap items-center gap-2">
         <span className="w-full text-xs text-muted-foreground">Available area sizes</span>

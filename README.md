@@ -98,7 +98,9 @@ export timestamp. The archive preserves reconstruction reference notes;
 external reference photos themselves are not bundled.
 
 Send the ZIP to your friend. They can open [Munich3D](https://glaubi.net/munich3d/)
-and choose **Import ZIP** in the address column. Import also works on localhost.
+and choose the global **Import ZIP** button beside **Add address**. It adds the
+imported location to the address chooser and selects it, regardless of which
+address was previously selected. Import also works on localhost.
 The address is saved only in that browser's IndexedDB, survives reload and can be
 re-exported or removed with the runtime-model delete control. No address data is
 uploaded or added to the public catalog. Clearing browser storage removes imports.
