@@ -62,6 +62,11 @@ parts are included; independent neighbours, streets and decorative ground are no
 This GLB works in a standalone 3D viewer without `area.json`. **Neighborhood GLB**,
 source-mesh JSON and metadata downloads retain the original LoD2 source.
 
+Every download filename includes the address name, area size and local timestamp
+(`YYYY-MM-DD_HH-mm-ss`). Model and JSON downloads also identify their content,
+for example `Neues-Rathaus-100m-complete-facade-2026-09-07_11-30-00.blend`.
+The timestamp is captured when you click the export or download control.
+
 **Complete façade GLB** exports the entire Facade neighbourhood, including all
 buildings, authored façade profiles, balconies, paving, trees and mapped street
 furniture. It always exports the complete scene, regardless of the current scope,

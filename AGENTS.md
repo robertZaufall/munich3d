@@ -120,6 +120,9 @@ setup, extraction commands, asset layout and runtime architecture.
   not bundled. Import must accept old archives without baked geometry and new
   exports with it, persist the baked GLB and preserve its bytes on re-export.
   Imported-model deletion must retain permanent source and reconstruction bundles.
+- Every download filename includes the address name, area size and local download
+  timestamp; identify the content for non-ZIP downloads. Use the shared filename
+  helper for ZIP, GLB, Blender, Three.js, source-mesh and metadata downloads.
 - Complete-scene GLB and Three.js exports include all source buildings and modeled
   façade/surface details independently of the current display scope. Preserve
   feature IDs, source roles, materials, coordinates and attribution. Three.js JSON

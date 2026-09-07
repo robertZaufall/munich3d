@@ -1,3 +1,4 @@
+import { exportFilename } from '@/lib/export-filename';
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import {
   Building2,
@@ -663,6 +664,7 @@ export default function App() {
               <a
                 href={place.modelPath}
                 download
+                onClick={event => { event.currentTarget.download = exportFilename(place, 'glb', 'lod2'); }}
                 className={cn(
                   buttonVariants(),
                   'h-10 justify-between bg-cyan-200 px-3 text-[#061014] hover:bg-cyan-100',
@@ -673,6 +675,7 @@ export default function App() {
               <a
                 href={place.sourceMeshPath}
                 download
+                onClick={event => { event.currentTarget.download = exportFilename(place, 'json', 'source-mesh'); }}
                 className={cn(
                   buttonVariants({ variant: 'outline' }),
                   'h-10 justify-between border-white/10 bg-white/[0.025] px-3 text-stone-200 hover:bg-white/7',
@@ -683,6 +686,7 @@ export default function App() {
               <a
                 href={place.metadataPath}
                 download
+                onClick={event => { event.currentTarget.download = exportFilename(place, 'json', 'metadata'); }}
                 className={cn(
                   buttonVariants({ variant: 'outline' }),
                   'h-10 justify-between border-white/10 bg-white/[0.025] px-3 text-stone-200 hover:bg-white/7',
