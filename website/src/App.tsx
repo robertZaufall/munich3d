@@ -261,13 +261,13 @@ export default function App() {
     } finally { setSharing(''); }
   };
 
-  const downloadCompleteScene = async (format: 'glb' | 'three' | 'blend') => {
+  const downloadCompleteScene = async () => {
     setShareOperation('export');
-    setSharing(`Building complete ${format === 'three' ? 'Three.js' : format === 'blend' ? 'Blender' : 'GLB'} scene…`);
+    setSharing('Building complete GLB scene…');
     setShareMessage('');
     try {
       const { exportCompleteScene } = await import('@/lib/address-sharing');
-      await exportCompleteScene(place, format);
+      await exportCompleteScene(place, 'glb');
       setShareMessage('Complete scene includes façades, neighbours and mapped surroundings.');
     } catch (error) { setShareMessage(error instanceof Error ? error.message : 'Scene export failed'); }
     finally { setSharing(''); }
@@ -659,9 +659,7 @@ export default function App() {
                 Building GLB with façades <Download className="size-3.5" />
               </button>}
               {place.areaSurfacePath && <>
-                <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('glb')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete façade GLB <Download className="size-3.5" /></button>
-                <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('three')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete Three.js scene <Download className="size-3.5" /></button>
-                {(blenderExportAvailable || place.completeBlendPath) && <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('blend')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete Blender scene <Download className="size-3.5" /></button>}
+                <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene()} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete façade GLB <Download className="size-3.5" /></button>
               </>}
               <a
                 href={place.modelPath}

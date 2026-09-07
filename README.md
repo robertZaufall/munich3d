@@ -64,7 +64,7 @@ source-mesh JSON and metadata downloads retain the original LoD2 source.
 
 Every download filename includes the address name, area size and local timestamp
 (`YYYY-MM-DD_HH-mm-ss`). Model and JSON downloads also identify their content,
-for example `Neues-Rathaus-100m-complete-facade-2026-09-07_11-30-00.blend`.
+for example `Neues-Rathaus-100m-complete-facade-2026-09-07_11-30-00.glb`.
 The timestamp is captured when you click the export or download control.
 
 **Complete façade GLB** exports the entire Facade neighbourhood, including all
@@ -73,29 +73,20 @@ furniture. It always exports the complete scene, regardless of the current scope
 wireframe or depth display. Import this standalone GLB into Blender with
 **File → Import → glTF 2.0**.
 
-**Complete Three.js scene** downloads an ObjectLoader-compatible `.three.json`
-with the same baked meshes, materials, transforms, source IDs and reference notes:
-
-```js
-const scene = await new THREE.ObjectLoader().loadAsync('address-complete-facade.three.json');
-// Add your viewer's camera and lighting, then render the loaded scene.
-```
-
-On the local server, **Complete Blender scene** also downloads a native `.blend`
-when Blender is installed. Conversion runs in a fresh background process and
-removes its temporary files afterward. The server checks the default macOS app
-path; set `BLENDER_PATH` to another Blender executable before starting it if needed.
-Hosted exports run entirely in the browser; native Blender conversion is local
-only. These scene exports are for 3D applications. Use **Export ZIP / Import ZIP**
-for lossless address exchange within Munich3D, including the original source data
-and complete reconstruction recipe.
+Native Blender scenes are included in local **Export ZIP** downloads when Blender
+is installed. Conversion runs in a fresh background process and removes its
+temporary files afterward. The server checks the default macOS app path; set
+`BLENDER_PATH` to another Blender executable before starting it if needed.
+Hosted exports run entirely in the browser and preserve imported Blender
+attachments. Standalone Blender and Three.js JSON download buttons are not shown.
+Generated `*.three.json` files are Git-ignored and stay local.
 
 Links can select a model with `?model=MODEL_ID`; legacy `?area=MODEL_ID` also
 selects it. Add `&view=reconstruction` to select Facade on initial load.
 
 ### Screenshots
 
-Refreshed on **7 September 2026** from the live homepage at **1600 × 1000**,
+Refreshed on **7 September 2026** from a public-only preview at **1600 × 1000**,
 using a fresh browser session with only the public Rathaus 100 m sample. Rotation
 was paused for consistent captures. Private addresses and imported private data
 are excluded. Click an image to inspect it at full size; facade details are
@@ -140,8 +131,7 @@ external reference photos themselves are not bundled.
 On localhost with Blender available, **Export ZIP** also includes
 **`complete-facade.blend`**, containing the full neighbourhood and modeled façade
 and surface details. Import preserves this file unchanged, including on the hosted
-site, and subsequent ZIP exports retain it. The separate **Complete Blender scene**
-button can download the stored attachment directly. The hosted site cannot create
+site, and subsequent ZIP exports retain it. The hosted site cannot create
 new native Blender files; generate the ZIP locally to include one.
 
 Send the ZIP to your friend. They can open [Munich3D](https://glaubi.net/munich3d/)

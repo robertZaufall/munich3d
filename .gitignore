@@ -11,3 +11,6 @@ website/addresses/*
 website/public/model/
 website/public/area/
 website/lib/model-catalog/
+
+# Large generated Three.js scene exports stay local.
+*.three.json

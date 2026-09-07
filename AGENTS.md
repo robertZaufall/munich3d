@@ -125,6 +125,9 @@ setup, extraction commands, asset layout and runtime architecture.
   browser data and must survive reload/re-export byte-for-byte on both runtimes.
   Never execute an imported Blender attachment. Hosted exports preserve existing
   attachments but do not invoke a server or Blender to create them.
+- Keep `*.three.json` exports Git-ignored. Do not expose standalone Blender or
+  Three.js JSON download buttons; retain the complete façade GLB download and
+  native Blender attachment in local ZIP exports.
 - Every download filename includes the address name, area size and local download
   timestamp; identify the content for non-ZIP downloads. Use the shared filename
   helper for ZIP, GLB, Blender, Three.js, source-mesh and metadata downloads.
