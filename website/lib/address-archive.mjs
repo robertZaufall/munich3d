@@ -5,7 +5,7 @@ import { createCatalogEntry } from '../scripts/catalog-entry.mjs';
 export const MAX_ARCHIVE_BYTES = 100 * 1024 * 1024;
 const MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 const required = ['model.glb', 'metadata.json', 'source-mesh.json'];
-const allowed = new Set(['manifest.json', ...required, 'area.json', 'building-facade.glb']);
+const allowed = new Set(['manifest.json', ...required, 'area.json', 'building-facade.glb', 'complete-facade.blend']);
 const json = bytes => JSON.parse(strFromU8(bytes));
 const hash = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(n => n.toString(16).padStart(2, '0')).join('');
 
@@ -63,6 +63,15 @@ export async function importArchive(archive) {
     const area = json(files['area.json']);
     if (area.modelId !== manifest.modelId || !['generic', 'gothic'].includes(area.architectureStyle) || !Array.isArray(area.bounds) || area.bounds.length !== 4 || !area.bounds.every(Number.isFinite) || ['surfaces', 'lines', 'points', 'anchors'].some(key => !Array.isArray(area[key]))) throw new Error('Invalid façade or surface snapshot');
     catalog.architectureStyle = area.architectureStyle;
+  }
+  if (files['complete-facade.blend']) {
+    // Blender files are opaque download attachments: never open or execute them.
+    const bytes = files['complete-facade.blend'];
+    const header = new TextDecoder().decode(bytes.subarray(0, 12));
+    const raw = /^BLENDER[_-][vV]\d{3}$/.test(header);
+    const zstd = bytes[0] === 0x28 && bytes[1] === 0xb5 && bytes[2] === 0x2f && bytes[3] === 0xfd;
+    const gzip = bytes[0] === 0x1f && bytes[1] === 0x8b && bytes[2] === 0x08;
+    if (bytes.length < 12 || !(raw || zstd || gzip) || !files['area.json']) throw new Error('Invalid Blender scene attachment');
   }
   if (files['building-facade.glb']) {
     const bytes = files['building-facade.glb'];

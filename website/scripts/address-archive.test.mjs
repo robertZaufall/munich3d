@@ -42,3 +42,16 @@ test('reject self-contained bundle with inconsistent source and metadata', async
   const invalid = await exportArchive({ modelId, files: { ...files, 'metadata.json': strToU8(JSON.stringify(metadata)) } });
   await assert.rejects(importArchive(invalid));
 });
+
+test('Blender attachments survive import and re-export, with checksum and container checks', async () => {
+  const blend = strToU8('BLENDER-v502opaque-test-attachment');
+  const withBlend = { ...files, 'complete-facade.blend': blend };
+  const encoded = await exportArchive({ modelId, files: withBlend });
+  const imported = await importArchive(encoded);
+  assert.deepEqual(imported.files['complete-facade.blend'], blend);
+  const again = await importArchive(await exportArchive({ modelId, files: Object.fromEntries(Object.entries(imported.files).filter(([name]) => name !== 'manifest.json')) }));
+  assert.deepEqual(again.files['complete-facade.blend'], blend);
+  await assert.rejects(importArchive(await exportArchive({ modelId, files: { ...withBlend, 'complete-facade.blend': strToU8('not-a-blender-file') } })), /Invalid Blender/);
+  const damaged = unzipSync(encoded); damaged['complete-facade.blend'][12] ^= 1;
+  await assert.rejects(importArchive(zipSync(damaged)), /Damaged archive file/);
+});

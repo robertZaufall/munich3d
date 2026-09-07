@@ -120,6 +120,11 @@ setup, extraction commands, asset layout and runtime architecture.
   not bundled. Import must accept old archives without baked geometry and new
   exports with it, persist the baked GLB and preserve its bytes on re-export.
   Imported-model deletion must retain permanent source and reconstruction bundles.
+- Local ZIP exports include `complete-facade.blend` when Blender and an area
+  snapshot are available. Imported Blender attachments remain opaque, checksummed
+  browser data and must survive reload/re-export byte-for-byte on both runtimes.
+  Never execute an imported Blender attachment. Hosted exports preserve existing
+  attachments but do not invoke a server or Blender to create them.
 - Every download filename includes the address name, area size and local download
   timestamp; identify the content for non-ZIP downloads. Use the shared filename
   helper for ZIP, GLB, Blender, Three.js, source-mesh and metadata downloads.

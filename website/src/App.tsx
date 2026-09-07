@@ -48,6 +48,7 @@ export type ModelCatalogEntry = {
   triangleCount: number;
   areaSurfacePath?: string;
   buildingFacadePath?: string;
+  completeBlendPath?: string;
   architectureStyle?: 'generic' | 'gothic';
 };
 
@@ -226,7 +227,7 @@ export default function App() {
       if (file) {
         const imported = await importAddress(file);
         for (const old of places.filter(model => model.storage === 'browser' && model.gmlId === imported.gmlId && model.neighborDistance === imported.neighborDistance)) {
-          for (const path of [old.modelPath, old.metadataPath, old.sourceMeshPath, old.areaSurfacePath, old.buildingFacadePath]) {
+          for (const path of [old.modelPath, old.metadataPath, old.sourceMeshPath, old.areaSurfacePath, old.buildingFacadePath, old.completeBlendPath]) {
             if (path?.startsWith('blob:')) URL.revokeObjectURL(path);
           }
         }
@@ -236,7 +237,7 @@ export default function App() {
         setShowReconstruction(Boolean(imported.areaSurfacePath));
         setShareMessage(`${imported.address} added to your addresses and saved in this browser.`);
       } else {
-        await exportAddress(place);
+        await exportAddress(place, blenderExportAvailable);
         setShareMessage('ZIP ready to share.');
       }
     } catch (error) {
@@ -304,6 +305,7 @@ export default function App() {
         modelToDelete.metadataPath,
         modelToDelete.areaSurfacePath ?? '',
         modelToDelete.buildingFacadePath ?? '',
+        modelToDelete.completeBlendPath ?? '',
       ]) {
         if (path.startsWith('blob:')) URL.revokeObjectURL(path);
       }
@@ -608,7 +610,7 @@ export default function App() {
             <div className="mt-4 grid gap-2" aria-label="Export selected address">
               <button type="button" disabled={Boolean(sharing)} onClick={() => void shareAddress()} className={cn(buttonVariants({ variant: 'outline' }), 'h-9 gap-2 px-2 text-xs')}><Download className="size-3.5" />Export ZIP</button>
             </div>
-            <p className="mt-2 text-[11px] leading-4 text-muted-foreground">Includes the selected area{place.areaSurfacePath ? ', façades and surfaces' : ''}.</p>
+            <p className="mt-2 text-[11px] leading-4 text-muted-foreground">Includes the selected area{place.areaSurfacePath ? ', façades and surfaces' : ''}{place.completeBlendPath || (blenderExportAvailable && place.areaSurfacePath) ? ', plus the complete Blender scene' : ''}.</p>
             {shareOperation === 'export' && (sharing || shareMessage) && <p role="status" className="mt-2 text-xs text-cyan-100">{sharing || shareMessage}</p>}
 
       {areaVariants.length > 1 && <nav aria-label="Available area sizes" className="mt-4 flex flex-wrap items-center gap-2">
@@ -659,7 +661,7 @@ export default function App() {
               {place.areaSurfacePath && <>
                 <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('glb')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete façade GLB <Download className="size-3.5" /></button>
                 <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('three')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete Three.js scene <Download className="size-3.5" /></button>
-                {blenderExportAvailable && <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('blend')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete Blender scene <Download className="size-3.5" /></button>}
+                {(blenderExportAvailable || place.completeBlendPath) && <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('blend')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete Blender scene <Download className="size-3.5" /></button>}
               </>}
               <a
                 href={place.modelPath}

@@ -137,6 +137,13 @@ export timestamp, for example `Neues-Rathaus-100m-2026-09-05_22-30-00.zip`.
 The archive preserves reconstruction reference notes;
 external reference photos themselves are not bundled.
 
+On localhost with Blender available, **Export ZIP** also includes
+**`complete-facade.blend`**, containing the full neighbourhood and modeled façade
+and surface details. Import preserves this file unchanged, including on the hosted
+site, and subsequent ZIP exports retain it. The separate **Complete Blender scene**
+button can download the stored attachment directly. The hosted site cannot create
+new native Blender files; generate the ZIP locally to include one.
+
 Send the ZIP to your friend. They can open [Munich3D](https://glaubi.net/munich3d/)
 and choose the global **upload icon** (Import ZIP) beside **Add address**. It adds the
 imported location to the address chooser and selects it, regardless of which
