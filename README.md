@@ -90,7 +90,7 @@ selects it. Add `&view=reconstruction` to select Facade on initial load.
 
 ### Screenshots
 
-Refreshed on **5 September 2026** from the live homepage at **1600 × 1000**,
+Refreshed on **7 September 2026** from the live homepage at **1600 × 1000**,
 using a fresh browser session with only the public Rathaus 100 m sample. Rotation
 was paused for consistent captures. Private addresses and imported private data
 are excluded. Click an image to inspect it at full size; facade details are
