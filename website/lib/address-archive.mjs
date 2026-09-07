@@ -5,7 +5,7 @@ import { createCatalogEntry } from '../scripts/catalog-entry.mjs';
 export const MAX_ARCHIVE_BYTES = 100 * 1024 * 1024;
 const MAX_CONTENT_BYTES = 256 * 1024 * 1024;
 const required = ['model.glb', 'metadata.json', 'source-mesh.json'];
-const allowed = new Set(['manifest.json', ...required, 'area.json']);
+const allowed = new Set(['manifest.json', ...required, 'area.json', 'building-facade.glb']);
 const json = bytes => JSON.parse(strFromU8(bytes));
 const hash = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(n => n.toString(16).padStart(2, '0')).join('');
 
@@ -63,6 +63,18 @@ export async function importArchive(archive) {
     const area = json(files['area.json']);
     if (area.modelId !== manifest.modelId || !['generic', 'gothic'].includes(area.architectureStyle) || !Array.isArray(area.bounds) || area.bounds.length !== 4 || !area.bounds.every(Number.isFinite) || ['surfaces', 'lines', 'points', 'anchors'].some(key => !Array.isArray(area[key]))) throw new Error('Invalid façade or surface snapshot');
     catalog.architectureStyle = area.architectureStyle;
+  }
+  if (files['building-facade.glb']) {
+    const bytes = files['building-facade.glb'];
+    const header = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    if (bytes.length < 20 || header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.length || header.getUint32(16, true) !== 0x4e4f534a) throw new Error('Invalid building facade GLB');
+    const building = json(bytes.subarray(20, 20 + header.getUint32(12, true)));
+    if ([...(building.buffers ?? []), ...(building.images ?? [])].some(item => item.uri)) throw new Error('Building facade GLB must be self-contained');
+    const area = files['area.json'] ? json(files['area.json']) : null;
+    const primary = metadata.buildings.find(item => item.role === 'primary');
+    const permitted = new Set([primary.attributes.gml_id, ...(area?.connectedFacades ?? []).map(profile => profile.gmlId)]);
+    const features = (building.nodes ?? []).filter(node => node.extras?.role);
+    if (!features.some(node => node.extras.role === 'primary' && node.extras.gml_id === primary.attributes.gml_id) || features.some(node => !permitted.has(node.extras.gml_id))) throw new Error('Facade GLB must contain only the main address and connected parts');
   }
   return { id, catalog, files, modelId: manifest.modelId };
 }

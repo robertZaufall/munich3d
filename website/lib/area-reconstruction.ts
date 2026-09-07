@@ -2114,6 +2114,7 @@ function styleShell(mesh: THREE.Mesh, profile?: FacadeProfile) {
 export async function createAreaReconstruction(
   model: THREE.Group,
   surfacePath = `${import.meta.env.BASE_URL}area/rathaus-surfaces.json`,
+  options: { includeEnvironment?: boolean } = {},
 ) {
   const response = await fetch(surfacePath);
   if (!response.ok) throw Error("Mapped surface data could not be loaded");
@@ -2136,7 +2137,7 @@ export async function createAreaReconstruction(
         }
       : undefined,
   };
-  const environment = buildGround(data, stats);
+  const environment = options.includeEnvironment === false ? new THREE.Group() : buildGround(data, stats);
   environment.position.copy(model.position);
   const details: THREE.Group[] = [],
     styles: ReturnType<typeof styleShell>[] = [];

@@ -10,6 +10,8 @@ const expected = new Set([
   `model/${allowedModel}.metadata.json`,
   `model/${allowedModel}.source-mesh.json`,
   `area/rathaus-surfaces.json`,
+  `reconstruction/${allowedModel}.building-facade.glb`,
+  `reconstruction/${allowedModel}.building-facade.json`,
   `catalog/${allowedModel}.json`,
 ]);
 

@@ -10,7 +10,7 @@ export function addressAssets() {
       const bundles = await discoverAddressBundles();
       const directories = new Map(bundles.map(bundle => [bundle.directory, bundle.assetBase]));
       for (const [directory, base] of directories) {
-        for (const kind of ['model', 'area']) {
+        for (const kind of ['model', 'area', 'reconstruction']) {
           for (const file of await listIfPresent(path.join(directory, kind))) {
             if (!file.endsWith('.json') && !file.endsWith('.glb')) continue;
             this.emitFile({ type: 'asset', fileName: `${base.slice(1)}/${kind}/${file}`, source: await readFile(path.join(directory, kind, file)) });

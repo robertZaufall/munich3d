@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { findAddressBundle, readAddressCatalog } from './address-bundles.mjs';
+import { exportArchive, importArchive } from '../lib/address-archive.mjs';
+
+import { loadFacadeExporter } from './export-building-facades.mjs';
+const root = fileURLToPath(new URL('../', import.meta.url));
+const buildBuildingFacade = await loadFacadeExporter();
+const modelId = process.argv[2] ?? 'muenchner-rathaus-100m';
+const bundle = await findAddressBundle(modelId);
+const catalog = await readAddressCatalog(modelId);
+const files = {};
+for (const [name, suffix] of Object.entries({ 'model.glb': '.glb', 'metadata.json': '.metadata.json', 'source-mesh.json': '.source-mesh.json' })) files[name] = new Uint8Array(await fs.readFile(path.join(bundle.modelDirectory, modelId + suffix)));
+files['area.json'] = new Uint8Array(await fs.readFile(path.join(root, catalog.areaSurfacePath)));
+const area = JSON.parse(new TextDecoder().decode(files['area.json']));
+const metadata = JSON.parse(new TextDecoder().decode(files['metadata.json']));
+const primary = metadata.buildings.find(feature => feature.role === 'primary');
+const expected = [primary.attributes.gml_id, ...(area.connectedFacades ?? []).map(profile => profile.gmlId)];
+const baked = await buildBuildingFacade(files['model.glb'].buffer, files['area.json']);
+const jsonSize = new DataView(baked.buffer).getUint32(12, true);
+const document = JSON.parse(new TextDecoder().decode(baked.subarray(20, 20 + jsonSize)));
+assert.ok(!document.extensionsUsed?.includes('EXT_mesh_gpu_instancing'), 'Instances must be ordinary geometry');
+assert.deepEqual(document.nodes.filter(node => node.extras?.role).map(node => node.extras.gml_id).sort(), expected.sort(), 'Only primary and connected building features belong in the GLB');
+assert.ok(!document.buffers.some(buffer => buffer.uri), 'GLB must be standalone');
+assert.ok(document.nodes.some(node => /fa[cç]ade|gothic/iu.test(node.name ?? '')), 'Missing detailed facade geometry');
+const { scene } = await new GLTFLoader().parseAsync(baked.buffer, '');
+let triangles = 0;
+scene.traverse(object => { if (object.isMesh) triangles += (object.geometry.index?.count ?? object.geometry.attributes.position.count) / 3; });
+assert.ok(triangles > primary.triangleCount, 'Facade geometry was not baked');
+const balconies = [area.primaryFacade, ...(area.connectedFacades ?? [])].filter(Boolean).flatMap(profile => profile.faces.flatMap(face => face.balconies ?? []));
+if (balconies.length) {
+  const decks = document.nodes.filter(node => Number.isFinite(node.extras?.deckHeight));
+  assert.equal(decks.length, balconies.length, 'Every main-building balcony must have an exported deck mesh');
+}
+files['building-facade.glb'] = baked;
+const imported = await importArchive(await exportArchive({ modelId, files }));
+assert.deepEqual(imported.files['building-facade.glb'], baked);
+assert.deepEqual(imported.files['model.glb'], files['model.glb'], 'Source model changed');
+const exportedAgain = await exportArchive({ modelId, files: Object.fromEntries(Object.entries(imported.files).filter(([name]) => name !== 'manifest.json')) });
+assert.deepEqual((await importArchive(exportedAgain)).files['building-facade.glb'], baked, 'Imported facade GLB changed on re-export');
+console.log(`${modelId}: ${expected.length} primary/connected parts, ${triangles} baked triangles, ${balconies.length} balcony decks; standalone loading and ZIP roundtrip passed`);

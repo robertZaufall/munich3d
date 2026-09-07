@@ -56,7 +56,34 @@ The bottom row groups direct controls:
 
 The right column opens its details by default and offers area-width choices when
 multiple bundles exist. The compass follows camera orbit: X=east, Y=up, Z=south.
-Downloads always contain the original GLB, source-mesh JSON and metadata JSON.
+**Building GLB with façades** downloads the main address with balconies, windows
+and other modeled details baked into ordinary mesh geometry. Explicitly connected
+parts are included; independent neighbours, streets and decorative ground are not.
+This GLB works in a standalone 3D viewer without `area.json`. **Neighborhood GLB**,
+source-mesh JSON and metadata downloads retain the original LoD2 source.
+
+**Complete façade GLB** exports the entire Facade neighbourhood, including all
+buildings, authored façade profiles, balconies, paving, trees and mapped street
+furniture. It always exports the complete scene, regardless of the current scope,
+wireframe or depth display. Import this standalone GLB into Blender with
+**File → Import → glTF 2.0**.
+
+**Complete Three.js scene** downloads an ObjectLoader-compatible `.three.json`
+with the same baked meshes, materials, transforms, source IDs and reference notes:
+
+```js
+const scene = await new THREE.ObjectLoader().loadAsync('address-complete-facade.three.json');
+// Add your viewer's camera and lighting, then render the loaded scene.
+```
+
+On the local server, **Complete Blender scene** also downloads a native `.blend`
+when Blender is installed. Conversion runs in a fresh background process and
+removes its temporary files afterward. The server checks the default macOS app
+path; set `BLENDER_PATH` to another Blender executable before starting it if needed.
+Hosted exports run entirely in the browser; native Blender conversion is local
+only. These scene exports are for 3D applications. Use **Export ZIP / Import ZIP**
+for lossless address exchange within Munich3D, including the original source data
+and complete reconstruction recipe.
 
 Links can select a model with `?model=MODEL_ID`; legacy `?area=MODEL_ID` also
 selects it. Add `&view=reconstruction` to select Facade on initial load.
@@ -96,7 +123,10 @@ configured Esri geocoder.
 
 Use **Export ZIP** in the address column to download the selected area's original
 GLB, source mesh and metadata, plus its complete façade and surface snapshot when
-available. Neighbours and their authored façade profiles are included even when
+available. The archive also includes **`building-facade.glb`**, the standalone
+main-building model with baked façade geometry. `model.glb` remains the unchanged
+LoD2 neighbourhood. `area.json` retains the editable reconstruction recipe and
+neighbourhood details; it is not needed to display `building-facade.glb`. Neighbours and their authored façade profiles are included even when
 Building mode is selected. Filenames include the address, area size and local
 export timestamp, for example `Neues-Rathaus-100m-2026-09-05_22-30-00.zip`.
 The archive preserves reconstruction reference notes;
@@ -114,7 +144,10 @@ uploaded or added to the public catalog. Clearing browser storage removes import
 
 Archives use the versioned `munich3d-address` format with SHA-256 file checksums.
 Import validates the source bundle before saving; limits are 100 MB compressed
-and 256 MB unpacked. ZIP processing runs in a worker.
+and 256 MB unpacked. ZIP processing runs in a worker. Import accepts both older
+archives without a baked GLB and new archives with `building-facade.glb`. Imported
+baked geometry is stored in IndexedDB and preserved byte-for-byte on re-export;
+older archives can generate the building GLB from their retained façade recipe.
 
 ## Files and privacy
 
@@ -131,11 +164,13 @@ website/
   lib/browser-models.ts      Browser generation and IndexedDB cache
   lib/address-sharing.ts     ZIP downloads, imports and worker orchestration
   lib/address-archive.mjs    Shared versioned ZIP codec and validation
+  lib/building-facade-export.ts Main-building and complete-scene GLB/Three.js export
   scripts/                   Catalog, surface preparation and validation tools
   addresses/<address>/
     model/                   <model>.glb, .metadata.json, .source-mesh.json
     area/                    Bounded OSM snapshots and optional facade profiles
     catalog/                 Generated <model>.json chooser fragments
+    reconstruction/          Baked main-building GLB and input checksums
   .runtime/                  Ignored local jobs and generated models
 .work/                       Ignored extraction work and local reference material
 ```
@@ -225,6 +260,22 @@ Gothic detailing applies only to Rathaus. Other buildings use generic details or
 local photo profiles with references and confidence notes. Estimated dimensions
 and obscured elevations are not survey measurements.
 
+Catalog generation automatically bakes a main-building GLB for every permanent
+bundle with an area snapshot. The output lives separately in
+`addresses/<address>/reconstruction/<model>.building-facade.glb`, with a checksum
+record beside it. Source GLB, area and exporter checksums trigger regeneration
+when inputs change. Private outputs stay inside their ignored address folders.
+To refresh all available addresses explicitly, run:
+
+```sh
+node website/scripts/export-building-facades.mjs --all
+npm run models:catalog --prefix website
+```
+
+The exporter removes source-wall triangles hidden by reconstructed openings and
+bakes instanced details into ordinary triangles for standard GLB importers.
+Only the main feature and `connectedFacades` are included.
+
 Profiles use exact GML IDs: `primaryFacade` for the main feature,
 `connectedFacades` for parts retained in Building mode, and `neighborFacades`
 for independent neighbors. Details can include inset glazing, surrounds, shutters,
@@ -313,6 +364,8 @@ node --test website/scripts/address-bundles.test.mjs
 node --test website/scripts/address-archive.test.mjs
 node website/scripts/test-area-reconstruction.mjs
 node website/scripts/test-area-camera.mjs
+node website/scripts/test-building-facade-export.mjs
+node website/scripts/test-complete-scene-export.mjs
 npm run build --prefix website
 ```
 

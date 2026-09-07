@@ -9,7 +9,7 @@ async function fixture(t, built = false) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'munich3d-public-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   const address = path.join(root, 'addresses/muenchner-rathaus');
-  const files = ['model/muenchner-rathaus-100m.glb', 'model/muenchner-rathaus-100m.metadata.json', 'model/muenchner-rathaus-100m.source-mesh.json', 'area/rathaus-surfaces.json'];
+  const files = ['model/muenchner-rathaus-100m.glb', 'model/muenchner-rathaus-100m.metadata.json', 'model/muenchner-rathaus-100m.source-mesh.json', 'area/rathaus-surfaces.json', 'reconstruction/muenchner-rathaus-100m.building-facade.glb', 'reconstruction/muenchner-rathaus-100m.building-facade.json'];
   if (!built) files.push('catalog/muenchner-rathaus-100m.json');
   for (const file of files) {
     await mkdir(path.dirname(path.join(address, file)), { recursive: true });

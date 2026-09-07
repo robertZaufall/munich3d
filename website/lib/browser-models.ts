@@ -18,6 +18,7 @@ type StoredModel = {
   sourceMesh: Blob;
   metadata: Blob;
   area?: Blob;
+  buildingFacade?: Blob;
 };
 
 function requestResult<T>(request: IDBRequest<T>) {
@@ -70,6 +71,7 @@ function hydrate(model: StoredModel): CatalogEntry {
   return {
     ...model.catalog,
     storage: 'browser',
+    buildingFacadePath: model.buildingFacade ? URL.createObjectURL(model.buildingFacade) : undefined,
     areaSurfacePath: model.area ? URL.createObjectURL(model.area) : undefined,
     modelPath: URL.createObjectURL(model.glb),
     sourceMeshPath: URL.createObjectURL(model.sourceMesh),
@@ -190,6 +192,7 @@ export async function saveImportedModel(result: { id: string; catalog: CatalogEn
     glb: blob('model.glb', 'model/gltf-binary'),
     metadata: blob('metadata.json'), sourceMesh: blob('source-mesh.json'),
     area: result.files['area.json'] ? blob('area.json') : undefined,
+    buildingFacade: result.files['building-facade.glb'] ? blob('building-facade.glb', 'model/gltf-binary') : undefined,
   };
   await writeModel(stored);
   return hydrate(stored);

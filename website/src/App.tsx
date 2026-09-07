@@ -46,6 +46,7 @@ export type ModelCatalogEntry = {
   primaryTriangleCount: number;
   triangleCount: number;
   areaSurfacePath?: string;
+  buildingFacadePath?: string;
   architectureStyle?: 'generic' | 'gothic';
 };
 
@@ -64,6 +65,7 @@ const staticPlaces: ModelCatalogEntry[] = Object.values(catalogModules)
     modelPath: staticAssetPath(module.default.modelPath),
     sourceMeshPath: staticAssetPath(module.default.sourceMeshPath),
     metadataPath: staticAssetPath(module.default.metadataPath),
+    buildingFacadePath: module.default.buildingFacadePath ? staticAssetPath(module.default.buildingFacadePath) : undefined,
     areaSurfacePath: module.default.areaSurfacePath ? staticAssetPath(module.default.areaSurfacePath) : undefined,
   }))
   .sort((left, right) =>
@@ -94,6 +96,10 @@ function mergedPlaces(
 
 export default function App() {
   const importInput = useRef<HTMLInputElement>(null);
+  const [blenderExportAvailable, setBlenderExportAvailable] = useState(false);
+  useEffect(() => {
+    if (!browserGenerationEnabled) void fetch('/api/health').then(response => response.json()).then(data => setBlenderExportAvailable(data.blenderExport === true)).catch(() => {});
+  }, []);
   const [sharing, setSharing] = useState('');
   const [shareMessage, setShareMessage] = useState('');
   const [shareOperation, setShareOperation] = useState<'import' | 'export'>('export');
@@ -219,7 +225,7 @@ export default function App() {
       if (file) {
         const imported = await importAddress(file);
         for (const old of places.filter(model => model.storage === 'browser' && model.gmlId === imported.gmlId && model.neighborDistance === imported.neighborDistance)) {
-          for (const path of [old.modelPath, old.metadataPath, old.sourceMeshPath, old.areaSurfacePath]) {
+          for (const path of [old.modelPath, old.metadataPath, old.sourceMeshPath, old.areaSurfacePath, old.buildingFacadePath]) {
             if (path?.startsWith('blob:')) URL.revokeObjectURL(path);
           }
         }
@@ -238,6 +244,31 @@ export default function App() {
       setSharing('');
       if (importInput.current) importInput.current.value = '';
     }
+  };
+
+  const downloadBuildingFacade = async () => {
+    setShareOperation('export');
+    setSharing('Building façade GLB…');
+    setShareMessage('');
+    try {
+      const { exportBuildingFacade } = await import('@/lib/address-sharing');
+      await exportBuildingFacade(place);
+      setShareMessage('Building GLB includes modeled façade geometry.');
+    } catch (error) {
+      setShareMessage(error instanceof Error ? error.message : 'Building export failed');
+    } finally { setSharing(''); }
+  };
+
+  const downloadCompleteScene = async (format: 'glb' | 'three' | 'blend') => {
+    setShareOperation('export');
+    setSharing(`Building complete ${format === 'three' ? 'Three.js' : format === 'blend' ? 'Blender' : 'GLB'} scene…`);
+    setShareMessage('');
+    try {
+      const { exportCompleteScene } = await import('@/lib/address-sharing');
+      await exportCompleteScene(place, format);
+      setShareMessage('Complete scene includes façades, neighbours and mapped surroundings.');
+    } catch (error) { setShareMessage(error instanceof Error ? error.message : 'Scene export failed'); }
+    finally { setSharing(''); }
   };
 
   const deleteSelectedModel = async (modelToDelete: ModelCatalogEntry) => {
@@ -271,6 +302,7 @@ export default function App() {
         modelToDelete.sourceMeshPath,
         modelToDelete.metadataPath,
         modelToDelete.areaSurfacePath ?? '',
+        modelToDelete.buildingFacadePath ?? '',
       ]) {
         if (path.startsWith('blob:')) URL.revokeObjectURL(path);
       }
@@ -620,6 +652,14 @@ export default function App() {
           <details open className="panel shrink-0 px-4 py-3">
             <summary className="cursor-pointer text-sm text-cyan-100">Downloads & source data</summary>
             <div className="mt-3 grid gap-2">
+              {(place.areaSurfacePath || place.buildingFacadePath) && <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadBuildingFacade()} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>
+                Building GLB with façades <Download className="size-3.5" />
+              </button>}
+              {place.areaSurfacePath && <>
+                <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('glb')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete façade GLB <Download className="size-3.5" /></button>
+                <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('three')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete Three.js scene <Download className="size-3.5" /></button>
+                {blenderExportAvailable && <button type="button" disabled={Boolean(sharing)} onClick={() => void downloadCompleteScene('blend')} className={cn(buttonVariants({ variant: 'outline' }), 'h-10 justify-between px-3')}>Complete Blender scene <Download className="size-3.5" /></button>}
+              </>}
               <a
                 href={place.modelPath}
                 download

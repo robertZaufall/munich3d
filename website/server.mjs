@@ -16,6 +16,8 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
+import { blenderAvailable, exportBlend } from './lib/blender-export.mjs';
+
 import { createCatalogEntry } from './scripts/catalog-entry.mjs';
 
 const websiteDirectory = path.dirname(fileURLToPath(import.meta.url));
@@ -319,7 +321,11 @@ async function sendModelFile(response, id, requestedFile) {
 
 async function handleApi(request, response, url) {
   if (url.pathname === '/api/health' && request.method === 'GET') {
-    sendJson(response, 200, { status: 'ok', generation: 'direct-node-glb' });
+    sendJson(response, 200, { status: 'ok', generation: 'direct-node-glb', blenderExport: await blenderAvailable() });
+    return true;
+  }
+  if (url.pathname === '/api/export/blend' && request.method === 'POST') {
+    await exportBlend(request, response);
     return true;
   }
   if (url.pathname === '/api/models' && request.method === 'GET') {

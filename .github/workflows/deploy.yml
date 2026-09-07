@@ -37,6 +37,8 @@ jobs:
           node website/scripts/check-public-assets.mjs
           node website/scripts/test-area-reconstruction.mjs
           node website/scripts/test-area-camera.mjs
+          node website/scripts/test-building-facade-export.mjs
+          node website/scripts/test-complete-scene-export.mjs
       - name: Build public website
         run: |
           npm run build:cloudflare --prefix website

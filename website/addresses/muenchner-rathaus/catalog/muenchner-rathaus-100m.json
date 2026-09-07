@@ -24,5 +24,6 @@
   "primaryTriangleCount": 1448,
   "triangleCount": 8761,
   "areaSurfacePath": "/addresses/muenchner-rathaus/area/rathaus-surfaces.json",
-  "architectureStyle": "gothic"
+  "architectureStyle": "gothic",
+  "buildingFacadePath": "/addresses/muenchner-rathaus/reconstruction/muenchner-rathaus-100m.building-facade.glb"
 }

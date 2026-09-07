@@ -30,8 +30,9 @@ setup, extraction commands, asset layout and runtime architecture.
 ## Bundles, privacy and cleanup
 
 - Keep permanent assets together under `website/addresses/<address>/`:
-  `model/` for bundles, `area/` for snapshots/profiles, `catalog/` for generated
-  chooser metadata. Multiple distance variants share an address folder.
+  `model/` for source bundles, `area/` for snapshots/profiles, `catalog/` for
+  generated chooser metadata, `reconstruction/` for baked main-building GLBs
+  and their input checksums. Multiple distance variants share an address folder.
 - Every model stem must have `.glb`, `.metadata.json` and `.source-mesh.json`.
   Preserve original bundle names and metadata; do not anonymize them in place.
   Catalog generation must fail for incomplete bundles or duplicate model IDs.
@@ -103,13 +104,28 @@ setup, extraction commands, asset layout and runtime architecture.
   belongs in the header; importing adds/selects an address in the site-wide
   chooser, independent of the selected address. Keep Export ZIP and its status
   in the selected address column.
-- ZIP sharing includes the original bundle and the complete optional area snapshot,
+- Bake façade geometry for every main address with available reconstruction data,
+  retaining explicitly connected parts and excluding independent neighbours and
+  the environment. Export ordinary triangles, including instanced balconies and
+  windows; remove hidden source-wall triangles so openings remain open in GLB.
+  Keep this separate from immutable LoD2 source bundles. Catalog generation
+  refreshes permanent baked GLBs when source, area or exporter checksums change.
+- ZIP sharing includes `building-facade.glb` when available, alongside the unchanged
+  `model.glb` source bundle and the complete optional area snapshot,
   including primary, connected and neighbor façade profiles. Imports stay in
   IndexedDB on both localhost and the hosted site; never write them to permanent
   folders or upload them. Validate archives before atomic persistence. Preserve
   the versioned format and checksums, and include address, area size and local
   timestamp in ZIP filenames. Reference notes are included; external photos are
-  not bundled. Imported-model deletion must retain permanent source bundles.
+  not bundled. Import must accept old archives without baked geometry and new
+  exports with it, persist the baked GLB and preserve its bytes on re-export.
+  Imported-model deletion must retain permanent source and reconstruction bundles.
+- Complete-scene GLB and Three.js exports include all source buildings and modeled
+  façade/surface details independently of the current display scope. Preserve
+  feature IDs, source roles, materials, coordinates and attribution. Three.js JSON
+  must round-trip through ObjectLoader. Native Blender export runs only on the
+  loopback server in a fresh background process with embedded resources, bounded
+  input/time and temporary-file cleanup; hosted exports remain browser-only.
 - Never upload browser-generated addresses or create a public generated catalog.
 - Cloudflare assets use `/munich3d/`; retain `workers_dev: false` and routes only
   for `/munich3d` and `/munich3d/*`.
@@ -145,5 +161,6 @@ and `git diff --check`, not extraction or builds.
 | Reconstruction/camera | `node website/scripts/test-area-reconstruction.mjs` and `node website/scripts/test-area-camera.mjs`, passing the changed model ID when applicable; build and real-browser verification. |
 | Selector/viewer | All available addresses in a real browser, clean console; model, metadata, source link and downloads change together. Verify fitting, connected-part visibility, Facade camera stability, depth, wireframe and compass. |
 | Local generation server | Health, cached/uncached generation, runtime GLB download, deletion/fallback and permanent-model deletion protection. |
+| Facade GLB export | `node website/scripts/test-building-facade-export.mjs [MODEL_ID]`; primary/connected feature IDs, balcony deck counts, standalone GLB load, unchanged source and ZIP roundtrip. Verify all affected addresses. |
 | ZIP sharing | `node --test website/scripts/address-archive.test.mjs`; import while a different address is selected, verify the global chooser entry, façade view, reload, byte-preserving re-export and deletion. Use only Rathaus in public documentation. |
 | Browser generation | Cloudflare build; browser generation, IndexedDB reload and deletion. Repeat on the deployed site only after explicitly authorized deployment. |
