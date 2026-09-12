@@ -40,6 +40,11 @@ pan and zoom are available in the scene. **Add address** creates a model; the
 **upload icon** immediately beside it imports a ZIP into the site-wide chooser.
 The upload icon has an **Import ZIP** accessible label and a hover tooltip.
 
+On phones, swipe the location row and bottom controls horizontally to reach more
+choices. **Info** stays visible beside the bottom controls. The address dialog
+scrolls within the space above the keyboard. Its distance field can be cleared
+while editing; focusing a value of **0** selects it for replacement.
+
 The bottom row groups direct controls:
 
 - **Rotation icon / Reset view**: rotation starts automatically; pause or resume
@@ -86,7 +91,7 @@ selects it. Add `&view=reconstruction` to select Facade on initial load.
 
 ### Screenshots
 
-Refreshed on **7 September 2026** from a public-only preview at **1600 × 1000**,
+Refreshed on **12 September 2026** from a public-only preview at **1600 × 1000**,
 using a fresh browser session with only the public Rathaus 100 m sample. Rotation
 was paused for consistent captures. Private addresses and imported private data
 are excluded. Click an image to inspect it at full size; facade details are
@@ -104,6 +109,8 @@ illustrative.
 
 Choose **Add address**, enter a Bavarian address and a neighbor distance, then
 wait for extraction. Repeating the same address and distance reuses the cache.
+Successful generation selects the model and resumes rotation, including when
+the previous view was paused.
 Generated models persist after reload and can be removed with **Delete generated
 model**. Permanent bundles cannot be deleted through this action.
 

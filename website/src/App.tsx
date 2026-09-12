@@ -117,7 +117,8 @@ export default function App() {
   const [showNeighbors, setShowNeighbors] = useState(true);
   const [generatorOpen, setGeneratorOpen] = useState(false);
   const [address, setAddress] = useState('');
-  const [neighborDistance, setNeighborDistance] = useState(35);
+  const [neighborDistanceInput, setNeighborDistanceInput] = useState('35');
+  const [playbackRequest, setPlaybackRequest] = useState(0);
   const [generating, setGenerating] = useState(false);
   const [generationError, setGenerationError] = useState('');
   const [deletingModelId, setDeletingModelId] = useState('');
@@ -125,6 +126,23 @@ export default function App() {
   const [deleteCandidate, setDeleteCandidate] = useState<ModelCatalogEntry | null>(
     null,
   );
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    const update = () => {
+      document.documentElement.style.setProperty('--visible-height', `${viewport.height}px`);
+      document.documentElement.style.setProperty('--visible-top', `${viewport.offsetTop}px`);
+    };
+    update();
+    viewport.addEventListener('resize', update);
+    viewport.addEventListener('scroll', update);
+    return () => {
+      viewport.removeEventListener('resize', update);
+      viewport.removeEventListener('scroll', update);
+      document.documentElement.style.removeProperty('--visible-height');
+      document.documentElement.style.removeProperty('--visible-top');
+    };
+  }, []);
   const place =
     places.find((candidate) => candidate.id === selectedId) ?? defaultPlace;
 
@@ -177,6 +195,11 @@ export default function App() {
 
   const generateModel = async (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const neighborDistance = Number(neighborDistanceInput);
+    if (!neighborDistanceInput.trim() || !Number.isFinite(neighborDistance) || neighborDistance < 0 || neighborDistance > 250) {
+      setGenerationError('Neighbor distance must be between 0 and 250 metres');
+      return;
+    }
     setGenerating(true);
     setGenerationError('');
     try {
@@ -205,6 +228,7 @@ export default function App() {
       }
       setPlaces((current) => mergedPlaces(current, [result.model!]));
       setSelectedId(result.model.id);
+      setPlaybackRequest(value => value + 1);
       setShowNeighbors(true);
       setModelActionError('');
       setAddress('');
@@ -349,10 +373,10 @@ export default function App() {
 
 
   return (
-    <main className="flex h-svh min-h-0 flex-col overflow-hidden bg-background text-foreground">
-      <header className="shrink-0 border-b border-white/8 bg-background/90 px-4 py-3 backdrop-blur-xl sm:px-7">
-        <div className="mx-auto flex max-w-[1680px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex min-w-0 items-center gap-3">
+    <main className="app-shell flex h-dvh min-h-0 flex-col overflow-hidden bg-background text-foreground">
+      <header className="app-header shrink-0 border-b border-white/8 bg-background/90 px-4 py-3 backdrop-blur-xl sm:px-7">
+        <div className="header-layout mx-auto flex max-w-[1680px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="header-brand flex min-w-0 items-center gap-3">
             <span className="grid size-9 shrink-0 place-items-center rounded-md border border-cyan-300/20 bg-cyan-300/8 text-cyan-200">
               <Building2 className="size-4" aria-hidden="true" />
             </span>
@@ -366,14 +390,14 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex min-w-0 flex-wrap items-center gap-2 sm:justify-end">
-            <nav aria-label="Choose location" className="flex flex-wrap gap-2">
+          <div className="header-actions flex min-w-0 flex-wrap items-center gap-2 sm:justify-end">
+            <nav aria-label="Choose location" className="location-nav flex flex-wrap gap-2">
               {locations.map(location => {
                 const selected = locationKey(location) === locationKey(place);
                 return <button key={locationKey(location)} type="button" aria-pressed={selected} onClick={() => selectLocation(location)} className={cn('min-h-12 rounded-lg border px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200', selected ? 'border-cyan-200 bg-cyan-200 text-[#061014]' : 'border-white/15 bg-white/5 text-stone-100 hover:bg-white/10')}>{location.address}</button>;
               })}
             </nav>
-            <div role="group" aria-label="Add or import an address" className="flex shrink-0 items-center gap-2">
+            <div role="group" aria-label="Add or import an address" className="address-actions flex shrink-0 items-center gap-2">
             <button
               type="button"
               onClick={() => {
@@ -402,61 +426,78 @@ export default function App() {
       </header>
 
       {generatorOpen && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4 backdrop-blur-sm">
+        <div className="dialog-overlay z-50 grid place-items-center bg-black/70 p-3 backdrop-blur-sm sm:p-4">
           <dialog
             open
             aria-labelledby="generator-title"
-            className="panel relative m-0 w-full max-w-lg px-6 py-6 text-foreground shadow-2xl"
+            className="dialog-panel panel relative m-0 min-h-0 w-full max-w-lg overflow-y-auto overscroll-contain px-4 py-4 text-foreground shadow-2xl sm:px-6 sm:py-6"
           >
             <button
               type="button"
               aria-label="Close address generator"
               disabled={generating}
               onClick={() => setGeneratorOpen(false)}
-              className="absolute right-4 top-4 grid size-8 place-items-center rounded-md text-white/45 transition-colors hover:bg-white/7 hover:text-white disabled:opacity-30"
+              className="absolute right-2 top-2 grid size-11 place-items-center rounded-md text-white/45 transition-colors hover:bg-white/7 hover:text-white disabled:opacity-30 sm:right-4 sm:top-4 sm:size-8"
             >
               <X className="size-4" />
             </button>
             <p className="eyebrow">On-demand model</p>
             <h2
               id="generator-title"
-              className="mt-2 text-2xl font-medium tracking-[-0.035em]"
+              className="mt-2 pr-6 text-xl font-medium tracking-[-0.035em] sm:text-2xl"
             >
               Add a Bavarian address
             </h2>
-            <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
+            <p className="mt-2 max-w-md text-xs leading-5 text-muted-foreground sm:mt-3 sm:text-sm sm:leading-6">
               {browserGenerationEnabled ? 'Your browser' : 'The local service'} extracts the addressed LoD2 building, adds nearby
               features, and generates a cached GLB without Blender.
             </p>
 
-            <form onSubmit={generateModel} className="mt-6 grid gap-4">
-              <label className="grid gap-2">
+            <form onSubmit={generateModel} className="mt-4 grid min-w-0 gap-3 sm:mt-6 sm:gap-4">
+              <label className="grid min-w-0 gap-2">
                 <span className="font-sans text-[10px] uppercase tracking-[0.12em] text-stone-300">
                   Address
                 </span>
                 <input
                   required
-                  autoFocus
                   type="text"
+                  autoComplete="street-address"
+                  enterKeyHint="next"
+                  onKeyDown={event => {
+                    if (event.key === 'Enter') {
+                      event.preventDefault();
+                      event.currentTarget.form?.querySelector<HTMLInputElement>('input[name="neighborDistance"]')?.focus();
+                    }
+                  }}
                   value={address}
                   onChange={(event) => setAddress(event.target.value)}
                   placeholder="Street, number, postal code, town"
-                  className="h-11 rounded-lg border border-white/10 bg-white/[0.035] px-3 text-sm text-stone-100 outline-none placeholder:text-white/25 focus:border-cyan-200/40"
+                  className="h-11 min-w-0 w-full rounded-lg border border-white/10 bg-white/[0.035] px-3 text-base text-stone-100 outline-none placeholder:text-white/25 focus:border-cyan-200/40"
                 />
               </label>
-              <label className="grid gap-2">
+              <label className="grid min-w-0 gap-2">
                 <span className="font-sans text-[10px] uppercase tracking-[0.12em] text-stone-300">
                   Neighbor distance · metres
                 </span>
                 <input
                   required
                   type="number"
+                  name="neighborDistance"
+                  inputMode="numeric"
+                  enterKeyHint="done"
                   min="0"
                   max="250"
                   step="1"
-                  value={neighborDistance}
-                  onChange={(event) => setNeighborDistance(Number(event.target.value))}
-                  className="h-11 rounded-lg border border-white/10 bg-white/[0.035] px-3 font-sans text-sm text-stone-100 outline-none focus:border-cyan-200/40"
+                  value={neighborDistanceInput}
+                  onChange={(event) => setNeighborDistanceInput(event.target.value)}
+                  onFocus={event => {
+                    const input = event.currentTarget;
+                    // Run after Safari positions the caret for the focus tap.
+                    requestAnimationFrame(() => {
+                      if (document.activeElement === input && input.value === '0') input.select();
+                    });
+                  }}
+                  className="h-11 min-w-0 w-full rounded-lg border border-white/10 bg-white/[0.035] px-3 font-sans text-base text-stone-100 outline-none focus:border-cyan-200/40"
                 />
               </label>
 
@@ -485,7 +526,7 @@ export default function App() {
                 </button>
                 <button
                   type="submit"
-                  disabled={generating || address.trim().length < 3}
+                  disabled={generating || address.trim().length < 3 || !neighborDistanceInput.trim()}
                   className="flex h-10 min-w-36 items-center justify-center gap-2 rounded-lg bg-cyan-200 px-4 text-xs font-medium text-[#061014] transition-colors hover:bg-cyan-100 disabled:cursor-not-allowed disabled:opacity-45"
                 >
                   {generating ? (
@@ -503,11 +544,11 @@ export default function App() {
       )}
 
       {deleteCandidate && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 p-4 backdrop-blur-sm">
+        <div className="dialog-overlay z-50 grid place-items-center bg-black/70 p-3 backdrop-blur-sm sm:p-4">
           <dialog
             open
             aria-labelledby="delete-model-title"
-            className="panel relative m-0 w-full max-w-md px-6 py-6 text-foreground shadow-2xl"
+            className="dialog-panel panel relative m-0 min-h-0 w-full max-w-md overflow-y-auto overscroll-contain px-4 py-4 text-foreground shadow-2xl sm:px-6 sm:py-6"
           >
             <p className="eyebrow text-rose-200">{deleteCandidate.imported ? 'Delete imported model' : place.imported ? 'Delete imported model' : 'Delete generated model'}</p>
             <h2
@@ -549,7 +590,7 @@ export default function App() {
           aria-label={`Interactive building model for ${place.address}`}
           className="viewer-shell relative min-h-0 flex-1 overflow-hidden rounded-xl border border-white/9 bg-[#071014]"
         >
-          <div className="pointer-events-none absolute left-4 top-4 z-10 flex flex-wrap gap-2 sm:left-5 sm:top-5">
+          <div className="pointer-events-none absolute left-3 right-20 top-3 z-10 flex flex-wrap gap-1.5 sm:left-5 sm:top-5 sm:gap-2">
             <span className="data-chip">
               <Building2 className="size-3" /> {visibleBuildingCount}{' '}
               {!showNeighbors && visibleBuildingCount > 1 ? 'building parts' : visibleBuildingCount === 1 ? 'building' : 'buildings'}
@@ -565,6 +606,7 @@ export default function App() {
             </span>
           </div>
           <HouseViewer
+            playbackRequest={playbackRequest}
             onPrimaryGroupReady={setPrimaryGroup}
             onInformationOpen={() => setInfoOpen(true)}
             controlsTarget={controlsTarget}

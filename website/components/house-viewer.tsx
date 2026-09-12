@@ -29,7 +29,9 @@ export function HouseViewer({
   areaSurfacePath,
   onInformationOpen,
   controlsTarget, neighborCount = 0, onNeighborsChange, onReconstructionChange,
+  playbackRequest = 0,
 }: {
+  playbackRequest?: number;
   onPrimaryGroupReady?: (group: { modelPath: string; count: number; triangles: number }) => void;
   onInformationOpen?: () => void;
   controlsTarget?: HTMLElement | null;
@@ -69,6 +71,10 @@ export function HouseViewer({
   const [autoRotate, setAutoRotate] = useState(true);
   const [wireframe, setWireframe] = useState(false);
   const [depthMap, setDepthMap] = useState(false);
+
+  useEffect(() => {
+    setAutoRotate(true);
+  }, [playbackRequest]);
 
   useEffect(() => {
     reconstructionReadyRef.current = onReconstructionReady;
@@ -497,7 +503,7 @@ export function HouseViewer({
 
   useEffect(() => {
     if (controlsRef.current) controlsRef.current.autoRotate = autoRotate;
-  }, [autoRotate, status]);
+  }, [autoRotate, status, modelPath]);
 
   useEffect(() => {
     depthMapRef.current = depthMap;
@@ -590,7 +596,8 @@ export function HouseViewer({
       )}
 
       {controlsTarget && status === 'ready' && createPortal(
-        <nav aria-label="View controls" className="flex min-w-0 flex-nowrap items-center gap-2 overflow-x-auto rounded-xl border border-white/10 bg-[#101c21] p-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <nav aria-label="View controls" className="flex min-w-0 flex-nowrap items-center gap-1 overflow-hidden rounded-xl border border-white/10 bg-[#101c21] p-1.5 sm:gap-2">
+          <div className="view-control-scroll flex min-w-0 flex-1 items-center gap-1 overflow-x-auto overscroll-x-contain sm:gap-2" aria-label="Swipe for more view controls" tabIndex={0}>
           <div role="group" aria-label="Camera" className={controlGroup}>
             <Button className="size-8 shrink-0 p-0" variant={autoRotate ? 'default' : 'outline'} aria-label={autoRotate ? 'Pause rotation' : 'Rotate view'} title={autoRotate ? 'Pause rotation' : 'Rotate view'} aria-pressed={autoRotate} onClick={() => setAutoRotate(v => !v)}>
               {autoRotate ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
@@ -609,6 +616,7 @@ export function HouseViewer({
           <div role="group" aria-label="Surface rendering" className={controlGroup}>
             {control('Solid', () => setWireframe(false), !wireframe)}
             {control('Wireframe', () => setWireframe(true), wireframe)}
+          </div>
           </div>
           {onInformationOpen && <Button className={`${compactButton} md:hidden`} variant="outline" aria-label="Building information & area size" title="Building information & area size" onClick={onInformationOpen}>Info</Button>}
         </nav>, controlsTarget)}
