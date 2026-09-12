@@ -98,6 +98,7 @@ function mergedPlaces(
 
 export default function App() {
   const importInput = useRef<HTMLInputElement>(null);
+  const locationNav = useRef<HTMLElement>(null);
   const [blenderExportAvailable, setBlenderExportAvailable] = useState(false);
   useEffect(() => {
     if (!browserGenerationEnabled) void fetch('/api/health').then(response => response.json()).then(data => setBlenderExportAvailable(data.blenderExport === true)).catch(() => {});
@@ -145,6 +146,21 @@ export default function App() {
   }, []);
   const place =
     places.find((candidate) => candidate.id === selectedId) ?? defaultPlace;
+
+  useEffect(() => {
+    const nav = locationNav.current;
+    if (!nav) return;
+    const revealSelection = () => {
+      const selected = nav.querySelector<HTMLElement>('[aria-pressed="true"]');
+      if (!selected || nav.scrollWidth <= nav.clientWidth) return;
+      const item = selected.getBoundingClientRect();
+      nav.scrollLeft += item.left - nav.getBoundingClientRect().left - Math.max(0, (nav.clientWidth - item.width) / 2);
+    };
+    revealSelection();
+    const observer = new ResizeObserver(revealSelection);
+    observer.observe(nav);
+    return () => observer.disconnect();
+  }, [place.id]);
 
   const locationKey = (model: ModelCatalogEntry) => model.gmlId || model.address.trim().toLocaleLowerCase('de');
   const locations = [...new Map(places.map(model => [locationKey(model), model])).values()];
@@ -391,7 +407,7 @@ export default function App() {
           </div>
 
           <div className="header-actions flex min-w-0 flex-wrap items-center gap-2 sm:justify-end">
-            <nav aria-label="Choose location" className="location-nav flex flex-wrap gap-2">
+            <nav ref={locationNav} aria-label="Choose location" className="location-nav flex flex-wrap gap-2">
               {locations.map(location => {
                 const selected = locationKey(location) === locationKey(place);
                 return <button key={locationKey(location)} type="button" aria-pressed={selected} onClick={() => selectLocation(location)} className={cn('min-h-12 rounded-lg border px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200', selected ? 'border-cyan-200 bg-cyan-200 text-[#061014]' : 'border-white/15 bg-white/5 text-stone-100 hover:bg-white/10')}>{location.address}</button>;
@@ -400,13 +416,15 @@ export default function App() {
             <div role="group" aria-label="Add or import an address" className="address-actions flex shrink-0 items-center gap-2">
             <button
               type="button"
+              aria-label="Add address"
+              title="Add address"
               onClick={() => {
                 setGenerationError('');
                 setGeneratorOpen(true);
               }}
               className="flex h-12 shrink-0 items-center gap-1.5 rounded-lg border border-cyan-200/20 bg-cyan-200/8 px-3 font-sans text-[10px] uppercase tracking-[0.1em] text-cyan-100 transition-colors hover:bg-cyan-200/14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/40"
             >
-              <Plus className="size-3.5" /> Add address
+              <Plus className="size-3.5" /> <span className="add-address-label">Add address</span>
             </button>
             <button
               type="button"
@@ -430,7 +448,7 @@ export default function App() {
           <dialog
             open
             aria-labelledby="generator-title"
-            className="dialog-panel panel relative m-0 min-h-0 w-full max-w-lg overflow-y-auto overscroll-contain px-4 py-4 text-foreground shadow-2xl sm:px-6 sm:py-6"
+            className="generator-panel dialog-panel panel relative m-0 min-h-0 w-full max-w-lg overflow-y-auto overscroll-contain px-4 py-4 text-foreground shadow-2xl sm:px-6 sm:py-6"
           >
             <button
               type="button"
@@ -441,20 +459,19 @@ export default function App() {
             >
               <X className="size-4" />
             </button>
-            <p className="eyebrow">On-demand model</p>
+            <p className="generator-eyebrow eyebrow">On-demand model</p>
             <h2
               id="generator-title"
               className="mt-2 pr-6 text-xl font-medium tracking-[-0.035em] sm:text-2xl"
             >
-              Add a Bavarian address
+              Add address
             </h2>
-            <p className="mt-2 max-w-md text-xs leading-5 text-muted-foreground sm:mt-3 sm:text-sm sm:leading-6">
-              {browserGenerationEnabled ? 'Your browser' : 'The local service'} extracts the addressed LoD2 building, adds nearby
-              features, and generates a cached GLB without Blender.
+            <p className="generator-intro mt-2 max-w-md text-xs leading-5 text-muted-foreground sm:mt-3 sm:text-sm sm:leading-6">
+              Enter a Bavarian address and choose how much of its neighbourhood to include.
             </p>
 
-            <form onSubmit={generateModel} className="mt-4 grid min-w-0 gap-3 sm:mt-6 sm:gap-4">
-              <label className="grid min-w-0 gap-2">
+            <form onSubmit={generateModel} className="generator-form mt-4 grid min-w-0 gap-3 sm:mt-6 sm:gap-4">
+              <label className="address-field grid min-w-0 gap-2">
                 <span className="font-sans text-[10px] uppercase tracking-[0.12em] text-stone-300">
                   Address
                 </span>
@@ -471,13 +488,13 @@ export default function App() {
                   }}
                   value={address}
                   onChange={(event) => setAddress(event.target.value)}
-                  placeholder="Street, number, postal code, town"
+                  placeholder="Street, number, town"
                   className="h-11 min-w-0 w-full rounded-lg border border-white/10 bg-white/[0.035] px-3 text-base text-stone-100 outline-none placeholder:text-white/25 focus:border-cyan-200/40"
                 />
               </label>
-              <label className="grid min-w-0 gap-2">
+              <label className="distance-field grid min-w-0 gap-2">
                 <span className="font-sans text-[10px] uppercase tracking-[0.12em] text-stone-300">
-                  Neighbor distance · metres
+                  Neighbor distance (m)
                 </span>
                 <input
                   required
@@ -510,12 +527,10 @@ export default function App() {
                 </p>
               )}
 
-              <p className="text-[10px] leading-4 text-muted-foreground">
-                Address lookup is sent to the configured Esri geocoder. Generated
-                files are cached {browserGenerationEnabled ? 'in this browser' : 'locally'}
-                {' '}and can be deleted again.
+              <p className="generator-privacy text-[10px] leading-4 text-muted-foreground">
+                Esri looks up the address. Models stay {browserGenerationEnabled ? 'in this browser' : 'on this device'} and can be deleted.
               </p>
-              <div className="flex justify-end gap-2 pt-1">
+              <div className="generator-actions flex justify-end gap-2 pt-1">
                 <button
                   type="button"
                   disabled={generating}
@@ -584,24 +599,24 @@ export default function App() {
         </div>
       )}
 
-      <div className="mx-auto grid min-h-0 w-full max-w-[1680px] flex-1 gap-3 p-3 md:grid-cols-[minmax(0,1fr)_300px] lg:p-4">
-        <div className="flex min-h-0 min-w-0 flex-col gap-3">
+      <div className="explorer-layout mx-auto grid min-h-0 w-full max-w-[1680px] flex-1 gap-3 p-3 lg:grid-cols-[minmax(0,1fr)_300px] lg:p-4">
+        <div className="viewer-column flex min-h-0 min-w-0 flex-col gap-3">
         <section
           aria-label={`Interactive building model for ${place.address}`}
           className="viewer-shell relative min-h-0 flex-1 overflow-hidden rounded-xl border border-white/9 bg-[#071014]"
         >
-          <div className="pointer-events-none absolute left-3 right-20 top-3 z-10 flex flex-wrap gap-1.5 sm:left-5 sm:top-5 sm:gap-2">
-            <span className="data-chip">
+          <div className="scene-stats pointer-events-none absolute left-3 right-20 top-3 z-10 flex flex-wrap gap-1.5 sm:left-5 sm:top-5 sm:gap-2">
+            <span className="data-chip" title={`${visibleBuildingCount} visible building features`}>
               <Building2 className="size-3" /> {visibleBuildingCount}{' '}
-              {!showNeighbors && visibleBuildingCount > 1 ? 'building parts' : visibleBuildingCount === 1 ? 'building' : 'buildings'}
+              <span className="chip-label">{!showNeighbors && visibleBuildingCount > 1 ? 'building parts' : visibleBuildingCount === 1 ? 'building' : 'buildings'}</span>
             </span>
-            <span className="data-chip">
-              <Layers3 className="size-3" /> {visibleTriangleCount} triangles
+            <span className="data-chip" title={`${visibleTriangleCount} source triangles`}>
+              <Layers3 className="size-3" /> {visibleTriangleCount} <span className="chip-label">triangles</span>
             </span>
             <span className="data-chip">
               <Ruler className="size-3" />{' '}
               {showNeighbors
-                ? `≤${place.neighborDistance} m neighbors`
+                ? <><span>≤{place.neighborDistance} m</span><span className="chip-label">neighbors</span></>
                 : 'Selected building'}
             </span>
           </div>
@@ -625,10 +640,10 @@ export default function App() {
           </div>
         </section>
 
-        <div ref={setControlsTarget} className="shrink-0" />
+        <div ref={setControlsTarget} className="viewer-controls-host shrink-0" />
         </div>
-        <aside aria-label="Building information" className={cn('min-h-0 flex-col gap-2 overflow-y-auto md:static md:flex md:w-auto md:border-0 md:bg-transparent md:p-0', infoOpen ? 'fixed inset-y-3 right-3 z-40 flex w-[min(320px,calc(100vw-24px))] rounded-xl border border-white/15 bg-[#071014] p-3' : 'hidden')}>
-          <button type="button" onClick={() => setInfoOpen(false)} className="min-h-10 shrink-0 rounded-lg border border-white/15 text-sm md:hidden">Close information</button>
+        <aside aria-label="Building information" className={cn('building-information min-h-0 flex-col gap-2 overflow-y-auto lg:static lg:flex lg:w-auto lg:border-0 lg:bg-transparent lg:p-0', infoOpen ? 'fixed inset-y-3 right-3 z-40 flex w-[min(320px,calc(100vw-24px))] rounded-xl border border-white/15 bg-[#071014] p-3' : 'hidden')}>
+          <button type="button" onClick={() => setInfoOpen(false)} className="min-h-10 shrink-0 rounded-lg border border-white/15 text-sm lg:hidden">Close information</button>
           <section className="panel shrink-0 px-4 py-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <p className="eyebrow">Addressed building</p>

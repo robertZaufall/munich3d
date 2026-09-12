@@ -40,12 +40,17 @@ pan and zoom are available in the scene. **Add address** creates a model; the
 **upload icon** immediately beside it imports a ZIP into the site-wide chooser.
 The upload icon has an **Import ZIP** accessible label and a hover tooltip.
 
-On phones, swipe the location row and bottom controls horizontally to reach more
-choices. **Info** stays visible beside the bottom controls. The address dialog
-scrolls within the space above the keyboard. Its distance field can be cleared
+On phones, swipe the location row to reach more addresses. The bottom controls
+use aligned rows for the visible area, display style, and camera actions, with
+44 px touch targets and **Info** always available. Enlarged text gets extra rows
+when needed, without horizontal scrolling in portrait. The **+** button opens
+Add address; Import ZIP stays beside it.
+Clear margins on both sides of the model allow vertical scrolling on short screens
+without rotating the model; dragging within the model still controls the camera.
+The address dialog scrolls within the space above the keyboard. Its distance field can be cleared
 while editing; focusing a value of **0** selects it for replacement.
 
-The bottom row groups direct controls:
+The bottom bar groups direct controls:
 
 - **Rotation icon / Reset view**: rotation starts automatically; pause or resume
   it with the icon. Reset view restores the camera framing for the current

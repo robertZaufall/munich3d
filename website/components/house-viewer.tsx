@@ -521,7 +521,7 @@ export function HouseViewer({
     controls.update();
   };
 
-  const controlGroup = 'flex shrink-0 items-center gap-0.5 rounded-lg border border-white/15 bg-black/20 p-0.5';
+  const controlGroup = 'control-group flex shrink-0 items-center gap-0.5 rounded-lg border border-white/15 bg-black/20 p-0.5';
   const compactButton = 'h-8 shrink-0 gap-0 whitespace-nowrap px-2 text-xs';
   const control = (label: string, action: () => void, pressed?: boolean, description = label) => (
     <Button className={compactButton} variant={pressed ? 'default' : 'outline'}
@@ -559,7 +559,7 @@ export function HouseViewer({
       )}
 
       {depthMap && status === 'ready' && (
-        <div className="pointer-events-none absolute right-[82px] top-4 z-30 flex items-center gap-2 rounded-md border border-white/12 bg-black/70 px-2.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.12em] text-white/65 backdrop-blur-md sm:right-[86px] sm:top-5">
+        <div className="depth-legend pointer-events-none absolute right-[82px] top-4 z-30 flex items-center gap-2 rounded-md border border-white/12 bg-black/70 px-2.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.12em] text-white/65 backdrop-blur-md sm:right-[86px] sm:top-5">
           <span className="text-white/40">Depth</span>
           <span>Near</span>
           <span className="h-1.5 w-16 rounded-full border border-white/15 bg-gradient-to-r from-white to-black" />
@@ -569,7 +569,7 @@ export function HouseViewer({
 
       {status === 'ready' && (
         <figure
-          className="pointer-events-none absolute right-4 top-4 z-30 flex w-14 flex-col items-center gap-1 sm:right-5 sm:top-5"
+          className="scene-compass pointer-events-none absolute right-4 top-4 z-30 flex w-14 flex-col items-center gap-1 sm:right-5 sm:top-5"
           aria-label="Compass; the red pointer indicates geographic north"
           title="Red pointer indicates north"
         >
@@ -596,29 +596,27 @@ export function HouseViewer({
       )}
 
       {controlsTarget && status === 'ready' && createPortal(
-        <nav aria-label="View controls" className="flex min-w-0 flex-nowrap items-center gap-1 overflow-hidden rounded-xl border border-white/10 bg-[#101c21] p-1.5 sm:gap-2">
-          <div className="view-control-scroll flex min-w-0 flex-1 items-center gap-1 overflow-x-auto overscroll-x-contain sm:gap-2" aria-label="Swipe for more view controls" tabIndex={0}>
-          <div role="group" aria-label="Camera" className={controlGroup}>
+        <nav aria-label="View controls" className="viewer-controls flex min-w-0 flex-wrap items-center gap-1 rounded-xl border border-white/10 bg-[#101c21] p-1.5 sm:gap-2">
+          <div role="group" aria-label="Visible area" className={`${controlGroup} controls-scope`}>
+            {control('Building', () => { if (showNeighbors) onNeighborsChange?.(false); else resetView(); }, !showNeighbors)}
+            {neighborCount > 0 && onNeighborsChange && control('Neighbourhood', () => { if (!showNeighbors) onNeighborsChange(true); else resetView(); }, showNeighbors)}
+          </div>
+          <div role="group" aria-label="Display mode" className={`${controlGroup} controls-display`}>
+            {control('LoD2', () => { setDepthMap(false); onReconstructionChange?.(false); }, !showReconstruction && !depthMap)}
+            {control('Depth', () => { setDepthMap(true); onReconstructionChange?.(false); }, depthMap)}
+            {capabilities.facade && onReconstructionChange && control('Facade', () => { setDepthMap(false); onReconstructionChange(true); }, showReconstruction && !depthMap)}
+          </div>
+          <div role="group" aria-label="Surface rendering" className={`${controlGroup} controls-surface`}>
+            {control('Solid', () => setWireframe(false), !wireframe)}
+            {control('Wireframe', () => setWireframe(true), wireframe)}
+          </div>
+          <div role="group" aria-label="Camera" className={`${controlGroup} controls-camera`}>
             <Button className="size-8 shrink-0 p-0" variant={autoRotate ? 'default' : 'outline'} aria-label={autoRotate ? 'Pause rotation' : 'Rotate view'} title={autoRotate ? 'Pause rotation' : 'Rotate view'} aria-pressed={autoRotate} onClick={() => setAutoRotate(v => !v)}>
               {autoRotate ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
             </Button>
             <Button className={compactButton} variant="outline" onClick={resetView}>Reset view</Button>
           </div>
-          <div role="group" aria-label="Visible area" className={controlGroup}>
-            {control('Building', () => { if (showNeighbors) onNeighborsChange?.(false); else resetView(); }, !showNeighbors)}
-            {neighborCount > 0 && onNeighborsChange && control('Neighbourhood', () => { if (!showNeighbors) onNeighborsChange(true); else resetView(); }, showNeighbors)}
-          </div>
-          <div role="group" aria-label="Display mode" className={controlGroup}>
-            {control('LoD2', () => { setDepthMap(false); onReconstructionChange?.(false); }, !showReconstruction && !depthMap)}
-            {control('Depth', () => { setDepthMap(true); onReconstructionChange?.(false); }, depthMap)}
-            {capabilities.facade && onReconstructionChange && control('Facade', () => { setDepthMap(false); onReconstructionChange(true); }, showReconstruction && !depthMap)}
-          </div>
-          <div role="group" aria-label="Surface rendering" className={controlGroup}>
-            {control('Solid', () => setWireframe(false), !wireframe)}
-            {control('Wireframe', () => setWireframe(true), wireframe)}
-          </div>
-          </div>
-          {onInformationOpen && <Button className={`${compactButton} md:hidden`} variant="outline" aria-label="Building information & area size" title="Building information & area size" onClick={onInformationOpen}>Info</Button>}
+          {onInformationOpen && <Button className={`${compactButton} controls-info lg:hidden`} variant="outline" aria-label="Building information & area size" title="Building information & area size" onClick={onInformationOpen}>Info</Button>}
         </nav>, controlsTarget)}
     </div>
   );

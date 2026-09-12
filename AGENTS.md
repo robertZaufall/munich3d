@@ -61,10 +61,11 @@ setup, extraction commands, asset layout and runtime architecture.
 ## Explorer and reconstruction
 
 - Maintain one unified explorer. Default to Rathaus 100 m and original LoD2.
-- Keep compact, direct controls in one bottom row: rotation icon and Reset view; Building /
+- Keep compact, direct controls in a bottom bar: rotation icon and Reset view; Building /
   Neighbourhood; LoD2 / Depth / Facade; independent Solid / Wireframe. Rotation
   starts enabled. Reset view preserves display mode and playback. Show only
-  applicable controls. No dropdowns, Entrance or Streets buttons.
+  applicable controls. Wrap the bar into compact rows on phones so every control
+  fits in portrait without horizontal scrolling. No dropdowns, Entrance or Streets buttons.
 - Keep details open by default and available area-width choices in the right
   column. Retain the dark scene and avoid default document scrollbars.
 - Loading a model fits visible geometry. Building / Neighbourhood refits the
