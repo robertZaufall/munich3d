@@ -70,6 +70,7 @@ export function HouseViewer({
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [autoRotate, setAutoRotate] = useState(true);
   const [wireframe, setWireframe] = useState(false);
+  const [resetRequest, setResetRequest] = useState(0);
   const [depthMap, setDepthMap] = useState(false);
 
   useEffect(() => {
@@ -511,6 +512,19 @@ export function HouseViewer({
 
   useEffect(() => { wireframeRef.current = wireframe; }, [wireframe]);
 
+  // Fit after the parent scope and display changes have updated their refs.
+  useEffect(() => {
+    if (resetRequest) fitViewRef.current?.();
+  }, [resetRequest]);
+
+  const resetToDefaults = () => {
+    setDepthMap(false);
+    setWireframe(false);
+    onReconstructionChange?.(false);
+    onNeighborsChange?.(true);
+    setResetRequest(value => value + 1);
+  };
+
 
   const resetView = () => {
     const camera = cameraRef.current;
@@ -614,7 +628,7 @@ export function HouseViewer({
             <Button className="size-8 shrink-0 p-0" variant={autoRotate ? 'default' : 'outline'} aria-label={autoRotate ? 'Pause rotation' : 'Rotate view'} title={autoRotate ? 'Pause rotation' : 'Rotate view'} aria-pressed={autoRotate} onClick={() => setAutoRotate(v => !v)}>
               {autoRotate ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
             </Button>
-            <Button className={compactButton} variant="outline" onClick={resetView}>Reset view</Button>
+            <Button className={compactButton} variant="outline" onClick={resetToDefaults}>Reset view</Button>
           </div>
           {onInformationOpen && <Button className={`${compactButton} controls-info lg:hidden`} variant="outline" aria-label="Building information & area size" title="Building information & area size" onClick={onInformationOpen}>Info</Button>}
         </nav>, controlsTarget)}

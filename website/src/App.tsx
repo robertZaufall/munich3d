@@ -1,5 +1,6 @@
 import { exportFilename } from '@/lib/export-filename';
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Building2,
   Download,
@@ -351,6 +352,7 @@ export default function App() {
       setPlaces(remaining);
       setSelectedId((equivalentStatic ?? remaining[0]).id);
       setShowNeighbors(true);
+      setInfoOpen(false);
     } catch (error) {
       setModelActionError(
         error instanceof Error ? error.message : 'Model deletion failed',
@@ -378,7 +380,7 @@ export default function App() {
 
 
   return (
-    <main className="app-shell flex h-dvh min-h-0 flex-col overflow-hidden bg-background text-foreground">
+    <main inert={generatorOpen} className="app-shell flex h-dvh min-h-0 flex-col overflow-hidden bg-background text-foreground">
       <header className="app-header shrink-0 border-b border-white/8 bg-background/90 px-4 py-3 backdrop-blur-xl sm:px-7">
         <div className="header-layout mx-auto flex max-w-[1680px] flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="header-brand flex min-w-0 items-center gap-3">
@@ -387,7 +389,7 @@ export default function App() {
             </span>
             <div className="min-w-0">
               <h1 className="truncate text-sm font-semibold tracking-[-0.01em]">
-                3D building explorer
+                Munich 3D
               </h1>
               <p className="truncate font-sans text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                 {locations.length} available locations
@@ -432,8 +434,8 @@ export default function App() {
         {shareOperation === 'import' && (sharing || shareMessage) && <p role="status" className="mx-auto mt-2 max-w-[1680px] text-xs text-cyan-100 sm:text-right">{sharing || shareMessage}</p>}
       </header>
 
-      {generatorOpen && (
-        <div className="dialog-overlay z-50 grid place-items-center bg-black/70 p-3 backdrop-blur-sm sm:p-4">
+      {generatorOpen && createPortal(
+        <div className="generator-overlay dialog-overlay z-50 grid place-items-center bg-black/70 p-3 sm:p-4">
           <dialog
             open
             aria-labelledby="generator-title"
@@ -544,7 +546,7 @@ export default function App() {
               </div>
             </form>
           </dialog>
-        </div>
+        </div>, document.body
       )}
 
       {deleteCandidate && (
@@ -632,7 +634,7 @@ export default function App() {
         <div ref={setControlsTarget} className="viewer-controls-host shrink-0" />
         </div>
         <aside aria-label="Building information" className={cn('building-information min-h-0 flex-col gap-2 overflow-y-auto lg:static lg:flex lg:w-auto lg:border-0 lg:bg-transparent lg:p-0', infoOpen ? 'fixed inset-y-3 right-3 z-40 flex w-[min(320px,calc(100vw-24px))] rounded-xl border border-white/15 bg-[#071014] p-3' : 'hidden')}>
-          <button type="button" onClick={() => setInfoOpen(false)} className="min-h-10 shrink-0 rounded-lg border border-white/15 text-sm lg:hidden">Close information</button>
+          <button type="button" onClick={() => setInfoOpen(false)} className="flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-cyan-200 bg-cyan-200 px-3 text-sm font-semibold text-[#061014] hover:bg-cyan-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 lg:hidden"><X className="size-4" aria-hidden="true" />Close information</button>
           <section className="panel shrink-0 px-4 py-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <p className="eyebrow">Addressed building</p>
@@ -782,13 +784,22 @@ export default function App() {
             </div>
           </details>
 
-          <footer className="mt-auto shrink-0 px-2 pb-2 pt-1 text-[10px] leading-4 text-muted-foreground">
-            <p>© 2026 Robert Zaufall</p>
-            <p>Building data: <a href="https://www.geodaten.bayern.de" className="hover:underline">Bayerische Vermessungsverwaltung – www.geodaten.bayern.de</a> · CC BY 4.0</p>
-            {place.areaSurfacePath && <p>Surface data: <a href="https://www.openstreetmap.org/copyright" className="hover:underline">© OpenStreetMap contributors · ODbL</a></p>}
+          <footer className="mt-auto hidden shrink-0 px-2 pb-2 pt-1 text-[10px] leading-4 text-muted-foreground lg:block">
+            <Attribution hasSurfaces={Boolean(place.areaSurfacePath)} />
           </footer>
         </aside>
       </div>
+      <footer className="shrink-0 border-t border-white/10 px-6 py-3 text-[10px] leading-4 text-muted-foreground lg:hidden">
+        <Attribution hasSurfaces={Boolean(place.areaSurfacePath)} />
+      </footer>
     </main>
   );
+}
+
+function Attribution({ hasSurfaces }: { hasSurfaces: boolean }) {
+  return <>
+    <p>© 2026 Robert Zaufall</p>
+    <p>Building data: <a href="https://www.geodaten.bayern.de" className="hover:underline">Bayerische Vermessungsverwaltung – www.geodaten.bayern.de</a> · CC BY 4.0</p>
+    {hasSurfaces && <p>Surface data: <a href="https://www.openstreetmap.org/copyright" className="hover:underline">© OpenStreetMap contributors · ODbL</a></p>}
+  </>;
 }

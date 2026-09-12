@@ -63,7 +63,8 @@ setup, extraction commands, asset layout and runtime architecture.
 - Maintain one unified explorer. Default to Rathaus 100 m and original LoD2.
 - Keep compact, direct controls in a bottom bar: rotation icon and Reset view; Building /
   Neighbourhood; LoD2 / Depth / Facade; independent Solid / Wireframe. Rotation
-  starts enabled. Reset view preserves display mode and playback. Show only
+  starts enabled. Reset view restores LoD2, Solid and Neighbourhood and refits the
+  camera while preserving playback. Show only
   applicable controls. Wrap the bar into compact rows on phones so every control
   fits in portrait without horizontal scrolling. No dropdowns, Entrance or Streets buttons.
 - Keep details open by default and available area-width choices in the right
@@ -150,8 +151,9 @@ setup, extraction commands, asset layout and runtime architecture.
   containing only public assets. Check the chooser and import cache; private
   names can appear even when they are Git-ignored. Never clear user browser
   storage or remove private folders to prepare screenshots.
-- Use 1600 × 1000, wait for model readiness, pause rotation and reset the selected
-  scope. Let transitions settle so button states match the rendered scene.
+- Use 1600 × 1000, wait for model readiness, pause rotation and reset the view,
+  then select the required scope and display mode. Let transitions settle so
+  button states match the rendered scene.
   Review every image before publication, including dialogs and import status.
 - Refresh the homepage, neighbourhood facade, building facade, reconstruction
   wireframe, source depth, Add address form and public ZIP import example under

@@ -140,6 +140,8 @@ canvas {
   background: #0b171c;
   max-height: 100%;
   scroll-padding-block: 1rem;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .dialog-panel input {
@@ -169,6 +171,36 @@ canvas {
 }
 
 @media (max-width: 1023px) {
+  /* Keep text inputs in document flow, outside iOS's fixed-position caret layer.
+     Let Safari scroll the form for its keyboard instead of moving it in JS. */
+  html:has(.generator-overlay), body:has(.generator-overlay),
+  body:has(.generator-overlay) #root {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+  }
+  body:has(.generator-overlay) .app-shell {
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .generator-overlay {
+    position: static;
+    display: block;
+    height: auto;
+    min-height: 100svh;
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    background: #071014;
+  }
+  .generator-overlay .generator-panel {
+    position: static;
+    max-height: none;
+    margin-inline: auto;
+    overflow: visible;
+  }
+  .generator-panel > button[aria-label="Close address generator"] { position: static; float: right; margin: -0.5rem -0.5rem 0 0.5rem; }
   .app-shell {
     width: min(100%, var(--app-width, 100%));
     max-width: 100%;

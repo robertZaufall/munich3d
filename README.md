@@ -48,14 +48,18 @@ when needed, without horizontal scrolling in portrait. The **+** button opens
 Add address; Import ZIP stays beside it.
 Clear margins on both sides of the model allow vertical scrolling on short screens
 without rotating the model; dragging within the model still controls the camera.
-The address dialog scrolls within the space above the keyboard. Its distance field can be cleared
+On phones, copyright and data attribution appear at the bottom of the main page.
+The information panel has a filled **Close information** button at the top.
+On phones, Add address opens a normal scrolling form so Safari can position the
+keyboard and text caret together. Its distance field can be cleared
 while editing; focusing a value of **0** selects it for replacement.
+Deleting a model successfully closes the mobile information panel and selects a fallback.
 
 The bottom bar groups direct controls:
 
 - **Rotation icon / Reset view**: rotation starts automatically; pause or resume
-  it with the icon. Reset view restores the camera framing for the current
-  Building / Neighbourhood scope without changing display mode or playback.
+  it with the icon. Reset view restores **LoD2**, **Solid** and **Neighbourhood**,
+  then fits the camera again. Playback stays as it was.
 - **Building / Neighbourhood**: change visibility and fit the camera. Clicking
   the selected scope returns to its home framing. Explicitly grouped connected
   parts remain with the main building; independent neighbors hide in Building mode.
@@ -405,7 +409,7 @@ contains only **Neues Rathaus**, and use only its ZIP for the import example.
 Do not clear the user's browser storage to prepare documentation.
 
 Set the viewport to 1600 × 1000, wait for the model to finish loading, pause
-rotation, and use Reset view after choosing Building or Neighbourhood. Wait for
+rotation, and use Reset view before choosing the required scope and display mode. Wait for
 button transitions and the scene to settle before each capture. Refresh the six
 explorer/form images above and `docs/address-import.jpg`; retain the current
 controls, source attribution and copyright. Review every capture for private
