@@ -169,7 +169,14 @@ canvas {
 }
 
 @media (max-width: 1023px) {
-  .app-shell { overflow-y: auto; scrollbar-width: none; }
+  .app-shell {
+    width: min(100%, var(--app-width, 100%));
+    max-width: 100%;
+    height: min(100svh, var(--app-height, 100svh));
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
   .app-shell::-webkit-scrollbar { display: none; }
   .app-header { padding: max(0.625rem, env(safe-area-inset-top)) 0.75rem 0.625rem; }
   .header-layout {
@@ -179,36 +186,40 @@ canvas {
     align-items: center;
   }
   .header-actions { display: contents; }
-  .header-brand { display: none; }
+  .header-brand { grid-column: 1; grid-row: 1; }
+  .header-brand > span { display: none; }
+  .header-brand h1 { font-size: 1rem; line-height: 1.3; white-space: normal; }
+  .header-brand p { display: none; }
   .address-actions { grid-column: 2; grid-row: 1; gap: 0.5rem; }
   .address-actions button { height: 2.75rem; border-color: rgb(165 243 252 / 14%); }
   .address-actions button[aria-label="Import ZIP"] { width: 2.75rem; }
   .address-actions button[aria-label="Add address"] { width: 2.75rem; justify-content: center; padding: 0; }
   .add-address-label { display: none; }
   .location-nav {
-    grid-column: 1;
-    grid-row: 1;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    max-width: 100%;
     min-width: 0;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
+    flex-wrap: wrap;
+    overflow: visible;
   }
   .location-nav button {
-    flex-shrink: 0;
+    flex: 1 1 9rem;
+    min-width: 0;
     min-height: 2.75rem;
     padding: 0.5rem 0.75rem;
     font-size: 0.8125rem;
-    white-space: nowrap;
+    white-space: normal;
     max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: anywhere;
   }
   .location-nav button[aria-pressed="true"] {
     color: #b7f5f5;
     border-color: rgb(165 243 252 / 22%);
     background: #10272c;
   }
-  .explorer-layout { padding: 0.5rem 0.75rem 0.75rem; gap: 0.75rem; flex-shrink: 0; min-height: 28rem; }
+  .explorer-layout { padding: 0.5rem 0.75rem 0.75rem; gap: 0.75rem; flex-shrink: 0; min-height: 25rem; }
   .viewer-column { gap: 0.75rem; touch-action: pan-y pinch-zoom; }
   /* Leave finger-width scroll lanes outside the canvas's orbit controls. */
   .viewer-shell { margin-inline: 12px; border-color: rgb(255 255 255 / 6%); }
@@ -218,9 +229,11 @@ canvas {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     grid-template-areas: "scope scope" "display surface" "camera info";
     gap: 0.5rem;
-    padding: 0.5rem;
-    border-color: rgb(255 255 255 / 8%);
-    background: #101c21;
+    padding: 0.5rem 0;
+    border: 0;
+    border-top: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 0;
+    background: transparent;
   }
   .viewer-controls button {
     min-width: 0;

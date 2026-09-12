@@ -40,7 +40,8 @@ pan and zoom are available in the scene. **Add address** creates a model; the
 **upload icon** immediately beside it imports a ZIP into the site-wide chooser.
 The upload icon has an **Import ZIP** accessible label and a hover tooltip.
 
-On phones, swipe the location row to reach more addresses. The bottom controls
+On phones, the title and Add/Import actions stay above the address chooser.
+Address buttons wrap onto additional lines so names stay fully visible. The bottom controls
 use aligned rows for the visible area, display style, and camera actions, with
 44 px touch targets and **Info** always available. Enlarged text gets extra rows
 when needed, without horizontal scrolling in portrait. The **+** button opens

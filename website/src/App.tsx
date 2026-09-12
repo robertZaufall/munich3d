@@ -98,7 +98,6 @@ function mergedPlaces(
 
 export default function App() {
   const importInput = useRef<HTMLInputElement>(null);
-  const locationNav = useRef<HTMLElement>(null);
   const [blenderExportAvailable, setBlenderExportAvailable] = useState(false);
   useEffect(() => {
     if (!browserGenerationEnabled) void fetch('/api/health').then(response => response.json()).then(data => setBlenderExportAvailable(data.blenderExport === true)).catch(() => {});
@@ -133,6 +132,9 @@ export default function App() {
     const update = () => {
       document.documentElement.style.setProperty('--visible-height', `${viewport.height}px`);
       document.documentElement.style.setProperty('--visible-top', `${viewport.offsetTop}px`);
+      // Use the reported viewport bounds without shrinking the app on pinch zoom.
+      document.documentElement.style.setProperty('--app-width', `${viewport.width * viewport.scale}px`);
+      document.documentElement.style.setProperty('--app-height', `${viewport.height * viewport.scale}px`);
     };
     update();
     viewport.addEventListener('resize', update);
@@ -142,25 +144,12 @@ export default function App() {
       viewport.removeEventListener('scroll', update);
       document.documentElement.style.removeProperty('--visible-height');
       document.documentElement.style.removeProperty('--visible-top');
+      document.documentElement.style.removeProperty('--app-width');
+      document.documentElement.style.removeProperty('--app-height');
     };
   }, []);
   const place =
     places.find((candidate) => candidate.id === selectedId) ?? defaultPlace;
-
-  useEffect(() => {
-    const nav = locationNav.current;
-    if (!nav) return;
-    const revealSelection = () => {
-      const selected = nav.querySelector<HTMLElement>('[aria-pressed="true"]');
-      if (!selected || nav.scrollWidth <= nav.clientWidth) return;
-      const item = selected.getBoundingClientRect();
-      nav.scrollLeft += item.left - nav.getBoundingClientRect().left - Math.max(0, (nav.clientWidth - item.width) / 2);
-    };
-    revealSelection();
-    const observer = new ResizeObserver(revealSelection);
-    observer.observe(nav);
-    return () => observer.disconnect();
-  }, [place.id]);
 
   const locationKey = (model: ModelCatalogEntry) => model.gmlId || model.address.trim().toLocaleLowerCase('de');
   const locations = [...new Map(places.map(model => [locationKey(model), model])).values()];
@@ -397,9 +386,9 @@ export default function App() {
               <Building2 className="size-4" aria-hidden="true" />
             </span>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold tracking-[-0.01em]">
+              <h1 className="truncate text-sm font-semibold tracking-[-0.01em]">
                 3D building explorer
-              </p>
+              </h1>
               <p className="truncate font-sans text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                 {locations.length} available locations
               </p>
@@ -407,7 +396,7 @@ export default function App() {
           </div>
 
           <div className="header-actions flex min-w-0 flex-wrap items-center gap-2 sm:justify-end">
-            <nav ref={locationNav} aria-label="Choose location" className="location-nav flex flex-wrap gap-2">
+            <nav aria-label="Choose location" className="location-nav flex flex-wrap gap-2">
               {locations.map(location => {
                 const selected = locationKey(location) === locationKey(place);
                 return <button key={locationKey(location)} type="button" aria-pressed={selected} onClick={() => selectLocation(location)} className={cn('min-h-12 rounded-lg border px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200', selected ? 'border-cyan-200 bg-cyan-200 text-[#061014]' : 'border-white/15 bg-white/5 text-stone-100 hover:bg-white/10')}>{location.address}</button>;
