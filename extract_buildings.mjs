@@ -111,7 +111,9 @@ function webMercator({ longitude, latitude }) {
 }
 
 async function fetchChecked(url, type = "json") {
-  const response = await fetch(url, { headers: { "User-Agent": "munich3d-extractor/1.0" } });
+  // This pipeline also runs in a browser worker. A custom User-Agent triggers
+  // a CORS preflight in Safari that ArcGIS rejects; use the runtime's default.
+  const response = await fetch(url);
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
   if (type === "buffer") return new Uint8Array(await response.arrayBuffer());
   const result = await response.json();

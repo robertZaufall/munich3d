@@ -11,15 +11,17 @@ type CatalogEntry = {
   [key: string]: unknown;
 };
 
+type StoredFile = Blob | ArrayBuffer;
+
 type StoredModel = {
   id: string;
   catalog: CatalogEntry;
-  glb: Blob;
-  sourceMesh: Blob;
-  metadata: Blob;
-  area?: Blob;
-  buildingFacade?: Blob;
-  completeBlend?: Blob;
+  glb: StoredFile;
+  sourceMesh: StoredFile;
+  metadata: StoredFile;
+  area?: StoredFile;
+  buildingFacade?: StoredFile;
+  completeBlend?: StoredFile;
 };
 
 function requestResult<T>(request: IDBRequest<T>) {
@@ -32,8 +34,9 @@ function requestResult<T>(request: IDBRequest<T>) {
 function transactionComplete(transaction: IDBTransaction) {
   return new Promise<void>((resolve, reject) => {
     transaction.addEventListener('complete', () => resolve(), { once: true });
-    transaction.addEventListener('abort', () => reject(transaction.error), { once: true });
-    transaction.addEventListener('error', () => reject(transaction.error), { once: true });
+    // A request's error bubbles before transaction.error is populated. Wait for
+    // abort so callers receive the actual failure rather than a null rejection.
+    transaction.addEventListener('abort', () => reject(transaction.error ?? new Error('Browser storage transaction aborted')), { once: true });
   });
 }
 
@@ -60,24 +63,38 @@ async function readModel(id: string) {
 }
 
 async function writeModel(model: StoredModel) {
+  // WebKit can reject Blob storage (including in private browsing). Store raw
+  // bytes instead, and finish asynchronous conversion before opening a transaction.
+  const stored = { ...model };
+  for (const key of ['glb', 'sourceMesh', 'metadata', 'area', 'buildingFacade', 'completeBlend'] as const) {
+    const file = stored[key];
+    if (file instanceof Blob) stored[key] = await file.arrayBuffer();
+  }
   const db = await database();
-  const transaction = db.transaction(storeName, 'readwrite');
-  const completed = transactionComplete(transaction);
-  transaction.objectStore(storeName).put(model);
-  await completed;
-  db.close();
+  try {
+    const transaction = db.transaction(storeName, 'readwrite');
+    const completed = transactionComplete(transaction);
+    transaction.objectStore(storeName).put(stored);
+    await completed;
+  } finally {
+    db.close();
+  }
 }
 
 function hydrate(model: StoredModel): CatalogEntry {
+  // Older records already contain Blobs; no migration or data rewrite is needed.
+  const url = (file: StoredFile, type: string) => URL.createObjectURL(
+    file instanceof Blob ? file : new Blob([file], { type }),
+  );
   return {
     ...model.catalog,
     storage: 'browser',
-    completeBlendPath: model.completeBlend ? URL.createObjectURL(model.completeBlend) : undefined,
-    buildingFacadePath: model.buildingFacade ? URL.createObjectURL(model.buildingFacade) : undefined,
-    areaSurfacePath: model.area ? URL.createObjectURL(model.area) : undefined,
-    modelPath: URL.createObjectURL(model.glb),
-    sourceMeshPath: URL.createObjectURL(model.sourceMesh),
-    metadataPath: URL.createObjectURL(model.metadata),
+    completeBlendPath: model.completeBlend ? url(model.completeBlend, 'application/octet-stream') : undefined,
+    buildingFacadePath: model.buildingFacade ? url(model.buildingFacade, 'model/gltf-binary') : undefined,
+    areaSurfacePath: model.area ? url(model.area, 'application/json') : undefined,
+    modelPath: url(model.glb, 'model/gltf-binary'),
+    sourceMeshPath: url(model.sourceMesh, 'application/json'),
+    metadataPath: url(model.metadata, 'application/json'),
   };
 }
 
