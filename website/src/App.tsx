@@ -798,7 +798,7 @@ export default function App() {
 
 function Attribution({ hasSurfaces }: { hasSurfaces: boolean }) {
   return <>
-    <p>© 2026 Robert Zaufall</p>
+    <p>© 2026 <a href="https://zaufall.de/" target="_top">Robert Zaufall</a> · <a href="https://zaufall.de/datenschutz/" target="_blank" rel="noopener noreferrer">Datenschutz / Privacy Notice</a></p>
     <p>Building data: <a href="https://www.geodaten.bayern.de" className="hover:underline">Bayerische Vermessungsverwaltung – www.geodaten.bayern.de</a> · CC BY 4.0</p>
     {hasSurfaces && <p>Surface data: <a href="https://www.openstreetmap.org/copyright" className="hover:underline">© OpenStreetMap contributors · ODbL</a></p>}
   </>;
